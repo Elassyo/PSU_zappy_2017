@@ -1,0 +1,6 @@
+/.idea
+/cmake-build-*
+/obj
+
+/zappy_ai
+/zappy_server
