@@ -30,14 +30,10 @@ void zpy_srv_conn_on_disconnect(tcp_server_conn_t *conn)
 static bool zpy_srv_conn_do_command(tcp_server_conn_t *conn, char *msg)
 {
 	size_t len;
-	char *args;
 
-	len = strcspn(msg, " ");
-	args = msg + len;
-	if (*args)
-		args++;
+	len = strcspn(msg, "\n");
 	msg[len] = 0;
-	return (zpy_srv_dispatch_cmd(conn, msg, args));
+	return (zpy_srv_dispatch_cmd(conn, msg, NULL));
 }
 
 bool zpy_srv_conn_on_data(tcp_server_conn_t *conn)

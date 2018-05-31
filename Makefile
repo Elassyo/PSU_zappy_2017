@@ -22,6 +22,7 @@ SRCS		=	cbuf.c						\
 SRCS_CLT	=	client/client.c
 SRCS_SRV	=	server/server.c					\
 			server/conn.c					\
+			server/cmd_movement.c				\
 			server/dispatch.c
 INCS		=	zappy.h						\
 			zappy_server.h					\
