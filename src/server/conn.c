@@ -10,7 +10,7 @@
 
 #include "zappy_server.h"
 
-void zpy_srv_conn_on_connect(tcp_server_conn_t *conn, void *args)
+void zpy_srv_conn_on_connect(tcp_conn_t *conn, void *args)
 {
 	zpy_srv_client_t *client;
 
@@ -20,14 +20,14 @@ void zpy_srv_conn_on_connect(tcp_server_conn_t *conn, void *args)
 	conn->data = client;
 }
 
-void zpy_srv_conn_on_disconnect(tcp_server_conn_t *conn)
+void zpy_srv_conn_on_disconnect(tcp_conn_t *conn)
 {
 	zpy_srv_client_t *client = conn->data;
 
 	free(client);
 }
 
-static bool zpy_srv_conn_do_command(tcp_server_conn_t *conn, char *msg)
+static bool zpy_srv_conn_do_command(tcp_conn_t *conn, char *msg)
 {
 	size_t len;
 	char *args;
@@ -40,7 +40,7 @@ static bool zpy_srv_conn_do_command(tcp_server_conn_t *conn, char *msg)
 	return (zpy_srv_dispatch_cmd(conn, msg, args));
 }
 
-bool zpy_srv_conn_on_data(tcp_server_conn_t *conn)
+bool zpy_srv_conn_on_data(tcp_conn_t *conn)
 {
 	char buf[512];
 	char *end;

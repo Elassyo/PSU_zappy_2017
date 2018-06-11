@@ -34,4 +34,5 @@ add_executable(zappy_server
         include/zappy_server.h
         src/server/main.c
         src/server/conn.c
-        src/server/dispatch.c)
+        src/server/dispatch.c
+        src/server/cmd_movement.c)

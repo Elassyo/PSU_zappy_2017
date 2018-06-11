@@ -19,7 +19,7 @@ static void tcp_server_sighandler(int signal)
 		g_running = false;
 }
 
-static bool tcp_server_handle_poll_io(tcp_server_t *s, tcp_server_conn_t *c,
+static bool tcp_server_handle_poll_io(tcp_server_t *s, tcp_conn_t *c,
 	short revents)
 {
 	char buf[1024];

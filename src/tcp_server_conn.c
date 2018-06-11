@@ -13,7 +13,7 @@
 
 void tcp_server_conn_accept(tcp_server_t *s)
 {
-	tcp_server_conn_t *conn;
+	tcp_conn_t *conn;
 
 	s->conns = realloc(s->conns, (s->conns_count + 1) * sizeof(*s->conns));
 	conn = malloc(sizeof(*s->conns[s->conns_count]));
