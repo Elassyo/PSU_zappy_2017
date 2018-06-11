@@ -31,4 +31,8 @@ bool zpy_srv_conn_on_data(tcp_server_conn_t *conn);
 bool zpy_srv_dispatch_cmd(tcp_server_conn_t *conn,
 	char const *cmd, char const *args);
 
+bool cmd_forward(tcp_server_conn_t *conn, zpy_srv_client_t *cmd, char const *args);
+bool cmd_left(tcp_server_conn_t *conn, zpy_srv_client_t *cmd, char const *args);
+bool cmd_right(tcp_server_conn_t *conn, zpy_srv_client_t *cmd, char const *args);
+
 #endif /* !defined (ZAPPY_SERVER_H_) */

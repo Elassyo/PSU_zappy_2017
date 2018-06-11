@@ -22,6 +22,7 @@ SRCS		=	cbuf.c						\
 SRCS_AI		=	ai/main.cpp
 SRCS_SRV	=	server/main.c					\
 			server/conn.c					\
+			server/cmd_movement.c				\
 			server/dispatch.c
 INCS		=	zappy.h						\
 			zappy_server.h					\
