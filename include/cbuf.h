@@ -11,6 +11,10 @@
 	#include <stdbool.h>
 	#include <stddef.h>
 
+	#ifdef __cplusplus
+extern "C" {
+	#endif
+
 typedef struct cbuf {
 	void *buf;
 	size_t size;
@@ -32,5 +36,9 @@ static inline size_t min(size_t a, size_t b)
 {
 	return (a < b ? a : b);
 }
+
+	#ifdef __cplusplus
+}
+	#endif
 
 #endif /* !defined (CBUF_H_) */
