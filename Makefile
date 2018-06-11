@@ -28,6 +28,7 @@ INCS		=	zappy.h						\
 			zappy_server.h					\
 			cbuf.h						\
 			tcp.h
+INCS_AI		=
 LIBS		=
 OBJS		=	$(SRCS:.c=.o)
 OBJS_AI		=	$(SRCS_AI:.cpp=.o)
@@ -60,7 +61,7 @@ $(NAME_SRV): $(addprefix $(OBJDIR)/,$(OBJS) $(OBJS_SRV))
 $(addprefix $(OBJDIR)/,$(OBJS) $(OBJS_SRV)): $(OBJDIR)/%.o: $(SRCDIR)/%.c $(addprefix $(INCDIR)/,$(INCS)) | $(OBJDIR) $(addprefix $(OBJDIR)/,$(SUBDIRS))
 	$(CC) $< $(CFLAGS) -o $@
 
-$(addprefix $(OBJDIR)/,$(OBJS_AI)): $(OBJDIR)/%.o: $(SRCDIR)/%.cpp $(addprefix $(INCDIR)/,$(INCS)) | $(OBJDIR) $(addprefix $(OBJDIR)/,$(SUBDIRS))
+$(addprefix $(OBJDIR)/,$(OBJS_AI)): $(OBJDIR)/%.o: $(SRCDIR)/%.cpp $(addprefix $(INCDIR)/,$(INCS)) $(addprefix $(SRCDIR)/,$(INCS_AI)) | $(OBJDIR) $(addprefix $(OBJDIR)/,$(SUBDIRS))
 	$(CXX) $< $(CXXFLAGS) -o $@
 
 $(OBJDIR) $(addprefix $(OBJDIR)/,$(SUBDIRS)): %:
