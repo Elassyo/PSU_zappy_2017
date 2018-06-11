@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2018
 ** PSU_myirc_2017
 ** File description:
-** TCP socket abstraction (I/O routines)
+** TCP socket abstraction (IO routines)
 */
 
 #include <unistd.h>

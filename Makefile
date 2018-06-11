@@ -10,9 +10,12 @@ NAME_SRV	=	zappy_server
 
 SRCS		=	cbuf.c						\
 			cbuf_io.c					\
+			tcp_client.c					\
+			tcp_client_conn.c				\
 			tcp_server.c					\
 			tcp_server_serve.c				\
 			tcp_server_conn.c				\
+			tcp_conn.c					\
 			tcp_sock.c					\
 			tcp_sock_client.c				\
 			tcp_sock_server.c				\
@@ -43,7 +46,7 @@ CC		=	gcc
 CFLAGS		=	-c -W -Wall -Wextra -I$(INCDIR)
 
 CXX		=	g++
-CXXFLAGS	=	-c -W -Wall -Wextra -std=c++17
+CXXFLAGS	=	-c -W -Wall -Wextra -std=c++17 -I$(INCDIR)
 
 LDFLAGS		=	$(addprefix -L,$(LIBS))
 

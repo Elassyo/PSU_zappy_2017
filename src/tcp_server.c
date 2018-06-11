@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2018
 ** PSU_zappy_2017
 ** File description:
-** TCP server abstraction (lifetime routines)
+** TCP server abstraction
 */
 
 #include <stdlib.h>

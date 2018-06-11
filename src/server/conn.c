@@ -48,12 +48,12 @@ bool zpy_srv_conn_on_data(tcp_conn_t *conn)
 
 	while (cbuf_free_bytes(&conn->out) >= 512) {
 		sz = min(512, cbuf_used_bytes(&conn->in));
-		cbuf_peek(&conn->in, buf, sz);
+		tcp_conn_peek(conn, buf, sz);
 		end = memchr(buf, '\n', sz);
 		if (end == NULL)
 			return (sz != 512);
 		*end = '\0';
-		cbuf_read(&conn->in, NULL, end - buf + 1);
+		tcp_conn_read(conn, NULL, end - buf + 1);
 		if (!zpy_srv_conn_do_command(conn, buf))
 			return (false);
 	}

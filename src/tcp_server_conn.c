@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2018
 ** PSU_zappy_2017
 ** File description:
-** TCP server abstraction (Client connections routines)
+** TCP server abstraction (connections routines)
 */
 
 #include <string.h>
@@ -11,17 +11,19 @@
 
 #include "tcp.h"
 
-void tcp_server_conn_accept(tcp_server_t *s)
+bool tcp_server_conn_accept(tcp_server_t *s)
 {
 	tcp_conn_t *conn;
 
 	s->conns = realloc(s->conns, (s->conns_count + 1) * sizeof(*s->conns));
 	conn = malloc(sizeof(*s->conns[s->conns_count]));
-	tcp_sock_accept(&s->sock, &conn->sock);
+	if (!tcp_sock_accept(&s->sock, &conn->sock))
+		return (false);
 	cbuf_create(&conn->in, 4096);
 	cbuf_create(&conn->out, 8192);
 	s->on_connect(conn, s->on_connect_args);
 	s->conns[s->conns_count++] = conn;
+	return (true);
 }
 
 void tcp_server_conn_close(tcp_server_t *s, size_t i, bool flush)

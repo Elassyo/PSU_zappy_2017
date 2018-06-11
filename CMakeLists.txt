@@ -15,9 +15,12 @@ set(SRC_COMMON
         src/cbuf.c
         src/cbuf_io.c
         include/tcp.h
+        src/tcp_client.c
+        src/tcp_client_conn.c
         src/tcp_server.c
         src/tcp_server_conn.c
         src/tcp_server_serve.c
+        src/tcp_conn.c
         src/tcp_sock.c
         src/tcp_sock_client.c
         src/tcp_sock_server.c

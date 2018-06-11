@@ -8,6 +8,8 @@
 #include <cstring>
 #include <iostream>
 
+#include "tcp.h"
+
 static int usage(char const *progname, int ret)
 {
 	std::cout << "USAGE: " << progname << " -p port -n name -h machine" <<
@@ -21,9 +23,12 @@ static int usage(char const *progname, int ret)
 
 int main(int argc, char const **argv)
 {
+	tcp_client_t client;
+
 	for (int i = 1; i < argc; i++) {
 		if (std::strcmp(argv[i], "-help") == 0)
 			return usage(argv[0], 0);
 	}
+	tcp_client_connect(&client, argv[1], 0);
 	return 0;
 }

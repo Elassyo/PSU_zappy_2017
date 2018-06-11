@@ -34,7 +34,6 @@ typedef struct tcp_conn {
 } tcp_conn_t;
 
 typedef struct tcp_client {
-	tcp_sock_t sock;
 	tcp_conn_t conn;
 	void *on_connect_args;
 	void (*on_connect)(tcp_conn_t *, void *);
@@ -76,7 +75,14 @@ bool tcp_sock_bind(tcp_sock_t *sock, uint32_t addr, uint16_t port);
 bool tcp_sock_listen(tcp_sock_t *sock, int backlog);
 bool tcp_sock_accept(tcp_sock_t *sock, tcp_sock_t *conn);
 
+size_t tcp_conn_read(tcp_conn_t *conn, void *buf, size_t n);
+size_t tcp_conn_peek(tcp_conn_t *conn, void *buf, size_t n);
+size_t tcp_conn_write(tcp_conn_t *conn, void const *buf, size_t n);
+
 bool tcp_client_connect(tcp_client_t *c, char const *host, uint16_t port);
+
+bool tcp_client_conn_connect(tcp_client_t *c, uint32_t addr, uint16_t port);
+void tcp_client_conn_close(tcp_client_t *c, bool flush);
 
 bool tcp_server_start(tcp_server_t *s, uint16_t port);
 void tcp_server_stop(tcp_server_t *s);
@@ -84,10 +90,10 @@ void tcp_server_stop(tcp_server_t *s);
 void tcp_server_serve(tcp_server_t *s);
 void tcp_server_serve_forever(tcp_server_t *server);
 
-void tcp_server_conn_accept(tcp_server_t *s);
+bool tcp_server_conn_accept(tcp_server_t *s);
 void tcp_server_conn_close(tcp_server_t *s, size_t i, bool flush);
 
-	#ifdef __cpluscplus
+	#ifdef __cplusplus
 }
 	#endif
 
