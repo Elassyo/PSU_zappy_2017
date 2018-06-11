@@ -70,7 +70,7 @@ clean:
 	$(RM) $(OBJDIR)
 
 fclean: clean
-	$(RM) $(NAME_CLT) $(NAME_SRV)
+	$(RM) $(NAME_AI) $(NAME_SRV)
 
 re: fclean all
 
