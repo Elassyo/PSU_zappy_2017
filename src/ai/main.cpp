@@ -8,6 +8,8 @@
 #include <cstring>
 #include <iostream>
 
+#include "CBuffer.hpp"
+
 static int usage(char const *progname, int ret)
 {
 	std::cout << "USAGE: " << progname << " -p port -n name -h machine" <<

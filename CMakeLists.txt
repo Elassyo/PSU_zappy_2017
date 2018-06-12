@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.1)
 project(PSU_zappy_2017 C CXX)
 
 set(CMAKE_C_STANDARD 11)
@@ -26,9 +26,17 @@ set(SRC_COMMON
         src/tcp_sock_rinfo.c
         src/server/args_parsing.c)
 
+set(SRC_AI
+	src/ai/main.cpp
+	src/ai/CBuffer.cpp
+	src/ai/CBuffer.hpp
+	src/ai/Exception/Exception.cpp
+	src/ai/Exception/Exception.hpp)
+
 add_executable(zappy_ai
-        ${SRC_COMMON}
-        src/ai/main.cpp include/args.h)
+	${SRC_COMMON}
+	${SRC_AI}
+        include/args.h)
 
 add_executable(zappy_server
         ${SRC_COMMON}

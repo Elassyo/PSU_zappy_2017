@@ -19,7 +19,11 @@ SRCS		=	cbuf.c						\
 			tcp_sock_io.c					\
 			tcp_sock_info.c					\
 			tcp_sock_rinfo.c
-SRCS_AI		=	ai/main.cpp
+
+SRCS_AI		=	ai/CBuffer.cpp					\
+			ai/Exception/Exception.cpp			\
+			ai/main.cpp
+
 SRCS_SRV	=	server/main.c					\
 			server/conn.c					\
 			server/cmd_movement.c				\
@@ -38,7 +42,7 @@ OBJS_SRV	=	$(SRCS_SRV:.c=.o)
 SRCDIR		=	src
 OBJDIR		=	obj
 INCDIR		=	include
-SUBDIRS		=	ai server
+SUBDIRS		=	ai server ai/Exception
 
 CC		=	gcc
 CFLAGS		=	-c -W -Wall -Wextra -I$(INCDIR)
