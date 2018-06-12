@@ -6,7 +6,20 @@
 */
 
 
-#ifndef PSU_ZAPPY_2017_ARGS_H
-#define PSU_ZAPPY_2017_ARGS_H
+#ifndef ARGS_H
+#define ARGS_H
 
-#endif //PSU_ZAPPY_2017_ARGS_H
+extern const char arg_str[];
+
+typedef struct args_s {
+	int port;
+	int width;
+	int height;
+	int clients;
+	int freq;
+	char **names;
+} args_t;
+
+int parse_args(args_t *args, int ac, char const **av);
+
+#endif //ARGS_H

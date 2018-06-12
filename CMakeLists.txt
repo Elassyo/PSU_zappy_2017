@@ -15,7 +15,6 @@ set(SRC_COMMON
         src/cbuf.c
         src/cbuf_io.c
         include/tcp.h
-        src/args_parsing.c
         src/tcp_server.c
         src/tcp_server_conn.c
         src/tcp_server_serve.c
@@ -24,11 +23,12 @@ set(SRC_COMMON
         src/tcp_sock_server.c
         src/tcp_sock_io.c
         src/tcp_sock_info.c
-        src/tcp_sock_rinfo.c)
+        src/tcp_sock_rinfo.c
+        src/server/args_parsing.c)
 
 add_executable(zappy_ai
         ${SRC_COMMON}
-        src/ai/main.cpp)
+        src/ai/main.cpp include/args.h)
 
 add_executable(zappy_server
         ${SRC_COMMON}

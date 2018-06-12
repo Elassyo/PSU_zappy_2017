@@ -12,7 +12,9 @@
 
 #include "args.h"
 
-void init_args(args_t *args)
+const char arg_str[] = "p:x:y:n:c:f:";
+
+static void init_args(args_t *args)
 {
 	args->names = NULL;
 	args->freq = 0;
@@ -22,7 +24,7 @@ void init_args(args_t *args)
 	args->port = 0;
 }
 
-int count_names(int ac, char **av, int i)
+static int count_names(int ac, char const **av, int i)
 {
 	int res = 0;
 
@@ -31,7 +33,7 @@ int count_names(int ac, char **av, int i)
 	return (res);
 }
 
-void get_names(args_t *args, int ac, char **av, int i)
+static void get_names(args_t *args, int ac, char const **av, int i)
 {
 	int names_count = count_names(ac, av, i);
 
@@ -43,11 +45,12 @@ void get_names(args_t *args, int ac, char **av, int i)
 		args->names[j] = strdup(av[i + j]);
 }
 
-int get_args(args_t *args, int ac, char **av)
+
+static int get_args(args_t *args, int ac, char const **av)
 {
 	int opt = 0;
 
-	while ((opt = getopt(ac, av, arg_str)) != -1) {
+	while ((opt = getopt(ac, (char *const *) av, arg_str)) != -1) {
 		if (opt == 'p')
 			args->port = atoi(optarg);
 		else if (opt == 'x')
@@ -64,20 +67,33 @@ int get_args(args_t *args, int ac, char **av)
 	return (0);
 }
 
-int main(int ac, char **av)
+int parse_args(args_t *args, int ac, char const **av)
 {
-	char **names;
-	int opt;
-	args_t args;
-
-	init_args(&args);
-	get_args(&args, ac, av);
-	printf("port : %i\n", args.port);
-	printf("width : %i\n", args.width);
-	printf("height : %i\n", args.height);
-	printf("clients : %i\n", args.clients);
-	for (int i = 0; args.names[i] != NULL; i++)
-		printf("name %i : \"%s\"\n", i, args.names[i]);
-	printf("freq : %i\n", args.freq);
+	init_args(args);
+	get_args(args, ac, av);
+	if (args->port < 0 ||
+		args->height <= 0 ||
+		args->width <= 0 ||
+		args->clients <= 0 ||
+		args->freq <= 0 ||
+		args->names == NULL)
+		return (-1);
 	return (0);
 }
+
+//int main(int ac, char **av)
+//{
+//	char **names;
+//	int opt;
+//	args_t args;
+//
+//	parse_args(&args, ac, av);
+//	printf("port : %i\n", args.port);
+//	printf("width : %i\n", args.width);
+//	printf("height : %i\n", args.height);
+//	printf("clients : %i\n", args.clients);
+//	for (int i = 0; args.names[i] != NULL; i++)
+//		printf("name %i : \"%s\"\n", i, args.names[i]);
+//	printf("freq : %i\n", args.freq);
+//	return (0);
+//}
