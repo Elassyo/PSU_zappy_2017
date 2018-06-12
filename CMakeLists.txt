@@ -23,7 +23,7 @@ set(SRC_COMMON
 
 add_executable(zappy_client
         ${SRC_COMMON}
-        src/client/client.c)
+        src/client/client.c testing.c)
 
 add_executable(zappy_server
         ${SRC_COMMON}
