@@ -17,6 +17,10 @@
 
 	#include "cbuf.h"
 
+	#ifdef __cplusplus
+extern "C" {
+	#endif
+
 typedef struct tcp_sock {
 	int fd;
 	struct sockaddr_in sin;
@@ -71,5 +75,9 @@ void tcp_server_serve_forever(tcp_server_t *server);
 
 void tcp_server_conn_accept(tcp_server_t *s);
 void tcp_server_conn_close(tcp_server_t *s, size_t i, bool flush);
+
+	#ifdef __cpluscplus
+}
+	#endif
 
 #endif /* !defined (TCP_H_) */
