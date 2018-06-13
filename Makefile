@@ -28,7 +28,16 @@ SRCS_SRV	=	server/main.c					\
 			server/conn.c					\
 			server/cmd_movement.c				\
 			server/dispatch.c					\
-			server/args_parsing.c
+			server/args_parsing.c				\
+			server/cmd_look.c				\
+			server/cmd_inventory.c				\
+			server/cmd_broadcast.c				\
+			server/cmd_connect.c				\
+			server/cmd_fork.c				\
+			server/cmd_eject.c				\
+			server/cmd_take.c				\
+			server/cmd_set.c				\
+			server/cmd_incantation.c
 INCS		=	zappy.h						\
 			zappy_server.h					\
 			cbuf.h						\
