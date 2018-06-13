@@ -53,13 +53,13 @@ typedef struct server_map_s {
 } server_map_t;
 
 server_map_t	*server_map_init(size_t width, size_t height);
-void		server_map_add_player(server_map_t *map, size_t team)
+void		server_map_add_player(server_map_t *map, size_t team);
 int		player_drop_object(server_map_t *map, player_t *player,
 					item_t item);
 int		player_take_object(server_map_t *map, player_t *player,
 					item_t item);
-void		player_move_forward(server_map_t *map, player_t *player)
-void		player_turn_left(player_t *player)
-void		player_turn_right(player_t *player)
+void		player_move_forward(server_map_t *map, player_t *player);
+void		player_turn_left(player_t *player);
+void		player_turn_right(player_t *player);
 
 #endif /* !SERVER_MAP_H_ */

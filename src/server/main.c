@@ -10,6 +10,7 @@
 #include <string.h>
 
 #include "zappy_server.h"
+#include "args.h"
 
 static int usage(char const *progname, int ret)
 {
@@ -25,7 +26,7 @@ static int usage(char const *progname, int ret)
 	return (ret);
 }
 
-static int zpy_server(char const *progname, uint16_t port)
+static int zpy_server(char const *progname, uint16_t port, args_t args)
 {
 	zpy_srv_t server;
 
@@ -44,9 +45,10 @@ static int zpy_server(char const *progname, uint16_t port)
 	return (0);
 }
 
-/* TODO: main + parsing args */
 int main(int argc, char const **argv)
 {
+	args_t args;
+
 	for (int i = 1; i < argc; i++) {
 		if (strcmp(argv[i], "-help") == 0)
 			return (usage(argv[0], 0));
@@ -55,5 +57,9 @@ int main(int argc, char const **argv)
 		fprintf(stderr, "%s: not enough arguments\n", argv[0]);
 		return (usage(argv[0], 84));
 	}
-	return (0);
+	if (parse_args(&args, argc, argv) == -1) {
+		fprintf(stderr, "error with one of the arguments\n");
+		return (usage(argv[0], 84));
+	}
+	return (zpy_server(argv[0], args.port, args));
 }
