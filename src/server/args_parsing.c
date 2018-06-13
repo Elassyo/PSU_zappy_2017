@@ -80,20 +80,3 @@ int parse_args(args_t *args, int ac, char const **av)
 		return (-1);
 	return (0);
 }
-
-//int main(int ac, char **av)
-//{
-//	char **names;
-//	int opt;
-//	args_t args;
-//
-//	parse_args(&args, ac, av);
-//	printf("port : %i\n", args.port);
-//	printf("width : %i\n", args.width);
-//	printf("height : %i\n", args.height);
-//	printf("clients : %i\n", args.clients);
-//	for (int i = 0; args.names[i] != NULL; i++)
-//		printf("name %i : \"%s\"\n", i, args.names[i]);
-//	printf("freq : %i\n", args.freq);
-//	return (0);
-//}

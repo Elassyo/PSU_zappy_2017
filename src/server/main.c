@@ -26,7 +26,7 @@ static int usage(char const *progname, int ret)
 	return (ret);
 }
 
-static int zpy_server(char const *progname, uint16_t port)
+static int zpy_server(char const *progname, uint16_t port, args_t args)
 {
 	zpy_srv_t server;
 
@@ -45,7 +45,6 @@ static int zpy_server(char const *progname, uint16_t port)
 	return (0);
 }
 
-/* TODO: main + parsing args */
 int main(int argc, char const **argv)
 {
 	args_t args;
@@ -62,5 +61,5 @@ int main(int argc, char const **argv)
 		fprintf(stderr, "error with one of the arguments\n");
 		return (usage(argv[0], 84));
 	}
-	return (0);
+	return (zpy_server(argv[0], args.port, args));
 }

@@ -22,6 +22,7 @@ typedef struct zpy_srv_client {
 typedef struct zpy_srv_cmd {
 	char const *str;
 	bool (*handler)(tcp_server_conn_t*, zpy_srv_client_t*, char const*);
+	int time;
 } zpy_srv_cmd_t;
 
 void zpy_srv_conn_on_connect(tcp_server_conn_t *conn, void *args);
