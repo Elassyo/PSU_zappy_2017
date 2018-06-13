@@ -10,6 +10,16 @@ NAME_SRV	=	zappy_server
 
 SRCS		=	cbuf.c						\
 			cbuf_io.c					\
+			list/add.c					\
+			list/create.c					\
+			list/destroy.c					\
+			list/dir.c					\
+			list/get.c					\
+			list/pop.c					\
+			list/print_strs.c				\
+			list/push.c					\
+			list/remove.c					\
+			list/to_file.c					\
 			tcp_server.c					\
 			tcp_server_serve.c				\
 			tcp_server_conn.c				\
@@ -21,9 +31,13 @@ SRCS		=	cbuf.c						\
 			tcp_sock_rinfo.c
 SRCS_AI		=	ai/main.cpp
 SRCS_SRV	=	server/main.c					\
-			server/conn.c					\
+			server/add_player.c				\
 			server/cmd_movement.c				\
-			server/dispatch.c
+			server/conn.c					\
+			server/dispatch.c				\
+			server/map_init.c				\
+			server/player_move.c				\
+			server/player_object_interactions.c
 INCS		=	zappy.h						\
 			zappy_server.h					\
 			cbuf.h						\
@@ -37,7 +51,7 @@ OBJS_SRV	=	$(SRCS_SRV:.c=.o)
 SRCDIR		=	src
 OBJDIR		=	obj
 INCDIR		=	include
-SUBDIRS		=	ai server
+SUBDIRS		=	ai server list
 
 CC		=	gcc
 CFLAGS		=	-c -W -Wall -Wextra -I$(INCDIR)
