@@ -6,9 +6,9 @@
 //
 
 #ifndef PSU_ZAPPY_2017_VERTEX_HPP
-#define PSU_ZAPPY_2017_VERTEX_HPP
+	#define PSU_ZAPPY_2017_VERTEX_HPP
 
-#include <iostream>
+	#include <iostream>
 
 namespace zappy {
 	template <class T>
