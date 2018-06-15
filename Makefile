@@ -31,6 +31,8 @@ SRCS		=	cbuf.c						\
 			tcp_sock_rinfo.c
 
 SRCS_AI		=	ai/CBuffer.cpp					\
+			ai/Drone.cpp					\
+			ai/Vertex.cpp					\
 			ai/Exception/Exception.cpp			\
 			ai/main.cpp
 
