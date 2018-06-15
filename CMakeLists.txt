@@ -31,7 +31,7 @@ set(SRC_AI
 	src/ai/CBuffer.cpp
 	src/ai/CBuffer.hpp
 	src/ai/Exception/Exception.cpp
-	src/ai/Exception/Exception.hpp)
+	src/ai/Exception/Exception.hpp src/ai/Drone.cpp src/ai/Drone.hpp src/ai/Vertex.cpp src/ai/Vertex.hpp)
 
 add_executable(zappy_ai
 	${SRC_COMMON}
