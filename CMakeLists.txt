@@ -38,6 +38,10 @@ set(SRC_AI
 		src/ai/Vertex.hpp
 		src/ai/Inventory.cpp
 		src/ai/Inventory.hpp
+		src/ai/RequestHandler.cpp
+		src/ai/RequestHandler.hpp
+		src/ai/RequestConstructor.cpp
+		src/ai/RequestConstructor.hpp
 		)
 
 add_executable(zappy_ai
