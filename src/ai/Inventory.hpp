@@ -9,7 +9,7 @@
 # define INVENTORY_HPP_
 
 #include <iostream>
-#include <unordered_map>
+#include <map>
 
 namespace zappy
 {
@@ -22,14 +22,14 @@ namespace zappy
 			  SIBUR,
 			  MENDIANE,
 			  PHIRAS,
-			  THYSTAME}
+			  THYSTAME};
 		class Inventory
 		{
 		public:
-			explicit Inventory();
+			explicit Inventory() = default;
 			explicit Inventory(const Inventory &);
 			explicit Inventory(const std::string &);
-			~Inventory();
+			~Inventory() = default;
 
 			size_t pick(const Item, const size_t nb);
 			size_t add(const Item, const size_t nb);
@@ -38,7 +38,7 @@ namespace zappy
 			bool operator==(const Inventory &) const;
 
 		private:
-			std::unordered_map<Item, size_t> _items;
+			std::map<Item, size_t> _items;
 		};
 	}
 }	

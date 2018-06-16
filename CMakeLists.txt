@@ -27,11 +27,18 @@ set(SRC_COMMON
         src/server/args_parsing.c)
 
 set(SRC_AI
-	src/ai/main.cpp
-	src/ai/CBuffer.cpp
-	src/ai/CBuffer.hpp
-	src/ai/Exception/Exception.cpp
-	src/ai/Exception/Exception.hpp src/ai/Drone.cpp src/ai/Drone.hpp src/ai/Vertex.cpp src/ai/Vertex.hpp)
+		src/ai/main.cpp
+		src/ai/CBuffer.cpp
+		src/ai/CBuffer.hpp
+		src/ai/Exception/Exception.cpp
+		src/ai/Exception/Exception.hpp
+		src/ai/Drone.cpp
+		src/ai/Drone.hpp
+		src/ai/Vertex.cpp
+		src/ai/Vertex.hpp
+		src/ai/Inventory.cpp
+		src/ai/Inventory.hpp
+		)
 
 add_executable(zappy_ai
 	${SRC_COMMON}
