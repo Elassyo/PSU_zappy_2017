@@ -22,7 +22,7 @@ namespace zappy
 			  SIBUR,
 			  MENDIANE,
 			  PHIRAS,
-			  THYSTAME}
+			  THYSTAME};
 		class Inventory
 		{
 		public:
