@@ -12,9 +12,9 @@ zappy::ai::Inventory::Inventory(const Inventory &other)
 	_items = other._items;
 }
 
-zappy::ai::Inventory::Inventory(const std::string &string)
+zappy::ai::Inventory::Inventory(const std::map<zappy::ai::Item, size_t> &itemNbr)
 {
-
+	this->_items = itemNbr;
 }
 
 size_t zappy::ai::Inventory::pick(const zappy::ai::Item item, const size_t nb)
