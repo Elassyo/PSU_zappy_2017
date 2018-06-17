@@ -20,19 +20,19 @@ static bool not_implemented(tcp_conn_t *conn __attribute__((unused)),
 ////
 
 static zpy_srv_cmd_t const zpy_srv_cmds[] = {
-	{ "Forward", &cmd_forward },
-	{ "Right", &cmd_right },
-	{ "Left", &cmd_left },
-	{ "Look", &not_implemented },
-	{ "Inventory", &not_implemented },
-	{ "Broadcast text", &not_implemented },
-	{ "Connect_nbr", &not_implemented },
-	{ "Fork", &not_implemented },
-	{ "Eject", &not_implemented },
-	{ "Take object", &not_implemented },
-	{ "Set object", &not_implemented },
-	{ "Incantation", &not_implemented },
-	{ NULL, NULL }
+	{ "Forward", &cmd_forward, 7 },
+	{ "Right", &cmd_right, 7 },
+	{ "Left", &cmd_left, 7 },
+	{ "Look", &not_implemented, 7 },
+	{ "Inventory", &not_implemented, 1 },
+	{ "Broadcast text", &not_implemented, 7 },
+	{ "Connect_nbr", &not_implemented, 0 },
+	{ "Fork", &not_implemented, 42 },
+	{ "Eject", &not_implemented, 7 },
+	{ "Take object", &not_implemented, 7 },
+	{ "Set object", &not_implemented, 7 },
+	{ "Incantation", &not_implemented, 300 },
+	{ NULL, NULL, -1 }
 };
 
 bool zpy_srv_dispatch_cmd(tcp_conn_t *conn, char const *cmd, char const *args)

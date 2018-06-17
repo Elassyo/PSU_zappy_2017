@@ -2,13 +2,13 @@
 ** EPITECH PROJECT, 2018
 ** PSU_zappy_2017
 ** File description:
-** Zappy ai main
+** Zappy AI main
 */
 
 #include <cstring>
 #include <iostream>
 
-#include "tcp.h"
+#include "CBuffer.hpp"
 
 static int usage(char const *progname, int ret)
 {
@@ -23,12 +23,9 @@ static int usage(char const *progname, int ret)
 
 int main(int argc, char const **argv)
 {
-	tcp_client_t client;
-
 	for (int i = 1; i < argc; i++) {
 		if (std::strcmp(argv[i], "-help") == 0)
 			return usage(argv[0], 0);
 	}
-	tcp_client_connect(&client, argv[1], 0);
 	return 0;
 }
