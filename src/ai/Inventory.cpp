@@ -7,51 +7,47 @@
 
 #include "Inventory.hpp"
 
-zappy::ai::Inventory::Inventory()
+
+zappy::ai::Inventory::Inventory(const Inventory &other)
 {
-	this->_items.insert(std::make_pair(zappy::ai::Item::NONE, 0));
-	for (int i = zappy::ai::Item::FOOD; i <= THYSTAME; i++)
-		this->_items.insert(std::make_pair((zappy::ai::Item)i, 0));
+	_items = other._items;
 }
 
-zappy::ai::Inventory::Inventory(const Inventory& ivent)
+zappy::ai::Inventory::Inventory(const std::string &string)
 {
-	for (auto it = this->_items.cbegin(); it != this->_items.cend(); ++it)
-		this->_items.insert(std::make_pair(it->first, it->second));
-}
 
-zappy::ai::Inventory::Inventory(const std::string &itemStr)
-{
-	//itemStr from server, to parse
 }
-
-zappy::ai::Inventory::~Inventory() {}
 
 size_t zappy::ai::Inventory::pick(const zappy::ai::Item item, const size_t nb)
 {
-	if (this->_items.at(item) >= nb)
-		return this->_items.at(item) -= nb;
-	return this->_items.at(item);
+	if (_items.find(item) == _items.end())
+		return 0;
+	if (_items[item] <= nb) {
+		size_t t = _items[item];
+		_items[item] = 0;
+		return t;
+	}
+	_items[item] -= nb;
+	return nb;
 }
 
 size_t zappy::ai::Inventory::add(const zappy::ai::Item item, const size_t nb)
 {
-	return this->_items.at(item) += nb;
+	if (_items.find(item) == _items.end()) {
+		_items[item] = nb;
+		return nb;
+	}
+	_items[item] += nb;
+	return _items[item];
+
 }
 
 size_t zappy::ai::Inventory::getNbr(const zappy::ai::Item item) const
 {
-	return this->_items.at(item);
+	return _items.at(item);
 }
 
-bool zappy::ai::Inventory::operator==(const zappy::ai::Inventory &ivent) const
+bool zappy::ai::Inventory::operator==(const zappy::ai::Inventory &other) const
 {
-	auto ivent_it = ivent._items.cbegin();
-	
-	for (auto it = this->_items.cbegin(); it != this->_items.cend(); it++) {
-		if (ivent_it->second != it->second)
-			return false;
-		ivent_it++;
-	}
-	return true;
+	return _items == other._items;
 }
