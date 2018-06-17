@@ -7,7 +7,6 @@
 
 #include "Inventory.hpp"
 
-
 zappy::ai::Inventory::Inventory(const Inventory &other)
 {
 	_items = other._items;
