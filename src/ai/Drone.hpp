@@ -9,8 +9,11 @@
 	#define PSU_ZAPPY_2017_DRONE_HPP
 
 	#include <vector>
+	#include <unordered_map>
+	#include <functional>
 	#include "Inventory.hpp"
 	#include "Vertex.hpp"
+#include "RequestConstructor.hpp"
 
 
 namespace zappy {
@@ -23,10 +26,12 @@ namespace zappy {
 			MAX = 4
 		};
 		enum Behavior {
+			NONE = 0,
 			WAIT,
 			LOOKFOR,
 			GATHER,
-			EVOLVE
+			EVOLVE,
+			EXPLORE
 		};
 		class Drone {
 		public:
@@ -45,6 +50,8 @@ namespace zappy {
 			void _lookFor();
 			void _explore();
 			void _gatherResources();
+			void _evolve();
+			void _wait();
 
 			void _move(const VertexS &dir);
 			void _moveForward();
@@ -67,7 +74,11 @@ namespace zappy {
 			Inventory _inventory;
 			Item _need;
 			std::vector<Item> _lookingFor;
+			const std::vector<Inventory> _lvlStuff;
 			std::multimap<Item, VertexS> _memory;
+			std::unordered_map<Behavior, std::function<void(void)>>
+				_act;
+			RequestConstructor _reqConstr;
 		};
 	}
 }

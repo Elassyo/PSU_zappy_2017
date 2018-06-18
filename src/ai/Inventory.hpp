@@ -29,6 +29,9 @@ namespace zappy
 			explicit Inventory() = default;
 			explicit Inventory(const Inventory &);
 			explicit Inventory(const std::map<Item, size_t> &);
+			explicit Inventory(size_t linemate, size_t deraumere,
+					   size_t sibur, size_t mendiane,
+					   size_t phiras, size_t thystame);
 			~Inventory() = default;
 
 			size_t pick(const Item, const size_t nb);

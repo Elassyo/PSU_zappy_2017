@@ -12,6 +12,18 @@ zappy::ai::Inventory::Inventory(const Inventory &other)
 	_items = other._items;
 }
 
+zappy::ai::Inventory::Inventory(size_t linemate, size_t deraumere,
+				size_t sibur, size_t mendiane, size_t phiras,
+				size_t thystame) :
+	_items({{LINEMATE, linemate},
+		{DERAUMERE, deraumere},
+		{SIBUR, sibur},
+		{MENDIANE, mendiane},
+		{PHIRAS, phiras},
+		{THYSTAME, thystame}})
+{
+}
+
 zappy::ai::Inventory::Inventory(const std::map<zappy::ai::Item, size_t> &itemNbr)
 {
 	this->_items = itemNbr;
