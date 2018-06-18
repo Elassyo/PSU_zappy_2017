@@ -40,7 +40,7 @@ static bool tcp_server_handle_poll_io(tcp_server_t *s, tcp_conn_t *c,
 			return (false);
 		cbuf_read(&c->out, NULL, ssz);
 	}
-	return (s->on_data(c));
+	return (s->on_tick(c));
 }
 
 static void tcp_server_handle_poll_conn(tcp_server_t *s)
@@ -72,7 +72,7 @@ void tcp_server_serve(tcp_server_t *s)
 		if (cbuf_used_bytes(&s->conns[i]->out) != 0)
 			s->pfds[i + 1].events |= POLLOUT;
 	}
-	if (poll(s->pfds, s->conns_count + 1, -1) < 0)
+	if (poll(s->pfds, s->conns_count + 1, 1000 * s->tickrate) < 0)
 		return;
 	tcp_server_handle_poll_conn(s);
 	if (s->conns_count != conns_count_sv) {

@@ -6,7 +6,7 @@
 */
 
 #include "tcp.h"
-
+/*
 bool tcp_client_conn_connect(tcp_client_t *c, uint32_t addr, uint16_t port)
 {
 	if (!(tcp_sock_create(&c->conn.sock) &&
@@ -37,3 +37,4 @@ void tcp_client_conn_close(tcp_client_t *c, bool flush)
 	cbuf_destroy(&c->conn.in);
 	cbuf_destroy(&c->conn.out);
 }
+*/
