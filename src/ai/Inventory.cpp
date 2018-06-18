@@ -46,13 +46,15 @@ size_t zappy::ai::Inventory::getNbr(const zappy::ai::Item item) const
 	return _items.at(item);
 }
 
-std::vector zappy::ai::Inventory::diff(const zappy::ai::Inventory &other) const
+std::vector<zappy::ai::Item> zappy::ai::Inventory::diff
+	(const zappy::ai::Inventory &other) const
 {
 	std::vector<Item> need;
 
 	for (auto i = _items.begin(); i != _items.end(); i++) {
 		if (_items.find(i->first) != _items.end()) {
-			for (int c = other._items[i->first] - _items[i->first];
+			for (int c =
+				other._items.at(i->first) - _items.at(i->first);
 			     c < 0; c--)
 				need.push_back(i->first);
 		}
@@ -69,7 +71,7 @@ bool zappy::ai::Inventory::operator>=(const zappy::ai::Inventory &other) const
 {
 	for (auto i = _items.begin(); i != _items.end(); i++) {
 		if (this->_items.find(i->first) != this->_items.end() ||
-		    this->_items[i->first] < other._items[i->first])
+		    this->_items.at(i->first) < other._items.at(i->first))
 			return false;
 	}
 	return true;

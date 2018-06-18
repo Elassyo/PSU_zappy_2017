@@ -61,7 +61,8 @@ add_executable(zappy_ai
 		src/ai/RequestHandler.hpp
 		src/ai/RequestConstructor.cpp
 		src/ai/RequestConstructor.hpp
-		)
+		src/ai/Vision.cpp
+		src/ai/Vision.hpp src/ai/Tile.cpp src/ai/Tile.hpp)
 
 add_executable(zappy_server
         ${SRC_COMMON}

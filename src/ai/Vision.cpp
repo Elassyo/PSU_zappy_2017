@@ -4,3 +4,10 @@
 // File description:
 // Vision.cpp
 //
+
+#include "Vision.hpp"
+
+zappy::ai::Vision::Vision(const std::string &str)
+{
+
+}

@@ -36,6 +36,7 @@ SRCS_AI		=	ai/CBuffer.cpp					\
 			ai/Inventory.cpp				\
 			ai/RequestConstructor.cpp			\
 			ai/RequestHandler.cpp				\
+			ai/Vision.cpp					\
 			ai/Exception/Exception.cpp			\
 			ai/main.cpp
 
