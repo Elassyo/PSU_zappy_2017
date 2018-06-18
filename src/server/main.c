@@ -31,7 +31,7 @@ static int zpy_server(zpy_srv_t *server, char const *progname)
 {
 	if (!zpy_srv_map_init(&server->map))
 		return (84);
-	server->tcp.on_connect_args = &server;
+	server->tcp.on_connect_args = server;
 	server->tcp.on_connect = &zpy_srv_conn_on_connect;
 	server->tcp.on_disconnect = &zpy_srv_conn_on_disconnect;
 	server->tcp.on_tick = &zpy_srv_conn_on_tick;
