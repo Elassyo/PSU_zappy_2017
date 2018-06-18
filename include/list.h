@@ -27,6 +27,7 @@ list_t *list_create(bool free_on_pop);
 void list_destroy(list_t *l);
 list_node_t *list_get_node(list_t *l, unsigned int index);
 void *list_get(list_t *l, unsigned int i);
+int list_find(list_t *l, void *data, bool (*cmd)(void*, void*));
 bool list_push(list_t *l, void *data);
 bool list_push_back(list_t *l, void *data);
 bool list_insert(list_t *l, unsigned int i, void *data);

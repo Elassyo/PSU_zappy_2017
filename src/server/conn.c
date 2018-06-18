@@ -26,7 +26,7 @@ void zpy_srv_conn_on_disconnect(tcp_conn_t *conn)
 	zpy_srv_client_t *client = conn->data;
 
 	if (client->type == CLIENT_AI)
-		zpy_srv_player_remove(&client->server->map, client->player);
+		zpy_srv_player_remove(client->server, client->player);
 	free(client);
 }
 

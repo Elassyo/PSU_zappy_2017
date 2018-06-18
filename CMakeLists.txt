@@ -19,10 +19,12 @@ set(SRC_LIST
 		src/list/insert.c
 		src/list/create.c
 		src/list/destroy.c
+		src/list/find.c
 		src/list/get.c
 		src/list/pop.c
 		src/list/push.c
-		src/list/remove.c)
+		src/list/remove.c
+		)
 
 set(SRC_TCP
 		include/tcp.h

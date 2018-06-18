@@ -12,6 +12,7 @@ SRCS		=	cbuf.c						\
 			cbuf_io.c					\
 			list/create.c					\
 			list/destroy.c					\
+			list/find.c					\
 			list/get.c					\
 			list/insert.c					\
 			list/pop.c					\

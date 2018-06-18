@@ -100,8 +100,8 @@ int zpy_srv_map_find_item_group(zpy_srv_map_t *map,
 bool zpy_srv_map_add_item(zpy_srv_map_t *map,
 	unsigned int x, unsigned int y, zpy_item_type_t item_type);
 
-zpy_srv_player_t *zpy_srv_player_new(zpy_srv_map_t *map, unsigned short team);
-void zpy_srv_player_remove(zpy_srv_map_t *map, zpy_srv_player_t *player);
+bool zpy_srv_player_new(zpy_srv_t *server, unsigned short team);
+void zpy_srv_player_remove(zpy_srv_t *server, zpy_srv_player_t *player);
 
 bool zpy_srv_player_tick(tcp_conn_t *conn, zpy_srv_player_t *player);
 

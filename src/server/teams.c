@@ -42,7 +42,6 @@ void zpy_srv_teams_cleanup(list_t *teams)
 static bool zpy_srv_team_join(tcp_conn_t *conn, zpy_srv_client_t *client,
 	unsigned short i)
 {
-	zpy_srv_player_t *player;
 	zpy_srv_team_t *team;
 
 	team = list_get(client->server->teams, i);
@@ -50,10 +49,8 @@ static bool zpy_srv_team_join(tcp_conn_t *conn, zpy_srv_client_t *client,
 		tcp_conn_printf(conn, "ko\n");
 		return (true);
 	}
-	player = zpy_srv_player_new(&client->server->map, i);
-	if (player == NULL)
+	if (!zpy_srv_player_new(client->server, i))
 		return (false);
-	list_push_back(team->players, player);
 	tcp_conn_printf(conn, "%d\n", team->max_players - team->players->len);
 	tcp_conn_printf(conn, "%u %u\n",
 		client->server->map.width, client->server->map.height);
