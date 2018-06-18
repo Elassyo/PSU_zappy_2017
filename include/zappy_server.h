@@ -119,5 +119,7 @@ bool cmd_incantation(tcp_conn_t *conn, zpy_srv_client_t *cmd,
 		char const *args);
 bool cmd_msz(tcp_conn_t *conn, zpy_srv_client_t *cmd,
 		char const *args);
+bool cmd_bct(tcp_conn_t *conn, zpy_srv_client_t *cmd,
+		char const *args);
 
 #endif /* !defined (ZAPPY_SERVER_H_) */
