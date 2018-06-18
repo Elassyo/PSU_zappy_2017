@@ -18,7 +18,7 @@ void zpy_srv_conn_on_connect(tcp_conn_t *conn, void *args)
 	memset(client, 0, sizeof(*client));
 	client->server = args;
 	conn->data = client;
-	tcp_conn_write(conn, "WELCOME\n", 8);
+	tcp_conn_printf(conn, "WELCOME\n");
 }
 
 void zpy_srv_conn_on_disconnect(tcp_conn_t *conn)
@@ -50,17 +50,20 @@ static bool zpy_srv_conn_calc_tick(tcp_conn_t *conn, zpy_srv_client_t *client)
 	return (true);
 }
 
-static bool zpy_srv_conn_do_command(tcp_conn_t *conn, char *msg)
+static bool zpy_srv_conn_do_command(tcp_conn_t *conn, zpy_srv_client_t *client,
+	char *msg)
 {
 	size_t len;
 	char *args;
 
+	if (client->type == CLIENT_UNKNOWN)
+		return (zpy_srv_teams_join(conn, client, msg));
 	len = strcspn(msg, " ");
 	args = msg + len;
 	if (*args)
 		args++;
 	msg[len] = 0;
-	return (zpy_srv_dispatch_cmd(conn, msg, args));
+	return (zpy_srv_dispatch_cmd(conn, client, msg, args));
 }
 
 bool zpy_srv_conn_on_tick(tcp_conn_t *conn)
@@ -81,7 +84,7 @@ bool zpy_srv_conn_on_tick(tcp_conn_t *conn)
 			return (sz != 512);
 		*end = '\0';
 		tcp_conn_read(conn, NULL, end - buf + 1);
-		if (!zpy_srv_conn_do_command(conn, buf))
+		if (!zpy_srv_conn_do_command(conn, client, buf))
 			return (false);
 	}
 	return (true);

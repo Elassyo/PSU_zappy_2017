@@ -9,12 +9,12 @@
 
 #include "list.h"
 
-int list_pop(list_t *l)
+bool list_pop(list_t *l)
 {
 	list_node_t *tmp;
 
 	if (l->len == 0)
-		return (1);
+		return (false);
 	tmp = l->head;
 	l->head = tmp->next;
 	if (l->head)
@@ -23,15 +23,15 @@ int list_pop(list_t *l)
 		free(tmp->data);
 	free(tmp);
 	l->len--;
-	return (0);
+	return (true);
 }
 
-int list_pop_back(list_t *l)
+bool list_pop_back(list_t *l)
 {
 	list_node_t *tmp;
 
 	if (l->len == 0)
-		return (1);
+		return (false);
 	tmp = l->back;
 	l->back = tmp->prev;
 	if (l->back)
@@ -40,5 +40,5 @@ int list_pop_back(list_t *l)
 		free(tmp->data);
 	free(tmp);
 	l->len--;
-	return (0);
+	return (true);
 }

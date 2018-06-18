@@ -9,7 +9,7 @@
 
 #include "list.h"
 
-int list_remove(list_t *l, unsigned int i)
+bool list_remove(list_t *l, unsigned int i)
 {
 	list_node_t *node;
 
@@ -19,12 +19,12 @@ int list_remove(list_t *l, unsigned int i)
 		return (list_pop_back(l));
 	node = list_get_node(l, i);
 	if (node == NULL)
-		return (1);
+		return (false);
 	node->prev->next = node->next;
 	node->next->prev = node->prev;
 	if (l->free_on_pop)
 		free(node->data);
 	free(node);
 	l->len--;
-	return (0);
+	return (true);
 }

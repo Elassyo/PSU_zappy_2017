@@ -8,6 +8,8 @@
 #if !defined (ZAPPY_H_)
 	#define ZAPPY_H_
 
+	#define ZPY_GRAPHICAL_TEAM "GRAPHICAL"
+
 typedef enum zpy_direction {
 	UP,
 	RIGHT,

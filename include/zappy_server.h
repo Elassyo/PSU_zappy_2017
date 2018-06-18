@@ -18,6 +18,7 @@ typedef enum zpy_srv_client_type zpy_srv_client_type_t;
 
 typedef struct zpy_srv zpy_srv_t;
 typedef struct zpy_srv_cmd zpy_srv_cmd_t;
+typedef struct zpy_srv_team zpy_srv_team_t;
 typedef struct zpy_srv_client zpy_srv_client_t;
 typedef struct zpy_srv_map zpy_srv_map_t;
 typedef struct zpy_srv_item_group zpy_srv_item_group_t;
@@ -25,7 +26,7 @@ typedef	struct zpy_srv_player zpy_srv_player_t;
 
 enum zpy_srv_client_type {
 	CLIENT_UNKNOWN,
-	CLIENT_GRAPHIC,
+	CLIENT_GRAPHICAL,
 	CLIENT_AI
 };
 
@@ -40,9 +41,9 @@ struct zpy_srv {
 	tcp_server_t tcp;
 	uint16_t port;
 	zpy_srv_map_t map;
-	unsigned int max_clients;
+	unsigned int max_players;
 	unsigned int freq;
-	list_t *teamnames; /* list_t<char const*> */
+	list_t *teams; /* list_t<zpy_srv_team_t*> */
 };
 
 struct zpy_srv_cmd {
@@ -51,6 +52,12 @@ struct zpy_srv_cmd {
 	zpy_srv_client_type_t client_type;
 	unsigned int countdown;
 	char *args;
+};
+
+struct zpy_srv_team {
+	char const *name;
+	unsigned int max_players;
+	list_t *players;  /* list_t<zpy_srv_player_t*> */
 };
 
 struct zpy_srv_client {
@@ -80,6 +87,11 @@ struct zpy_srv_player {
 
 bool zpy_srv_args_parse(zpy_srv_t *server, int ac, char **av);
 
+bool zpy_srv_teams_init(zpy_srv_t *server);
+void zpy_srv_teams_cleanup(list_t *teams);
+bool zpy_srv_teams_join(tcp_conn_t *conn, zpy_srv_client_t *client,
+	char const *name);
+
 bool zpy_srv_map_init(zpy_srv_map_t *map);
 void zpy_srv_map_cleanup(zpy_srv_map_t *map);
 
@@ -106,7 +118,8 @@ void zpy_srv_conn_on_connect(tcp_conn_t *conn, void *args);
 void zpy_srv_conn_on_disconnect(tcp_conn_t *conn);
 bool zpy_srv_conn_on_tick(tcp_conn_t *conn);
 
-bool zpy_srv_dispatch_cmd(tcp_conn_t *conn, char const *cmd, char const *args);
+bool zpy_srv_dispatch_cmd(tcp_conn_t *conn, zpy_srv_client_t *client,
+	char const *cmd, char const *args);
 
 bool cmd_broadcast(tcp_conn_t *conn, zpy_srv_client_t *cmd, char const *args);
 bool cmd_connect(tcp_conn_t *conn, zpy_srv_client_t *cmd, char const *args);

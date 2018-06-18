@@ -40,6 +40,14 @@ SRCS_AI		=	ai/CBuffer.cpp					\
 			ai/main.cpp
 
 SRCS_SRV	=	server/main.c					\
+			server/main_args.c				\
+			server/conn.c					\
+			server/dispatch.c				\
+			server/map.c					\
+			server/player.c					\
+			server/player_items.c				\
+			server/player_move.c				\
+			server/teams.c					\
 			server/cmd_ai/cmd_look.c			\
 			server/cmd_ai/cmd_inventory.c			\
 			server/cmd_ai/cmd_broadcast.c			\
@@ -50,14 +58,7 @@ SRCS_SRV	=	server/main.c					\
 			server/cmd_ai/cmd_set.c				\
 			server/cmd_ai/cmd_incantation.c			\
 			server/cmd_ai/cmd_move.c			\
-			server/cmd_graphic/cmd_map.c			\
-			server/main_args.c				\
-			server/conn.c					\
-			server/dispatch.c				\
-			server/map.c					\
-			server/player.c					\
-			server/player_items.c				\
-			server/player_move.c
+			server/cmd_graphic/cmd_map.c
 
 INCS		=	zappy.h						\
 			zappy_server.h					\

@@ -10,7 +10,6 @@
 
 #include "zappy_server.h"
 
-////
 #include <stdio.h>
 
 static bool not_implemented(tcp_conn_t *conn __attribute__((unused)),
@@ -19,7 +18,6 @@ static bool not_implemented(tcp_conn_t *conn __attribute__((unused)),
 	printf("%s: Command not implemented yet.\n", cmd);
 	return (true);
 }
-////
 
 static zpy_srv_cmd_t const zpy_srv_cmds[] = {
 	{ "Forward", &cmd_forward, CLIENT_AI, 0, NULL },
@@ -34,21 +32,21 @@ static zpy_srv_cmd_t const zpy_srv_cmds[] = {
 	{ "Take", &cmd_take, CLIENT_AI, 0, NULL },
 	{ "Set", &cmd_set, CLIENT_AI, 0, NULL },
 	{ "Incantation", &cmd_incantation, CLIENT_AI, 0, NULL },
-	{ "msz", &cmd_msz, CLIENT_GRAPHIC, 0, NULL },
-	{ "bct", &not_implemented, CLIENT_GRAPHIC, 0, NULL },
-	{ "mct", &not_implemented, CLIENT_GRAPHIC, 0, NULL },
-	{ "tna", &not_implemented, CLIENT_GRAPHIC, 0, NULL },
-	{ "ppo", &not_implemented, CLIENT_GRAPHIC, 0, NULL },
-	{ "plv", &not_implemented, CLIENT_GRAPHIC, 0, NULL },
-	{ "pin", &not_implemented, CLIENT_GRAPHIC, 0, NULL },
-	{ "sgt", &not_implemented, CLIENT_GRAPHIC, 0, NULL },
-	{ "sst", &not_implemented, CLIENT_GRAPHIC, 0, NULL },
+	{ "msz", &cmd_msz, CLIENT_GRAPHICAL, 0, NULL },
+	{ "bct", &not_implemented, CLIENT_GRAPHICAL, 0, NULL },
+	{ "mct", &not_implemented, CLIENT_GRAPHICAL, 0, NULL },
+	{ "tna", &not_implemented, CLIENT_GRAPHICAL, 0, NULL },
+	{ "ppo", &not_implemented, CLIENT_GRAPHICAL, 0, NULL },
+	{ "plv", &not_implemented, CLIENT_GRAPHICAL, 0, NULL },
+	{ "pin", &not_implemented, CLIENT_GRAPHICAL, 0, NULL },
+	{ "sgt", &not_implemented, CLIENT_GRAPHICAL, 0, NULL },
+	{ "sst", &not_implemented, CLIENT_GRAPHICAL, 0, NULL },
 	{ NULL, NULL, CLIENT_UNKNOWN, 0, NULL }
 };
 
-bool zpy_srv_dispatch_cmd(tcp_conn_t *conn, char const *cmd, char const *args)
+bool zpy_srv_dispatch_cmd(tcp_conn_t *conn, zpy_srv_client_t *client,
+	char const *cmd, char const *args)
 {
-	zpy_srv_client_t *client = conn->data;
 	zpy_srv_cmd_t *c;
 
 	for (size_t i = 0; zpy_srv_cmds[i].str != NULL; i++) {
@@ -63,7 +61,7 @@ bool zpy_srv_dispatch_cmd(tcp_conn_t *conn, char const *cmd, char const *args)
 		c->args = strdup(args);
 		list_push_back(client->player->cmd_queue, c);
 	}
-	tcp_conn_write(conn, "ko\n", 3);
+	tcp_conn_printf(conn, client->type == CLIENT_AI ? "ko\n" : "suc\n");
 	printf("%s: Unknown command\n", cmd);
 	return (true);
 }

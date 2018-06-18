@@ -40,7 +40,7 @@ set(SRC_TCP
 		src/tcp_sock_rinfo.c)
 
 set(SRC_COMMON
-        include/zappy.h
+		include/zappy.h
 		${SRC_CBUF}
 		${SRC_TCP})
 
@@ -64,13 +64,18 @@ add_executable(zappy_ai
 		)
 
 add_executable(zappy_server
-        ${SRC_COMMON}
+		${SRC_COMMON}
 		${SRC_LIST}
-        include/zappy_server.h
-        src/server/main.c
-        src/server/main_args.c
+		include/zappy_server.h
+		src/server/main.c
+		src/server/main_args.c
 		src/server/conn.c
 		src/server/dispatch.c
+		src/server/map.c
+		src/server/player.c
+		src/server/player_move.c
+		src/server/player_items.c
+		src/server/teams.c
 		src/server/cmd_ai/cmd_broadcast.c
 		src/server/cmd_ai/cmd_connect.c
 		src/server/cmd_ai/cmd_eject.c
@@ -82,8 +87,4 @@ add_executable(zappy_server
 		src/server/cmd_ai/cmd_set.c
 		src/server/cmd_ai/cmd_take.c
 		src/server/cmd_graphic/cmd_map.c
-		src/server/map.c
-		src/server/player.c
-		src/server/player_move.c
-		src/server/player_items.c
 		)
