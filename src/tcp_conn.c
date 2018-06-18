@@ -19,5 +19,5 @@ size_t tcp_conn_peek(tcp_conn_t *conn, void *buf, size_t n)
 
 size_t tcp_conn_write(tcp_conn_t *conn, void const *buf, size_t n)
 {
-	return (cbuf_write(&conn->in, buf, n));
+	return (cbuf_write(&conn->out, buf, n));
 }

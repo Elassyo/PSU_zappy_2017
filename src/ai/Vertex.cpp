@@ -97,6 +97,13 @@ zappy::Vertex<T> zappy::Vertex<T>::operator*(const Vertex<T> &other) const
 	return res;
 }
 
+template<class T>
+void zappy::Vertex<T>::operator+=(const zappy::Vertex<T> &other)
+{
+	this->_x += other._x;
+	this->_y += other._y;
+}
+
 template <typename T>
 zappy::Vertex<T> zappy::Vertex<T>::operator+(T other) const
 {

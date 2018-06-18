@@ -29,6 +29,7 @@ namespace zappy {
 		Vertex operator-(const Vertex<T> &) const;
 		Vertex operator*(const Vertex<T> &) const;
 		Vertex operator/(const Vertex<T> &) const;
+		void operator+=(const Vertex<T> &);
 		Vertex operator+(T) const;
 		Vertex operator-(T) const;
 		Vertex operator*(T) const;

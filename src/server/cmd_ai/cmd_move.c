@@ -14,7 +14,7 @@ bool cmd_forward(tcp_conn_t *conn __attribute__((unused)),
 	char const *cmd  __attribute__((unused)))
 {
 	printf("Move forward\n");
-	//Move le iencli de 1 dans sa direction
+	//Move le client de 1 dans sa direction
 	return (true);
 }
 
@@ -23,7 +23,7 @@ bool cmd_left(tcp_conn_t *conn __attribute__((unused)),
 	char const *cmd  __attribute__((unused)))
 {
 	printf("Move left\n");
-	//Move le iencli de 90° sur la gauche
+	//Move le client de 90° sur la gauche
 	return (true);
 }
 
@@ -32,6 +32,6 @@ bool cmd_right(tcp_conn_t *conn __attribute__((unused)),
 	char const *cmd  __attribute__((unused)))
 {
 	printf("Move right\n");
-	//Move le iencli de 90° sur la droite
+	//Move le client de 90° sur la droite
 	return (true);
 }

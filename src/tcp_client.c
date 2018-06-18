@@ -10,6 +10,7 @@
 
 #include "tcp.h"
 
+/*
 bool tcp_client_connect(tcp_client_t *c, char const *host, uint16_t port)
 {
 	struct hostent *he;
@@ -24,3 +25,4 @@ bool tcp_client_connect(tcp_client_t *c, char const *host, uint16_t port)
 	tcp_client_conn_close(c, true);
 	return (true);
 }
+*/

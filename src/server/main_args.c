@@ -47,11 +47,13 @@ static bool zpy_srv_args_parse_names(zpy_srv_t *server, int ac, char **av)
 	return (true);
 }
 
-static bool zpy_srv_args_check_dup_name(zpy_srv_t *server, unsigned int i)
+static bool zpy_srv_args_check_name(zpy_srv_t *server, unsigned int i)
 {
 	list_node_t *cur;
 
 	cur = list_get_node(server->teamnames, i);
+	if (strcmp(cur->data, "GRAPHICAL") == 0)
+		return (false);
 	for (list_node_t *node = cur->next; node != NULL; node = node->next) {
 		if (strcmp(cur->data, node->data) == 0)
 			return (false);
@@ -68,8 +70,8 @@ static bool zpy_srv_args_check(zpy_srv_t *server)
 		return (false);
 	if (server->teamnames->len == 0)
 		return (false);
-	for (unsigned int i = 0; i < server->teamnames->len - 1; i++) {
-		if (!zpy_srv_args_check_dup_name(server, i))
+	for (unsigned int i = 0; i < server->teamnames->len; i++) {
+		if (!zpy_srv_args_check_name(server, i))
 			return (false);
 	}
 	return (true);
