@@ -40,11 +40,7 @@ SRCS_AI		=	ai/CBuffer.cpp					\
 			ai/main.cpp
 
 SRCS_SRV	=	server/main.c					\
-			server/add_player.c				\
-			server/args_parsing.c				\
-			server/cmd_movement.c				\
 			server/dispatch.c				\
-			server/args_parsing.c				\
 			server/cmd_look.c				\
 			server/cmd_inventory.c				\
 			server/cmd_broadcast.c				\

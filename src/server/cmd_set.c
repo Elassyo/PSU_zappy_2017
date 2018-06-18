@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include "zappy_server.h"
 
-bool cmd_set(tcp_server_conn_t *conn,
+bool cmd_set(tcp_conn_t *conn,
 		__attribute__((unused))zpy_srv_client_t *iencli,
 		__attribute__((unused))char const *cmd)
 {
