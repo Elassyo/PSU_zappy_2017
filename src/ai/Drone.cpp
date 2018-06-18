@@ -27,7 +27,7 @@ bool zappy::ai::Drone::live()
 {
 	while (_alive) {
 		_evaluatePriorities();
-
+		_act.at(_behave);
 	}
 	return false;
 }

@@ -24,6 +24,7 @@ namespace zappy {
 		T y() const;
 		T &rx();
 		T &ry();
+		bool operator==(const Vertex<T> &) const;
 		Vertex &operator=(const Vertex<T> &);
 		Vertex operator+(const Vertex<T> &) const;
 		Vertex operator-(const Vertex<T> &) const;

@@ -144,6 +144,12 @@ zappy::Vertex<T> zappy::Vertex<T>::operator/(T other) const
 	return res;
 }
 
+template<class T>
+bool zappy::Vertex<T>::operator==(const zappy::Vertex<T> &other) const
+{
+	return _x == other._x && _y == other._y;
+}
+
 template class zappy::Vertex<int>;
 template class zappy::Vertex<size_t>;
 template class zappy::Vertex<float>;
