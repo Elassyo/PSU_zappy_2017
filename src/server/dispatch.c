@@ -23,15 +23,15 @@ static zpy_srv_cmd_t const zpy_srv_cmds[] = {
 	{ "Forward", &cmd_forward, 7 },
 	{ "Right", &cmd_right, 7 },
 	{ "Left", &cmd_left, 7 },
-	{ "Look", &not_implemented, 7 },
-	{ "Inventory", &not_implemented, 1 },
-	{ "Broadcast text", &not_implemented, 7 },
-	{ "Connect_nbr", &not_implemented, 0 },
-	{ "Fork", &not_implemented, 42 },
-	{ "Eject", &not_implemented, 7 },
-	{ "Take object", &not_implemented, 7 },
-	{ "Set object", &not_implemented, 7 },
-	{ "Incantation", &not_implemented, 300 },
+	{ "Look", &cmd_look, 7 },
+	{ "Inventory", &cmd_inventory, 1 },
+	{ "Broadcast", &cmd_broadcast, 7 },
+	{ "Connect_nbr", &cmd_connect, 0 },
+	{ "Fork", &cmd_fork, 42 },
+	{ "Eject", &cmd_eject, 7 },
+	{ "Take", &cmd_take, 7 },
+	{ "Set", &cmd_set, 7 },
+	{ "Incantation", &cmd_incantation, 300 },
 	{ NULL, NULL, -1 }
 };
 
@@ -44,6 +44,7 @@ bool zpy_srv_dispatch_cmd(tcp_conn_t *conn, char const *cmd, char const *args)
 			continue;
 		return (zpy_srv_cmds[i].handler(conn, client, args));
 	}
+	cbuf_write(&conn->out, "ko\n", 3);
 	printf("%s: Unknown command\n", cmd);
 	/* TODO: unknown command -> reply "ko" */
 	return (true);
