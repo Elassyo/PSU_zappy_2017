@@ -32,6 +32,15 @@ static zpy_srv_cmd_t const zpy_srv_cmds[] = {
 	{ "Take", &cmd_take, 7 },
 	{ "Set", &cmd_set, 7 },
 	{ "Incantation", &cmd_incantation, 300 },
+	{ "msz", &cmd_msz, 0 },
+	{ "bct", &not_implemented, 0 },
+	{ "mct", &not_implemented, 0 },
+	{ "tna", &not_implemented, 0 },
+	{ "ppo", &not_implemented, 0 },
+	{ "plv", &not_implemented, 0 },
+	{ "pin", &not_implemented, 0 },
+	{ "sgt", &not_implemented, 0 },
+	{ "sst", &not_implemented, 0 },
 	{ NULL, NULL, -1 }
 };
 

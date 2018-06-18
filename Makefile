@@ -41,23 +41,24 @@ SRCS_AI		=	ai/CBuffer.cpp					\
 
 SRCS_SRV	=	server/main.c					\
 			server/dispatch.c				\
-			server/cmd_look.c				\
-			server/cmd_inventory.c				\
-			server/cmd_broadcast.c				\
-			server/cmd_connect.c				\
-			server/cmd_fork.c				\
-			server/cmd_eject.c				\
-			server/cmd_take.c				\
-			server/cmd_set.c				\
-			server/cmd_incantation.c			\
+			server/cmd_ai/cmd_look.c			\
+			server/cmd_ai/cmd_inventory.c			\
+			server/cmd_ai/cmd_broadcast.c			\
+			server/cmd_ai/cmd_connect.c			\
+			server/cmd_ai/cmd_fork.c			\
+			server/cmd_ai/cmd_eject.c			\
+			server/cmd_ai/cmd_take.c			\
+			server/cmd_ai/cmd_set.c				\
+			server/cmd_ai/cmd_incantation.c			\
+			server/cmd_ai/cmd_move.c			\
+			server/cmd_graphic/cmd_map.c			\
 			server/main_args.c				\
 			server/conn.c					\
 			server/dispatch.c				\
-			server/cmd_move.c				\
 			server/map.c					\
 			server/player.c					\
 			server/player_items.c				\
-			server/player_move.c
+			server/player_move.c	
 
 INCS		=	zappy.h						\
 			zappy_server.h					\
@@ -73,7 +74,7 @@ OBJS_SRV	=	$(SRCS_SRV:.c=.o)
 SRCDIR		=	src
 OBJDIR		=	obj
 INCDIR		=	include
-SUBDIRS		=	ai server ai/Exception list
+SUBDIRS		=	ai server ai/Exception list server/cmd_ai server/cmd_graphic
 
 CC		=	gcc
 CFLAGS		=	-c -W -Wall -Wextra -I$(INCDIR)
