@@ -10,16 +10,16 @@
 zappy::ai::Drone::Drone(const zappy::ai::Inventory &inventory, uint8_t team,
 const VertexS &mapSize) :
 	_pos(0, 0), _mapSize(mapSize), _dir(NORTH), _target(0, 0), _alive(true),
-	_lvl(1), _team(team), _behave(Behavior::NONE), _food(10), _minFood(3),
+	_lvl(1), _team(team), _behave(EXPLORE), _food(10), _minFood(3),
 	_inventory(inventory), _need(NONE),
 	_lvlStuff({Inventory(1, 0, 0, 0, 0, 0), Inventory(1, 1, 1, 0, 0, 0),
 		  Inventory(2, 0, 1, 0, 2, 0), Inventory(1, 1, 2, 0, 1, 0),
 		  Inventory(1, 2, 1, 3, 0, 0), Inventory(1, 2, 3, 0, 1, 0),
 		  Inventory(2, 2, 2, 2, 2, 1)}),
-	_act({	{EVOLVE, _evolve},
-		{WAIT, _wait},
-		{LOOKFOR, _lookingFor},
-		{EXPLORE, _explore}})
+	_act({	{EVOLVE, std::bind(&Drone::_evolve, this)},
+		{WAIT, std::bind(&Drone::_wait, this)},
+		{LOOKFOR, std::bind(&Drone::_lookingFor, this)},
+		{EXPLORE, std::bind(&Drone::_explore, this)}})
 {
 }
 
@@ -42,7 +42,7 @@ void zappy::ai::Drone::_evaluatePriorities()
 		_need = NONE;
 	} else {
 		_behave = LOOKFOR;
-		_need = _evaluateNeeds();
+		_lookingFor = _evaluateNeeds();
 	}
 }
 
@@ -56,6 +56,11 @@ void zappy::ai::Drone::_gatherResources()
 
 void zappy::ai::Drone::_evolve()
 {
+	for (auto needed : _lvlStuff.at(_lvl).getItems()) {
+		for (size_t i = 0; i < needed.second; i++)
+			_reqConstr.setObject(needed.first);
+	}
+	_reqConstr.incantation();
 }
 
 void zappy::ai::Drone::_wait()
@@ -67,9 +72,9 @@ bool zappy::ai::Drone::_canEvolve() const
 	return false;
 }
 
-zappy::ai::Item zappy::ai::Drone::_evaluateNeeds() const
+std::vector<zappy::ai::Item> zappy::ai::Drone::_evaluateNeeds() const
 {
-	return LINEMATE;
+	return _inventory.diff(_lvlStuff.at(_lvl));
 }
 
 void zappy::ai::Drone::_move(const zappy::VertexS &dir)

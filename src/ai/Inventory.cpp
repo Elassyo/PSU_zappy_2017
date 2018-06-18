@@ -24,7 +24,7 @@ zappy::ai::Inventory::Inventory(size_t linemate, size_t deraumere,
 {
 }
 
-zappy::ai::Inventory::Inventory(const std::map<zappy::ai::Item, size_t> &itemNbr)
+zappy::ai::Inventory::Inventory(const std::map<ai::Item, size_t> &itemNbr)
 {
 	this->_items = itemNbr;
 }
@@ -87,4 +87,9 @@ bool zappy::ai::Inventory::operator>=(const zappy::ai::Inventory &other) const
 			return false;
 	}
 	return true;
+}
+
+const std::map<zappy::ai::Item, size_t> &zappy::ai::Inventory::getItems() const
+{
+	return _items;
 }

@@ -26,7 +26,6 @@ namespace zappy {
 			MAX = 4
 		};
 		enum Behavior {
-			NONE = 0,
 			WAIT,
 			LOOKFOR,
 			GATHER,
@@ -45,7 +44,7 @@ namespace zappy {
 
 			void _evaluatePriorities();
 			bool _canEvolve() const;
-			Item _evaluateNeeds() const;
+			std::vector<Item> _evaluateNeeds() const;
 
 			void _lookFor();
 			void _explore();
