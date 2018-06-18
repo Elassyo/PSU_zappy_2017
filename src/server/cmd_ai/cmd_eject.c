@@ -12,7 +12,6 @@ bool cmd_eject(tcp_conn_t *conn,
 		__attribute__((unused))zpy_srv_client_t *iencli,
 		__attribute__((unused))char const *cmd)
 {
-	printf("eject nbr\n");
 	//TODO
 	cbuf_write(&conn->out, "todo\n", 5);
 	return (true);

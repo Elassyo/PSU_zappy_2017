@@ -53,8 +53,7 @@ bool zpy_srv_dispatch_cmd(tcp_conn_t *conn, char const *cmd, char const *args)
 			continue;
 		return (zpy_srv_cmds[i].handler(conn, client, args));
 	}
-	cbuf_write(&conn->out, "ko\n", 3);
+	tcp_conn_write(conn, "ko\n", 3);
 	printf("%s: Unknown command\n", cmd);
-	/* TODO: unknown command -> reply "ko" */
 	return (true);
 }
