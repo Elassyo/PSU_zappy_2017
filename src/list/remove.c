@@ -1,32 +1,30 @@
 /*
 ** EPITECH PROJECT, 2018
-** aled_list
+** PSU_zappy_2017
 ** File description:
-** remove link from list
+** Remove a node from a list
 */
 
 #include <stdlib.h>
-#include "aled_list.h"
 
-int aled_list_remove(aled_list_t *list, unsigned int index)
+#include "list.h"
+
+int list_remove(list_t *l, unsigned int i)
 {
-	char sign;
-	unsigned int i;
-	aled_list_link_t *pnt;
+	list_node_t *node;
 
-	if (index == list->len - 1)
-		return (aled_list_pop_back(list), EXIT_SUCCESS);
-	if (index == 0)
-		return (aled_list_pop(list), EXIT_SUCCESS);
-	sign = (index <= list->len / 2 ? 1 : -1);
-	i = (sign > 0 ? 0 : list->len - 1);
-	pnt = (sign > 0 ? list->head : list->back);
-	while (i += sign, i - sign != index)
-		pnt = (sign > 0 ? pnt->next : pnt->prev);
-	pnt->prev->next = pnt->next;
-	pnt->next->prev = pnt->prev;
-	free(pnt->data);
-	free(pnt);
-	list->len--;
-	return (EXIT_SUCCESS);
+	if (i == 0)
+		return (list_pop(l));
+	if (i == l->len - 1)
+		return (list_pop_back(l));
+	node = list_get_node(l, i);
+	if (node == NULL)
+		return (1);
+	node->prev->next = node->next;
+	node->next->prev = node->prev;
+	if (l->free_on_pop)
+		free(node->data);
+	free(node);
+	l->len--;
+	return (0);
 }

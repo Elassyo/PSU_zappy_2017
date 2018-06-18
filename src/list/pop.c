@@ -1,35 +1,44 @@
 /*
 ** EPITECH PROJECT, 2018
-** aled_list
+** PSU_zappy_2017
 ** File description:
-** remove first/last link
+** Remove the first or last node of a list
 */
 
 #include <stdlib.h>
-#include "aled_list.h"
 
-void aled_list_pop(aled_list_t *list)
+#include "list.h"
+
+int list_pop(list_t *l)
 {
-	aled_list_link_t *tmp;
+	list_node_t *tmp;
 
-	tmp = list->head;
-	list->head = tmp->next;
-	if (list->head)
-		list->head->prev = NULL;
-	free(tmp->data);
+	if (l->len == 0)
+		return (1);
+	tmp = l->head;
+	l->head = tmp->next;
+	if (l->head)
+		l->head->prev = NULL;
+	if (l->free_on_pop)
+		free(tmp->data);
 	free(tmp);
-	list->len--;
+	l->len--;
+	return (0);
 }
 
-void aled_list_pop_back(aled_list_t *list)
+int list_pop_back(list_t *l)
 {
-	aled_list_link_t *tmp;
+	list_node_t *tmp;
 
-	tmp = list->back;
-	list->back = tmp->prev;
-	if (list->back)
-		list->back->next = NULL;
-	free(tmp->data);
+	if (l->len == 0)
+		return (1);
+	tmp = l->back;
+	l->back = tmp->prev;
+	if (l->back)
+		l->back->next = NULL;
+	if (l->free_on_pop)
+		free(tmp->data);
 	free(tmp);
-	list->len--;
+	l->len--;
+	return (0);
 }

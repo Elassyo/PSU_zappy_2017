@@ -10,19 +10,19 @@ NAME_SRV	=	zappy_server
 
 SRCS		=	cbuf.c						\
 			cbuf_io.c					\
-			list/add.c					\
 			list/create.c					\
 			list/destroy.c					\
-			list/dir.c					\
 			list/get.c					\
+			list/insert.c					\
 			list/pop.c					\
-			list/print_strs.c				\
 			list/push.c					\
 			list/remove.c					\
-			list/to_file.c					\
+			tcp_client.c					\
+			tcp_client_conn.c				\
 			tcp_server.c					\
 			tcp_server_serve.c				\
 			tcp_server_conn.c				\
+			tcp_conn.c					\
 			tcp_sock.c					\
 			tcp_sock_client.c				\
 			tcp_sock_server.c				\
@@ -31,6 +31,11 @@ SRCS		=	cbuf.c						\
 			tcp_sock_rinfo.c
 
 SRCS_AI		=	ai/CBuffer.cpp					\
+			ai/Drone.cpp					\
+			ai/Vertex.cpp					\
+			ai/Inventory.cpp				\
+			ai/RequestConstructor.cpp			\
+			ai/RequestHandler.cpp				\
 			ai/Exception/Exception.cpp			\
 			ai/main.cpp
 
@@ -48,15 +53,20 @@ SRCS_SRV	=	server/main.c					\
 			server/cmd_eject.c				\
 			server/cmd_take.c				\
 			server/cmd_set.c				\
-			server/cmd_incantation.c
+			server/cmd_incantation.c			\
+			server/main_args.c				\
 			server/conn.c					\
 			server/dispatch.c				\
-			server/map_init.c				\
-			server/player_move.c				\
-			server/player_object_interactions.c
+			server/cmd_move.c				\
+			server/map.c					\
+			server/player.c					\
+			server/player_items.c				\
+			server/player_move.c
+
 INCS		=	zappy.h						\
 			zappy_server.h					\
 			cbuf.h						\
+			list.h						\
 			tcp.h
 INCS_AI		=
 LIBS		=
@@ -73,7 +83,7 @@ CC		=	gcc
 CFLAGS		=	-c -W -Wall -Wextra -I$(INCDIR)
 
 CXX		=	g++
-CXXFLAGS	=	-c -W -Wall -Wextra -std=c++17
+CXXFLAGS	=	-c -W -Wall -Wextra -std=c++17 -I$(INCDIR)
 
 LDFLAGS		=	$(addprefix -L,$(LIBS))
 

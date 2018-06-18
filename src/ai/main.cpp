@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2018
 ** PSU_zappy_2017
 ** File description:
-** Zappy ai main
+** Zappy AI main
 */
 
 #include <cstring>

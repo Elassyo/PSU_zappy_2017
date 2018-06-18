@@ -11,11 +11,10 @@
 
 ////
 #include <stdio.h>
-static bool not_implemented(__attribute__((unused))tcp_server_conn_t *conn,
-			__attribute__((unused))zpy_srv_client_t *iencli,
-		        __attribute__((unused))char const *cmd)
+static bool not_implemented(tcp_conn_t *conn __attribute__((unused)),
+	zpy_srv_client_t *client __attribute__((unused)), char const *cmd)
 {
-	printf("Command Not implemented yet.\n");
+	printf("%s: Command not implemented yet.\n", cmd);
 	return (true);
 }
 ////
@@ -36,15 +35,13 @@ static zpy_srv_cmd_t const zpy_srv_cmds[] = {
 	{ NULL, NULL, -1 }
 };
 
-bool zpy_srv_dispatch_cmd(tcp_server_conn_t *conn,
-	char const *cmd, char const *args)
+bool zpy_srv_dispatch_cmd(tcp_conn_t *conn, char const *cmd, char const *args)
 {
 	zpy_srv_client_t *client = conn->data;
 
 	for (size_t i = 0; zpy_srv_cmds[i].str != NULL; i++) {
 		if (strcasecmp(cmd, zpy_srv_cmds[i].str) != 0)
 			continue;
-		/* add more checks if necessary */
 		return (zpy_srv_cmds[i].handler(conn, client, args));
 	}
 	cbuf_write(&conn->out, "ko\n", 3);

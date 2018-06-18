@@ -7,10 +7,11 @@
 
 #include <errno.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #include "zappy_server.h"
-#include "args.h"
 
 static int usage(char const *progname, int ret)
 {
@@ -26,40 +27,43 @@ static int usage(char const *progname, int ret)
 	return (ret);
 }
 
-static int zpy_server(char const *progname, uint16_t port, args_t args)
+static int zpy_server(zpy_srv_t *server, char const *progname)
 {
-	zpy_srv_t server;
-
-	memset(&server, 0, sizeof(server));
-	server.tcp.on_connect_args = &server;
-	server.tcp.on_connect = &zpy_srv_conn_on_connect;
-	server.tcp.on_disconnect = &zpy_srv_conn_on_disconnect;
-	server.tcp.on_data = &zpy_srv_conn_on_data;
-	if (!tcp_server_start(&server.tcp, port)) {
+	if (!zpy_srv_map_init(&server->map))
+		return (84);
+	server->tcp.on_connect_args = &server;
+	server->tcp.on_connect = &zpy_srv_conn_on_connect;
+	server->tcp.on_disconnect = &zpy_srv_conn_on_disconnect;
+	server->tcp.on_data = &zpy_srv_conn_on_data;
+	if (!tcp_server_start(&server->tcp, server->port)) {
 		fprintf(stderr, "%s: failed to start server: %s\n",
 			progname, strerror(errno));
 		return (84);
 	}
-	tcp_server_serve_forever(&server.tcp);
-	tcp_server_stop(&server.tcp);
+	tcp_server_serve_forever(&server->tcp);
+	tcp_server_stop(&server->tcp);
+	zpy_srv_map_cleanup(&server->map);
 	return (0);
 }
 
-int main(int argc, char const **argv)
+int main(int argc, char **argv)
 {
-	args_t args;
+	int ret;
+	zpy_srv_t server;
 
 	for (int i = 1; i < argc; i++) {
 		if (strcmp(argv[i], "-help") == 0)
 			return (usage(argv[0], 0));
 	}
-	if (argc < 13) {
-		fprintf(stderr, "%s: not enough arguments\n", argv[0]);
+	memset(&server, 0, sizeof(server));
+	server.freq = 100;
+	server.teamnames = list_create(false);
+	if (!zpy_srv_args_parse(&server, argc, argv)) {
+		fprintf(stderr, "%s: invalid or missing argument\n", argv[0]);
 		return (usage(argv[0], 84));
 	}
-	if (parse_args(&args, argc, argv) == -1) {
-		fprintf(stderr, "error with one of the arguments\n");
-		return (usage(argv[0], 84));
-	}
-	return (zpy_server(argv[0], args.port, args));
+	srand(time(NULL));
+	ret = zpy_server(&server, argv[0]);
+	list_destroy(server.teamnames);
+	return (ret);
 }
