@@ -5,6 +5,7 @@
 ** Map initialization and destruction
 */
 
+#include <stddef.h>
 #include <stdlib.h>
 
 #include "zappy_server.h"
@@ -63,4 +64,24 @@ bool zpy_srv_map_add_item(zpy_srv_map_t *map,
 	}
 	item_group->amount++;
 	return (true);
+}
+
+void zpy_srv_map_fill(zpy_srv_t *srv)
+{
+	unsigned int res_amt;
+	unsigned int x;
+	unsigned int y;
+	zpy_item_type_t resource;
+
+	res_amt = 5 * srv->max_clients + ((rand() % 2 * srv->max_clients) -
+		srv->max_clients);
+	for (unsigned int i = 0; i < res_amt; i++) {
+		x = rand() % srv->map.width;
+		y = rand() % srv->map.height;
+		resource = (zpy_item_type_t) (rand() % (NITEM_TYPES - 1));
+		zpy_srv_map_add_item(&srv->map, x, y, resource);
+		x = rand() % srv->map.width;
+		y = rand() % srv->map.height;
+		zpy_srv_map_add_item(&srv->map, x, y, FOOD);
+	}
 }
