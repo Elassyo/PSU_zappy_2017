@@ -30,9 +30,8 @@ void zpy_srv_conn_on_disconnect(tcp_conn_t *conn)
 	free(client);
 }
 
-static bool zpy_srv_conn_calc_tick(tcp_conn_t *conn)
+static bool zpy_srv_conn_calc_tick(tcp_conn_t *conn, zpy_srv_client_t *client)
 {
-	zpy_srv_client_t *client = conn->data;
 	struct timespec ts;
 	double delta;
 
@@ -43,11 +42,8 @@ static bool zpy_srv_conn_calc_tick(tcp_conn_t *conn)
 		(client->last_tick.tv_sec +
 			(double)client->last_tick.tv_nsec / 1000000000);
 	while (delta > 1.0 / client->server->freq) {
-		if (!zpy_srv_player_tick(client->player)) {
-			tcp_conn_write(conn, "dead\n", 5);
-			/* TODO prevenir le client graphique */
+		if (!zpy_srv_player_tick(conn, client->player))
 			return (false);
-		}
 		client->last_tick = ts;
 		delta -= 1.0 / client->server->freq;
 	}
@@ -69,13 +65,15 @@ static bool zpy_srv_conn_do_command(tcp_conn_t *conn, char *msg)
 
 bool zpy_srv_conn_on_tick(tcp_conn_t *conn)
 {
+	zpy_srv_client_t *client = conn->data;
 	char buf[512];
 	char *end;
 	size_t sz;
 
-	if (!zpy_srv_conn_calc_tick(conn))
+	if (!zpy_srv_conn_calc_tick(conn, client))
 		return (false);
-	while (true) {
+	while (client->type != CLIENT_AI ||
+		client->player->action_queue->len < 10) {
 		sz = min(512, cbuf_used_bytes(&conn->in));
 		tcp_conn_peek(conn, buf, sz);
 		end = memchr(buf, '\n', sz);
@@ -86,4 +84,5 @@ bool zpy_srv_conn_on_tick(tcp_conn_t *conn)
 		if (!zpy_srv_conn_do_command(conn, buf))
 			return (false);
 	}
+	return (true);
 }
