@@ -9,7 +9,7 @@
 
 #include "zappy_server.h"
 
-bool cmd_forward(tcp_conn_t *conn __attribute__((unused)),
+bool cmd_forward(tcp_conn_t *conn,
 	zpy_srv_client_t *client,
 	char const *cmd  __attribute__((unused)))
 {
@@ -20,7 +20,7 @@ bool cmd_forward(tcp_conn_t *conn __attribute__((unused)),
 	return (true);
 }
 
-bool cmd_left(tcp_conn_t *conn __attribute__((unused)),
+bool cmd_left(tcp_conn_t *conn,
 	zpy_srv_client_t *client,
 	char const *cmd  __attribute__((unused)))
 {
@@ -31,7 +31,7 @@ bool cmd_left(tcp_conn_t *conn __attribute__((unused)),
 	return (true);
 }
 
-bool cmd_right(tcp_conn_t *conn __attribute__((unused)),
+bool cmd_right(tcp_conn_t *conn,
 	zpy_srv_client_t *client,
 	char const *cmd  __attribute__((unused)))
 {
