@@ -30,6 +30,7 @@ typedef struct tcp_conn {
 	tcp_sock_t sock;
 	cbuf_t in;
 	cbuf_t out;
+	bool block;
 	void *data;
 } tcp_conn_t;
 
