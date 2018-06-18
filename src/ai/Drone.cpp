@@ -18,6 +18,7 @@ bool zappy::ai::Drone::live()
 {
 	while (_alive) {
 		_evaluatePriorities();
+
 	}
 	return false;
 }
@@ -58,7 +59,7 @@ void zappy::ai::Drone::_moveForward()
 		_pos.rx() += _dir == EAST ? 1 : -1;
 }
 
-void zappy::ai::Drone::lookFor()
+void zappy::ai::Drone::_lookFor()
 {
 
 }

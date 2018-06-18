@@ -25,6 +25,7 @@ namespace zappy {
 		enum Behavior {
 			WAIT,
 			LOOKFOR,
+			GATHER,
 			EVOLVE
 		};
 		class Drone {
@@ -41,7 +42,9 @@ namespace zappy {
 			bool _canEvolve() const;
 			Item _evaluateNeeds() const;
 
-			void lookFor();
+			void _lookFor();
+			void _explore();
+			void _gatherResources();
 
 			void _move(const VertexS &dir);
 			void _moveForward();
