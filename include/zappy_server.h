@@ -8,6 +8,8 @@
 #if !defined (ZAPPY_SERVER_H_)
 	#define ZAPPY_SERVER_H_
 
+	#include <time.h>
+
 	#include "tcp.h"
 	#include "list.h"
 	#include "zappy.h"
@@ -21,7 +23,6 @@ typedef struct zpy_srv_player {
 	unsigned char inventory[NITEM_TYPES];
 	unsigned short food_amount;
 	unsigned int food_countdown;
-	unsigned int action_countdown;
 } zpy_srv_player_t;
 
 typedef struct zpy_srv_item_group {
@@ -48,15 +49,16 @@ typedef struct zpy_srv {
 } zpy_srv_t;
 
 typedef enum zpy_srv_client_type {
-	UNKNOWN,
-	GRAPHIC,
-	IA
+	CLIENT_UNKNOWN,
+	CLIENT_GRAPHIC,
+	CLIENT_AI
 } zpy_srv_client_type_t;
 
 typedef struct zpy_srv_client {
 	zpy_srv_t *server;
 	zpy_srv_client_type_t type;
 	zpy_srv_player_t *player;
+	struct timespec last_tick;
 } zpy_srv_client_t;
 
 typedef struct zpy_srv_cmd {
@@ -71,6 +73,9 @@ bool zpy_srv_map_init(zpy_srv_map_t *map);
 void zpy_srv_map_cleanup(zpy_srv_map_t *map);
 
 zpy_srv_player_t *zpy_srv_player_new(zpy_srv_map_t *map, unsigned short team);
+void zpy_srv_player_remove(zpy_srv_map_t *map, zpy_srv_player_t *player);
+
+bool zpy_srv_player_tick(zpy_srv_player_t *player);
 
 void zpy_srv_player_move_forward(zpy_srv_map_t *map, zpy_srv_player_t *player);
 void zpy_srv_player_turn_left(zpy_srv_player_t *player);
@@ -83,7 +88,7 @@ bool zpy_srv_player_item_drop(zpy_srv_map_t *map, zpy_srv_player_t *player,
 
 void zpy_srv_conn_on_connect(tcp_conn_t *conn, void *args);
 void zpy_srv_conn_on_disconnect(tcp_conn_t *conn);
-bool zpy_srv_conn_on_data(tcp_conn_t *conn);
+bool zpy_srv_conn_on_tick(tcp_conn_t *conn);
 
 bool zpy_srv_dispatch_cmd(tcp_conn_t *conn,
 	char const *cmd, char const *args);

@@ -33,14 +33,6 @@ typedef struct tcp_conn {
 	void *data;
 } tcp_conn_t;
 
-typedef struct tcp_client {
-	tcp_conn_t conn;
-	void *on_connect_args;
-	void (*on_connect)(tcp_conn_t *, void *);
-	void (*on_disconnect)(tcp_conn_t *);
-	bool (*on_data)(tcp_conn_t *);
-} tcp_client_t;
-
 typedef struct tcp_server {
 	tcp_sock_t sock;
 	tcp_conn_t **conns;
@@ -49,7 +41,8 @@ typedef struct tcp_server {
 	void *on_connect_args;
 	void (*on_connect)(tcp_conn_t *, void *);
 	void (*on_disconnect)(tcp_conn_t *);
-	bool (*on_data)(tcp_conn_t *);
+	bool (*on_tick)(tcp_conn_t *);
+	double tickrate;
 } tcp_server_t;
 
 bool tcp_sock_create(tcp_sock_t *sock);
@@ -78,11 +71,6 @@ bool tcp_sock_accept(tcp_sock_t *sock, tcp_sock_t *conn);
 size_t tcp_conn_read(tcp_conn_t *conn, void *buf, size_t n);
 size_t tcp_conn_peek(tcp_conn_t *conn, void *buf, size_t n);
 size_t tcp_conn_write(tcp_conn_t *conn, void const *buf, size_t n);
-
-bool tcp_client_connect(tcp_client_t *c, char const *host, uint16_t port);
-
-bool tcp_client_conn_connect(tcp_client_t *c, uint32_t addr, uint16_t port);
-void tcp_client_conn_close(tcp_client_t *c, bool flush);
 
 bool tcp_server_start(tcp_server_t *s, uint16_t port);
 void tcp_server_stop(tcp_server_t *s);
