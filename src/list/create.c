@@ -1,20 +1,24 @@
 /*
 ** EPITECH PROJECT, 2018
-** aled_list
+** PSU_zappy_2017
 ** File description:
-** create a new list
+** Create a new list
 */
 
 #include <stdlib.h>
-#include "aled_list.h"
 
-aled_list_t *aled_list_create(void)
+#include "list.h"
+
+list_t *list_create(bool free_on_pop)
 {
-	aled_list_t *list;
+	list_t *l;
 
-	if ((list = malloc(sizeof(aled_list_t))) == NULL)
+	l = malloc(sizeof(*l));
+	if (l == NULL)
 		return (NULL);
-	list->back = list->head = NULL;
-	list->len = 0;
-	return (list);
+	l->head = NULL;
+	l->back = NULL;
+	l->len = 0;
+	l->free_on_pop = free_on_pop;
+	return (l);
 }

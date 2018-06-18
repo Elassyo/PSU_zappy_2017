@@ -1,16 +1,19 @@
 /*
 ** EPITECH PROJECT, 2018
-** aled_list
+** PSU_zappy_2017
 ** File description:
-** delete whole list
+** Destroy a list
 */
 
 #include <stdlib.h>
-#include "aled_list.h"
 
-void aled_list_destroy(aled_list_t *list)
+#include "list.h"
+
+void list_destroy(list_t *l)
 {
-	while (list->len > 0 && list->head != NULL && list->back != NULL)
-		aled_list_pop(list);
-	free(list);
+	if (l == NULL)
+		return;
+	while (l->len > 0 && l->head != NULL && l->back != NULL)
+		list_pop(l);
+	free(l);
 }

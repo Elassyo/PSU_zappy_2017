@@ -1,55 +1,38 @@
 /*
 ** EPITECH PROJECT, 2018
-** Zappy
+** PSU_zappy_2017
 ** File description:
-** player movement routines
+** Player movement routines
 */
 
-#include "server_map.h"
+#include "zappy_server.h"
 
-static void player_loop_map(server_map_t *map, player_t *player)
-{
-	if (player->pos_x == -1)
-		player->pos_x = map->width - 1;
-	if (player->pos_x == (signed) map->width)
-		player->pos_x = 0;
-	if (player->pos_y == -1)
-		player->pos_y = map->height - 1;
-	if (player->pos_y == (signed) map->height)
-		player->pos_y = 0;
-}
-
-void player_move_forward(server_map_t *map, player_t *player)
+void zpy_srv_player_move_forward(zpy_srv_map_t *map, zpy_srv_player_t *player)
 {
 	switch (player->direction) {
 	case UP:
-		player->pos_y--;
+		player->y = (player->y + map->height - 1) % map->height;
 		break;
 	case DOWN:
-		player->pos_y++;
+		player->y = (player->y + 1) % map->height;
 		break;
 	case LEFT:
-		player->pos_x--;
+		player->x = (player->x + map->width - 1) % map->width;
 		break;
 	case RIGHT:
-		player->pos_x++;
+		player->x = (player->x + 1) % map->width;
+		break;
+	default:
 		break;
 	}
-	player_loop_map(map, player);
 }
 
-void player_turn_left(player_t *player)
+void zpy_srv_player_turn_left(zpy_srv_player_t *player)
 {
-	if (player->direction == UP)
-		player->direction = LEFT;
-	else
-		player->direction--;
+	player->direction = (player->direction + NDIRECTIONS - 1) % NDIRECTIONS;
 }
 
-void player_turn_right(player_t *player)
+void zpy_srv_player_turn_right(zpy_srv_player_t *player)
 {
-	if (player->direction == LEFT)
-		player->direction = UP;
-	else
-		player->direction++;
+	player->direction = (player->direction + 1) % NDIRECTIONS;
 }

@@ -1,45 +1,48 @@
 /*
 ** EPITECH PROJECT, 2018
-** aled_list
+** PSU_zappy_2017
 ** File description:
-** add link to front/back of list
+** Add a node to the front or back of a list
 */
 
 #include <stdlib.h>
-#include "aled_list.h"
 
-int aled_list_push(aled_list_t *list, void *data)
+#include "list.h"
+
+int list_push(list_t *l, void *data)
 {
-	aled_list_link_t *new_link;
+	list_node_t *node;
 
-	if ((new_link = malloc(sizeof(aled_list_link_t))) == NULL)
-		return (EXIT_FAILURE);
-	new_link->data = data;
-	new_link->next = list->head;
-	new_link->prev = NULL;
-	if (list->head)
-		list->head->prev = new_link;
-	if (!list->back)
-		list->back = new_link;
-	list->head = new_link;
-	list->len++;
-	return (EXIT_SUCCESS);
+	node = malloc(sizeof(*node));
+	if (node == NULL)
+		return (1);
+	node->data = data;
+	node->next = l->head;
+	node->prev = NULL;
+	if (l->head != NULL)
+		l->head->prev = node;
+	if (l->back == NULL)
+		l->back = node;
+	l->head = node;
+	l->len++;
+	return (0);
 }
 
-int aled_list_push_back(aled_list_t *list, void *data)
+int list_push_back(list_t *l, void *data)
 {
-	aled_list_link_t *new_link;
+	list_node_t *node;
 
-	if ((new_link = malloc(sizeof(aled_list_link_t))) == NULL)
-		return (EXIT_FAILURE);
-	new_link->data = data;
-	new_link->next = NULL;
-	new_link->prev = list->back;
-	if (list->back)
-		list->back->next = new_link;
-	if (!list->head)
-		list->head = new_link;
-	list->back = new_link;
-	list->len++;
-	return (EXIT_SUCCESS);
+	node = malloc(sizeof(*node));
+	if (node == NULL)
+		return (1);
+	node->data = data;
+	node->next = NULL;
+	node->prev = l->back;
+	if (l->back != NULL)
+		l->back->next = node;
+	if (l->head == NULL)
+		l->head = node;
+	l->back = node;
+	l->len++;
+	return (0);
 }
