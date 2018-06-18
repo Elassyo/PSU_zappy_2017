@@ -71,16 +71,17 @@ add_executable(zappy_server
         src/server/main_args.c
 		src/server/conn.c
 		src/server/dispatch.c
-		src/server/cmd_broadcast.c
-		src/server/cmd_connect.c
-		src/server/cmd_eject.c
-		src/server/cmd_fork.c
-		src/server/cmd_incantation.c
-		src/server/cmd_inventory.c
-		src/server/cmd_look.c
-		src/server/cmd_move.c
-		src/server/cmd_set.c
-		src/server/cmd_take.c
+		src/server/cmd_ai/cmd_broadcast.c
+		src/server/cmd_ai/cmd_connect.c
+		src/server/cmd_ai/cmd_eject.c
+		src/server/cmd_ai/cmd_fork.c
+		src/server/cmd_ai/cmd_incantation.c
+		src/server/cmd_ai/cmd_inventory.c
+		src/server/cmd_ai/cmd_look.c
+		src/server/cmd_ai/cmd_move.c
+		src/server/cmd_ai/cmd_set.c
+		src/server/cmd_ai/cmd_take.c
+		src/server/cmd_graphic/cmd_map.c
 		src/server/map.c
 		src/server/player.c
 		src/server/player_move.c
