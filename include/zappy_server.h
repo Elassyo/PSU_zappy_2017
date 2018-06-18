@@ -14,14 +14,20 @@
 	#include "list.h"
 	#include "zappy.h"
 
+typedef enum zpy_srv_client_type zpy_srv_client_type_t;
+
 typedef struct zpy_srv zpy_srv_t;
 typedef struct zpy_srv_cmd zpy_srv_cmd_t;
 typedef struct zpy_srv_client zpy_srv_client_t;
-typedef enum zpy_srv_client_type zpy_srv_client_type_t;
 typedef struct zpy_srv_map zpy_srv_map_t;
 typedef struct zpy_srv_item_group zpy_srv_item_group_t;
 typedef	struct zpy_srv_player zpy_srv_player_t;
-typedef struct zpy_srv_action zpy_srv_action_t;
+
+enum zpy_srv_client_type {
+	CLIENT_UNKNOWN,
+	CLIENT_GRAPHIC,
+	CLIENT_AI
+};
 
 struct zpy_srv_map {
 	unsigned int width;
@@ -42,12 +48,9 @@ struct zpy_srv {
 struct zpy_srv_cmd {
 	char const *str;
 	bool (*handler)(tcp_conn_t*, zpy_srv_client_t*, char const*);
-};
-
-enum zpy_srv_client_type {
-	CLIENT_UNKNOWN,
-	CLIENT_GRAPHIC,
-	CLIENT_AI
+	zpy_srv_client_type_t client_type;
+	unsigned int countdown;
+	char *args;
 };
 
 struct zpy_srv_client {
@@ -72,19 +75,18 @@ struct zpy_srv_player {
 	unsigned char level;
 	unsigned char inventory[NITEM_TYPES];
 	unsigned int food_countdown;
-	list_t *action_queue; /* list_t<zpy_srv_action_t*> */
-};
-
-struct zpy_srv_action {
-	unsigned short countdown;
-	bool (*callback)(tcp_conn_t*, zpy_srv_client_t*, void*);
-	void *params;
+	list_t *cmd_queue; /* list_t<zpy_srv_cmd_t*> */
 };
 
 bool zpy_srv_args_parse(zpy_srv_t *server, int ac, char **av);
 
 bool zpy_srv_map_init(zpy_srv_map_t *map);
 void zpy_srv_map_cleanup(zpy_srv_map_t *map);
+
+int zpy_srv_map_find_item_group(zpy_srv_map_t *map,
+	unsigned int x, unsigned int y, zpy_item_type_t item_type);
+bool zpy_srv_map_add_item(zpy_srv_map_t *map,
+	unsigned int x, unsigned int y, zpy_item_type_t item_type);
 
 zpy_srv_player_t *zpy_srv_player_new(zpy_srv_map_t *map, unsigned short team);
 void zpy_srv_player_remove(zpy_srv_map_t *map, zpy_srv_player_t *player);

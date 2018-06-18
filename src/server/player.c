@@ -16,8 +16,8 @@ zpy_srv_player_t *zpy_srv_player_new(zpy_srv_map_t *map, unsigned short team)
 	player = malloc(sizeof(*player));
 	if (player == NULL)
 		return (NULL);
-	player->action_queue = list_create(true);
-	if (player->action_queue == NULL)
+	player->cmd_queue = list_create(true);
+	if (player->cmd_queue == NULL)
 		return (NULL);
 	player->team = team;
 	player->x = rand() % map->width;
@@ -37,7 +37,7 @@ void zpy_srv_player_remove(zpy_srv_map_t *map, zpy_srv_player_t *player)
 	unsigned int i = 0;
 	list_node_t *node;
 
-	list_destroy(player->action_queue);
+	list_destroy(player->cmd_queue);
 	node = map->players->head;
 	while (node != NULL && node->data != player) {
 		node = node->next;
@@ -50,18 +50,19 @@ void zpy_srv_player_remove(zpy_srv_map_t *map, zpy_srv_player_t *player)
 
 bool zpy_srv_player_tick(tcp_conn_t *conn, zpy_srv_player_t *player)
 {
-	zpy_srv_action_t *action;
+	zpy_srv_cmd_t *cmd;
 
 	if (--player->food_countdown == 0) {
 		if (player->inventory[FOOD]-- == 0)
 			return (false);
 		player->food_countdown = 126;
 	}
-	action = list_get(player->action_queue, 0);
-	if (action != NULL && --action->countdown == 0) {
-		if (action->callback(conn, conn->data, action->params))
+	cmd = list_get(player->cmd_queue, 0);
+	if (cmd != NULL && --cmd->countdown == 0) {
+		if (cmd->handler(conn, conn->data, cmd->args))
 			return (false);
-		list_pop(player->action_queue);
+		free(cmd->args);
+		list_pop(player->cmd_queue);
 	}
 	return (true);
 }

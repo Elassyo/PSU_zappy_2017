@@ -73,7 +73,7 @@ bool zpy_srv_conn_on_tick(tcp_conn_t *conn)
 	if (!zpy_srv_conn_calc_tick(conn, client))
 		return (false);
 	while (client->type != CLIENT_AI ||
-		client->player->action_queue->len < 10) {
+		client->player->cmd_queue->len < 10) {
 		sz = min(512, cbuf_used_bytes(&conn->in));
 		tcp_conn_peek(conn, buf, sz);
 		end = memchr(buf, '\n', sz);
