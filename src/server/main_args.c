@@ -28,7 +28,7 @@ static bool zpy_srv_args_parse_nbr(zpy_srv_t *server, int opt,
 	if (opt == 'y')
 		server->map.height = l;
 	if (opt == 'c')
-		server->max_clients = l;
+		server->max_players = l;
 	if (opt == 'f')
 		server->freq = l;
 	return (true);
@@ -38,12 +38,18 @@ static bool zpy_srv_args_parse_names(zpy_srv_t *server, int ac, char **av)
 {
 	int i = optind;
 	int count;
+	zpy_srv_team_t *team;
 
 	for (count = 0; i + count < ac && av[i + count][0] != '-'; count++);
 	if (count == 0)
 		return (false);
-	for (i = 0 ; i < count; i++)
-		list_push_back(server->teamnames, av[optind++]);
+	for (i = 0 ; i < count; i++) {
+		team = malloc(sizeof(*team));
+		if (!team)
+			return (false);
+		team->name = av[optind++];
+		list_push_back(server->teams, team);
+	}
 	return (true);
 }
 
@@ -51,11 +57,12 @@ static bool zpy_srv_args_check_name(zpy_srv_t *server, unsigned int i)
 {
 	list_node_t *cur;
 
-	cur = list_get_node(server->teamnames, i);
-	if (strcmp(cur->data, "GRAPHICAL") == 0)
+	cur = list_get_node(server->teams, i);
+	if (strcmp(cur->data, ZPY_GRAPHICAL_TEAM) == 0)
 		return (false);
 	for (list_node_t *node = cur->next; node != NULL; node = node->next) {
-		if (strcmp(cur->data, node->data) == 0)
+		if (strcmp(((zpy_srv_team_t*)cur->data)->name,
+			((zpy_srv_team_t*)node->data)->name) == 0)
 			return (false);
 	}
 	return (true);
@@ -66,11 +73,11 @@ static bool zpy_srv_args_check(zpy_srv_t *server)
 	if (server->port == 0)
 		return (false);
 	if (server->map.width == 0 || server->map.height == 0 ||
-		server->max_clients == 0 || server->freq == 0)
+		server->max_players == 0 || server->freq == 0)
 		return (false);
-	if (server->teamnames->len == 0)
+	if (server->teams->len == 0)
 		return (false);
-	for (unsigned int i = 0; i < server->teamnames->len; i++) {
+	for (unsigned int i = 0; i < server->teams->len; i++) {
 		if (!zpy_srv_args_check_name(server, i))
 			return (false);
 	}

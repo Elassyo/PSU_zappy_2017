@@ -72,7 +72,8 @@ bool tcp_sock_accept(tcp_sock_t *sock, tcp_sock_t *conn);
 size_t tcp_conn_read(tcp_conn_t *conn, void *buf, size_t n);
 size_t tcp_conn_peek(tcp_conn_t *conn, void *buf, size_t n);
 size_t tcp_conn_write(tcp_conn_t *conn, void const *buf, size_t n);
-size_t tcp_conn_printf(tcp_conn_t *conn, char const *fmt, ...);
+size_t tcp_conn_printf(tcp_conn_t *conn, char const *fmt, ...)
+	__attribute__ ((format (printf, 2, 3)));
 
 bool tcp_server_start(tcp_server_t *s, uint16_t port);
 void tcp_server_stop(tcp_server_t *s);

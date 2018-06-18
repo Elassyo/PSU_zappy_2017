@@ -29,7 +29,7 @@ static int usage(char const *progname, int ret)
 
 static int zpy_server(zpy_srv_t *server, char const *progname)
 {
-	if (!zpy_srv_map_init(&server->map))
+	if (!zpy_srv_map_init(&server->map) || !zpy_srv_teams_init(server))
 		return (84);
 	server->tcp.on_connect_args = server;
 	server->tcp.on_connect = &zpy_srv_conn_on_connect;
@@ -58,13 +58,13 @@ int main(int argc, char **argv)
 	}
 	memset(&server, 0, sizeof(server));
 	server.freq = 100;
-	server.teamnames = list_create(false);
+	server.teams = list_create(true);
 	if (!zpy_srv_args_parse(&server, argc, argv)) {
 		fprintf(stderr, "%s: invalid or missing argument\n", argv[0]);
 		return (usage(argv[0], 84));
 	}
 	srand(time(NULL));
 	ret = zpy_server(&server, argv[0]);
-	list_destroy(server.teamnames);
+	zpy_srv_teams_cleanup(server.teams);
 	return (ret);
 }

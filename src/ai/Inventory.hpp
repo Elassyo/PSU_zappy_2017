@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <map>
+#include <vector>
 
 namespace zappy
 {
@@ -38,7 +39,10 @@ namespace zappy
 			size_t add(const Item, const size_t nb);
 			size_t getNbr(const Item) const;
 
+			std::vector<Item> diff(const Inventory &) const;
+
 			bool operator==(const Inventory &) const;
+			bool operator>=(const Inventory &) const;
 
 		private:
 			std::map<Item, size_t> _items;
