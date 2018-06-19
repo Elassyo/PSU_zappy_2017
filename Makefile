@@ -45,7 +45,7 @@ SRCS_SRV	=	server/main.c					\
 			server/main_args.c				\
 			server/conn.c					\
 			server/dispatch.c				\
-			server/graphical.c				\
+			server/graphic.c				\
 			server/map.c					\
 			server/player.c					\
 			server/player_items.c				\

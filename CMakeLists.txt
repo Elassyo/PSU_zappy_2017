@@ -81,7 +81,7 @@ add_executable(zappy_server
         src/server/conn.c
         src/server/dispatch.c
         src/server/map.c
-        src/server/graphical.c
+        src/server/graphic.c
         src/server/player.c
         src/server/player_move.c
         src/server/player_items.c

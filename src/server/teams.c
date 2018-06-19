@@ -65,9 +65,9 @@ bool zpy_srv_teams_join(tcp_conn_t *conn, zpy_srv_client_t *client,
 	list_node_t *node;
 	zpy_srv_team_t *team;
 
-	if (strcmp(name, ZPY_GRAPHICAL_TEAM) == 0) {
-		client->type = CLIENT_GRAPHICAL;
-		return (true);
+	if (strcmp(name, ZPY_GRAPHIC_TEAM) == 0) {
+		client->type = CLIENT_GRAPHIC;
+		return (zpy_srv_grph_add(client->server, conn));
 	}
 	node = client->server->teams->head;
 	while (node != NULL) {
