@@ -116,3 +116,8 @@ bool zappy::ai::Drone::_take(zappy::ai::Item)
 	_reqConstr.takeObject(Item::FOOD);
 	return false;
 }
+
+void zappy::ai::Drone::setTarget()
+{
+	if (_need != NONE);
+}
