@@ -12,7 +12,19 @@ zappy::ai::Inventory::Inventory(const Inventory &other)
 	_items = other._items;
 }
 
-zappy::ai::Inventory::Inventory(const std::map<zappy::ai::Item, size_t> &itemNbr)
+zappy::ai::Inventory::Inventory(size_t linemate, size_t deraumere,
+				size_t sibur, size_t mendiane, size_t phiras,
+				size_t thystame) :
+	_items({{LINEMATE, linemate},
+		{DERAUMERE, deraumere},
+		{SIBUR, sibur},
+		{MENDIANE, mendiane},
+		{PHIRAS, phiras},
+		{THYSTAME, thystame}})
+{
+}
+
+zappy::ai::Inventory::Inventory(const std::map<ai::Item, size_t> &itemNbr)
 {
 	this->_items = itemNbr;
 }
@@ -75,4 +87,9 @@ bool zappy::ai::Inventory::operator>=(const zappy::ai::Inventory &other) const
 			return false;
 	}
 	return true;
+}
+
+const std::map<zappy::ai::Item, size_t> &zappy::ai::Inventory::getItems() const
+{
+	return _items;
 }

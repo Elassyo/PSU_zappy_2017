@@ -1,19 +1,18 @@
 /*
 ** EPITECH PROJECT, 2018
-** cmd connect
+** PSU_zappy_2017
 ** File description:
-** cmd connect
+** Connect_nbr command
 */
 
 #include <stdio.h>
+
 #include "zappy_server.h"
 
-bool cmd_connect(tcp_conn_t *conn,
-		__attribute__((unused))zpy_srv_client_t *client,
-		__attribute__((unused))char const *cmd)
+bool zpy_srv_cmd_connect(tcp_conn_t *conn, zpy_srv_client_t *client,
+	char const *args)
 {
-	printf("connect nbr\n");
-	//TODO
-	cbuf_write(&conn->out, "todo\n", 5);
+	(void)conn, (void)client, (void)args;
+	printf("Connect_nbr TODO\n");
 	return (true);
 }

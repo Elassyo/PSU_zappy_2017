@@ -5,6 +5,7 @@
 ** TCP server abstraction (connections routines)
 */
 
+#include <assert.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -16,11 +17,15 @@ bool tcp_server_conn_accept(tcp_server_t *s)
 	tcp_conn_t *conn;
 
 	s->conns = realloc(s->conns, (s->conns_count + 1) * sizeof(*s->conns));
+	assert(s->conns != NULL);
 	conn = malloc(sizeof(*s->conns[s->conns_count]));
+	if (conn == NULL)
+		return (false);
 	if (!tcp_sock_accept(&s->sock, &conn->sock))
 		return (false);
-	cbuf_create(&conn->in, 4096);
-	cbuf_create(&conn->out, 8192);
+	if (!cbuf_create(&conn->in, 4096) || !cbuf_create(&conn->out, 8192))
+		return (false);
+	conn->block = false;
 	s->on_connect(conn, s->on_connect_args);
 	s->conns[s->conns_count++] = conn;
 	return (true);
@@ -28,19 +33,9 @@ bool tcp_server_conn_accept(tcp_server_t *s)
 
 void tcp_server_conn_close(tcp_server_t *s, size_t i, bool flush)
 {
-	char buf[1024];
-	size_t sz;
-	ssize_t ssz;
-
 	s->on_disconnect(s->conns[i]);
-	while (flush && cbuf_used_bytes(&s->conns[i]->out) > 0) {
-		sz = cbuf_peek(&s->conns[i]->out, buf,
-			min(cbuf_used_bytes(&s->conns[i]->out), 1024));
-		ssz = tcp_sock_send(&s->conns[i]->sock, buf, sz);
-		if (ssz <= 0)
-			break;
-		cbuf_read(&s->conns[i]->out, NULL, ssz);
-	}
+	if (flush)
+		tcp_conn_flush(s->conns[i]);
 	tcp_sock_close(&s->conns[i]->sock);
 	cbuf_destroy(&s->conns[i]->in);
 	cbuf_destroy(&s->conns[i]->out);
@@ -48,4 +43,5 @@ void tcp_server_conn_close(tcp_server_t *s, size_t i, bool flush)
 	memmove(s->conns + i, s->conns + i + 1,
 		(s->conns_count - i - 1) * sizeof(*s->conns));
 	s->conns = realloc(s->conns, --s->conns_count * sizeof(*s->conns));
+	assert(s->conns_count == 0 || s->conns != NULL);
 }

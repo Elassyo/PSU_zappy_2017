@@ -1,19 +1,18 @@
 /*
 ** EPITECH PROJECT, 2018
-** cmd take
+** PSU_zappy_2017
 ** File description:
-** cmd take
+** Take command
 */
 
 #include <stdio.h>
+
 #include "zappy_server.h"
 
-bool cmd_take(tcp_conn_t *conn,
-		__attribute__((unused))zpy_srv_client_t *client,
-		__attribute__((unused))char const *cmd)
+bool zpy_srv_cmd_take(tcp_conn_t *conn, zpy_srv_client_t *client,
+	char const *args)
 {
-	printf("take nbr\n");
-	//TODO
-	cbuf_write(&conn->out, "todo\n", 5);
+	(void)conn, (void)client, (void)args;
+	printf("Take TODO\n");
 	return (true);
 }

@@ -10,7 +10,7 @@
 
 #include "CBuffer.hpp"
 
-static int usage(char const *progname, int ret)
+static int zpy_ai_usage(char const *progname, int ret)
 {
 	std::cout << "USAGE: " << progname << " -p port -n name -h machine" <<
 		std::endl;
@@ -25,7 +25,7 @@ int main(int argc, char const **argv)
 {
 	for (int i = 1; i < argc; i++) {
 		if (std::strcmp(argv[i], "-help") == 0)
-			return usage(argv[0], 0);
+			return zpy_ai_usage(argv[0], 0);
 	}
 	return 0;
 }

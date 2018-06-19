@@ -12,13 +12,12 @@ SRCS		=	cbuf.c						\
 			cbuf_io.c					\
 			list/create.c					\
 			list/destroy.c					\
+			list/find.c					\
 			list/get.c					\
 			list/insert.c					\
 			list/pop.c					\
 			list/push.c					\
 			list/remove.c					\
-			tcp_client.c					\
-			tcp_client_conn.c				\
 			tcp_server.c					\
 			tcp_server_serve.c				\
 			tcp_server_conn.c				\
@@ -41,6 +40,15 @@ SRCS_AI		=	ai/CBuffer.cpp					\
 			ai/main.cpp
 
 SRCS_SRV	=	server/main.c					\
+			server/main_args.c				\
+			server/conn.c					\
+			server/dispatch.c				\
+			server/map.c					\
+			server/player.c					\
+			server/player_items.c				\
+			server/player_move.c				\
+			server/teams.c					\
+			server/cmd_ai/cmd_move.c			\
 			server/cmd_ai/cmd_look.c			\
 			server/cmd_ai/cmd_inventory.c			\
 			server/cmd_ai/cmd_broadcast.c			\
@@ -50,15 +58,7 @@ SRCS_SRV	=	server/main.c					\
 			server/cmd_ai/cmd_take.c			\
 			server/cmd_ai/cmd_set.c				\
 			server/cmd_ai/cmd_incantation.c			\
-			server/cmd_ai/cmd_move.c			\
-			server/cmd_graphic/cmd_map.c			\
-			server/main_args.c				\
-			server/conn.c					\
-			server/dispatch.c				\
-			server/map.c					\
-			server/player.c					\
-			server/player_items.c				\
-			server/player_move.c
+			server/cmd_graphic/cmd_map.c
 
 INCS		=	zappy.h						\
 			zappy_server.h					\

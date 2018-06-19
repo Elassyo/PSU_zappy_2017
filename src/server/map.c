@@ -73,8 +73,8 @@ void zpy_srv_map_fill(zpy_srv_t *srv)
 	unsigned int y;
 	zpy_item_type_t resource;
 
-	res_amt = 5 * srv->max_clients + ((rand() % 2 * srv->max_clients) -
-		srv->max_clients);
+	res_amt = 5 * srv->max_players + ((rand() % 2 * srv->max_players) -
+		srv->max_players);
 	for (unsigned int i = 0; i < res_amt; i++) {
 		x = rand() % srv->map.width;
 		y = rand() % srv->map.height;

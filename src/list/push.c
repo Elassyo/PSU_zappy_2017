@@ -9,13 +9,13 @@
 
 #include "list.h"
 
-int list_push(list_t *l, void *data)
+bool list_push(list_t *l, void *data)
 {
 	list_node_t *node;
 
 	node = malloc(sizeof(*node));
 	if (node == NULL)
-		return (1);
+		return (false);
 	node->data = data;
 	node->next = l->head;
 	node->prev = NULL;
@@ -25,16 +25,16 @@ int list_push(list_t *l, void *data)
 		l->back = node;
 	l->head = node;
 	l->len++;
-	return (0);
+	return (true);
 }
 
-int list_push_back(list_t *l, void *data)
+bool list_push_back(list_t *l, void *data)
 {
 	list_node_t *node;
 
 	node = malloc(sizeof(*node));
 	if (node == NULL)
-		return (1);
+		return (false);
 	node->data = data;
 	node->next = NULL;
 	node->prev = l->back;
@@ -44,5 +44,5 @@ int list_push_back(list_t *l, void *data)
 		l->head = node;
 	l->back = node;
 	l->len++;
-	return (0);
+	return (true);
 }

@@ -19,15 +19,15 @@ set(SRC_LIST
 		src/list/insert.c
 		src/list/create.c
 		src/list/destroy.c
+		src/list/find.c
 		src/list/get.c
 		src/list/pop.c
 		src/list/push.c
-		src/list/remove.c)
+		src/list/remove.c
+		)
 
 set(SRC_TCP
 		include/tcp.h
-		src/tcp_client.c
-		src/tcp_client_conn.c
 		src/tcp_server.c
 		src/tcp_server_conn.c
 		src/tcp_server_serve.c
@@ -40,7 +40,7 @@ set(SRC_TCP
 		src/tcp_sock_rinfo.c)
 
 set(SRC_COMMON
-        include/zappy.h
+		include/zappy.h
 		${SRC_CBUF}
 		${SRC_TCP})
 
@@ -62,16 +62,24 @@ add_executable(zappy_ai
 		src/ai/RequestConstructor.cpp
 		src/ai/RequestConstructor.hpp
 		src/ai/Vision.cpp
-		src/ai/Vision.hpp src/ai/Tile.cpp src/ai/Tile.hpp)
+		src/ai/Vision.hpp
+		src/ai/Tile.cpp
+		src/ai/Tile.hpp
+		src/ai/Memory.cpp src/ai/Memory.hpp)
 
 add_executable(zappy_server
-        ${SRC_COMMON}
+		${SRC_COMMON}
 		${SRC_LIST}
-        include/zappy_server.h
-        src/server/main.c
-        src/server/main_args.c
+		include/zappy_server.h
+		src/server/main.c
+		src/server/main_args.c
 		src/server/conn.c
 		src/server/dispatch.c
+		src/server/map.c
+		src/server/player.c
+		src/server/player_move.c
+		src/server/player_items.c
+		src/server/teams.c
 		src/server/cmd_ai/cmd_broadcast.c
 		src/server/cmd_ai/cmd_connect.c
 		src/server/cmd_ai/cmd_eject.c
@@ -83,8 +91,4 @@ add_executable(zappy_server
 		src/server/cmd_ai/cmd_set.c
 		src/server/cmd_ai/cmd_take.c
 		src/server/cmd_graphic/cmd_map.c
-		src/server/map.c
-		src/server/player.c
-		src/server/player_move.c
-		src/server/player_items.c
 		)
