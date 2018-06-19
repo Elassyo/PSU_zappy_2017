@@ -55,6 +55,8 @@ bool zpy_srv_dispatch_cmd(tcp_conn_t *conn, zpy_srv_client_t *client,
 			continue;
 		if (client->type != zpy_srv_cmds[i].client_type)
 			break;
+		if (client->type == CLIENT_GRAPHICAL)
+			return (zpy_srv_cmds[i].handler(conn, client, args));
 		c = malloc(sizeof(*c));
 		if (!c)
 			return (false);
