@@ -29,6 +29,5 @@ zappy::VertexS zappy::ai::Tile::computePosition(const zappy::VertexS &playerPos,
 						const zappy::VertexS &mapSize,
 						zappy::ai::Direction) const
 {
-
 	return VertexS(0, 0);
 }

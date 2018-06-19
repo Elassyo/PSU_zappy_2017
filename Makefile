@@ -18,6 +18,7 @@ SRCS		=	cbuf.c						\
 			list/pop.c					\
 			list/push.c					\
 			list/remove.c					\
+			tcp_client.c					\
 			tcp_server.c					\
 			tcp_server_serve.c				\
 			tcp_server_conn.c				\
@@ -45,7 +46,7 @@ SRCS_SRV	=	server/main.c					\
 			server/main_args.c				\
 			server/conn.c					\
 			server/dispatch.c				\
-			server/graphical.c				\
+			server/graphic.c				\
 			server/map.c					\
 			server/player.c					\
 			server/player_items.c				\

@@ -31,15 +31,15 @@ static bool zpy_srv_init(zpy_srv_t *server)
 {
 	if (!zpy_srv_map_init(&server->map) || !zpy_srv_teams_init(server))
 		return (false);
-	server->graphical_clients = list_create(false);
-	if (server->graphical_clients == NULL)
+	server->graphic_clients = list_create(false);
+	if (server->graphic_clients == NULL)
 		return (false);
 	return (true);
 }
 
 static void zpy_srv_cleanup(zpy_srv_t *server)
 {
-	list_destroy(server->graphical_clients);
+	list_destroy(server->graphic_clients);
 	zpy_srv_teams_cleanup(server->teams);
 	zpy_srv_map_cleanup(&server->map);
 }

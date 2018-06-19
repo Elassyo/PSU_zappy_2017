@@ -81,11 +81,12 @@ add_executable(zappy_server
         src/server/conn.c
         src/server/dispatch.c
         src/server/map.c
-        src/server/graphical.c
+        src/server/graphic.c
         src/server/player.c
         src/server/player_move.c
         src/server/player_items.c
         src/server/teams.c
+        src/server/vision.c
         src/server/cmd_ai/cmd_broadcast.c
         src/server/cmd_ai/cmd_connect.c
         src/server/cmd_ai/cmd_eject.c

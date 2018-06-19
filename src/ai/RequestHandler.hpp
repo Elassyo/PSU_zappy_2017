@@ -19,7 +19,7 @@ namespace zappy {
 		~RequestHandler();
 
 		void send(const std::string &);
-		std::string recv() const;
+		std::string recv();
 	private:
 		tcp_client_t _client;
 	};
