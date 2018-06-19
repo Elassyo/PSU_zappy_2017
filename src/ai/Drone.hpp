@@ -54,6 +54,7 @@ namespace zappy {
 			void _wait();
 
 			void _move(const VertexS &dir);
+			void setTarget();
 			void _moveForward();
 			void _look();
 			void _turnRight();
