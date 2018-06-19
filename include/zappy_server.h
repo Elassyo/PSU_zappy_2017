@@ -45,6 +45,8 @@ struct zpy_srv {
 	unsigned int freq;
 	list_t *teams; /* list_t<zpy_srv_team_t*> */
 	list_t *graphic_clients; /* list_t<tcp_conn_t*> */
+	unsigned int last_player_id;
+	unsigned int last_egg_id;
 };
 
 struct zpy_srv_cmd {
@@ -76,6 +78,7 @@ struct zpy_srv_item_group {
 };
 
 struct zpy_srv_player {
+	unsigned int id;
 	unsigned short team;
 	unsigned int x;
 	unsigned int y;

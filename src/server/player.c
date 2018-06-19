@@ -18,6 +18,7 @@ bool zpy_srv_player_new(zpy_srv_client_t *client, unsigned short team)
 	client->player->cmd_queue = list_create(true);
 	if (client->player->cmd_queue == NULL)
 		return (false);
+	client->player->id = ++client->server->last_player_id;
 	client->player->team = team;
 	client->player->x = rand() % client->server->map.width;
 	client->player->y = rand() % client->server->map.height;
