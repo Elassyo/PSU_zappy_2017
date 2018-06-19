@@ -5,7 +5,6 @@
 ** TCP connections (high level IO routines)
 */
 
-#include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -25,14 +24,22 @@ ssize_t tcp_conn_getline(tcp_conn_t *conn, char *buf, size_t n, char delim)
 	return (sz);
 }
 
-size_t tcp_conn_printf(tcp_conn_t *conn, char const *fmt, ...)
+size_t tcp_conn_vprintf(tcp_conn_t *conn, char const *fmt, va_list args)
 {
 	char buf[conn->out.size];
-	va_list va;
 	size_t len;
 
-	va_start(va, fmt);
-	len = vsnprintf(buf, conn->out.size, fmt, va);
-	va_end(va);
+	len = vsnprintf(buf, conn->out.size, fmt, args);
 	return (tcp_conn_write(conn, buf, len));
+}
+
+size_t tcp_conn_printf(tcp_conn_t *conn, char const *fmt, ...)
+{
+	size_t res;
+	va_list args;
+
+	va_start(args, fmt);
+	res = tcp_conn_vprintf(conn, fmt, args);
+	va_end(args);
+	return (res);
 }

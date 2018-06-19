@@ -44,6 +44,7 @@ struct zpy_srv {
 	unsigned int max_players;
 	unsigned int freq;
 	list_t *teams; /* list_t<zpy_srv_team_t*> */
+	list_t *graphical_clients; /* list_t<tcp_conn_t*> */
 };
 
 struct zpy_srv_cmd {
