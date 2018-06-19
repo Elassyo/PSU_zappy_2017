@@ -49,12 +49,14 @@ bool zpy_srv_player_tick(tcp_conn_t *conn, zpy_srv_player_t *player)
 	zpy_srv_cmd_t *cmd;
 
 	if (--player->food_countdown == 0) {
-		if (--player->inventory[FOOD] == 0)
+		if (--player->inventory[FOOD] == 0) {
+			tcp_conn_printf(conn, "dead\n");
 			return (false);
+		}
 		player->food_countdown = 126;
 	}
 	cmd = list_get(player->cmd_queue, 0);
-	if (cmd != NULL && --cmd->countdown == 0) {
+	if (cmd != NULL && cmd->countdown-- <= 1) {
 		if (!cmd->handler(conn, conn->data, cmd->args))
 			return (false);
 		free(cmd->args);
