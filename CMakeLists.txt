@@ -27,6 +27,7 @@ set(SRC_LIST
         )
 
 set(SRC_TCP
+        ${SRC_CBUF}
         include/tcp.h
         src/tcp_client.c
         src/tcp_server.c
@@ -44,7 +45,6 @@ set(SRC_TCP
 
 set(SRC_COMMON
         include/zappy.h
-        ${SRC_CBUF}
         ${SRC_TCP})
 
 add_executable(zappy_ai
