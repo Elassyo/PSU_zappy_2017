@@ -24,7 +24,7 @@ size_t cbuf_peek(cbuf_t *cb, void *buf, size_t n)
 	size_t sz;
 	size_t tail = cb->tail;
 
-	assert(n <= cbuf_used_bytes(cb));
+	n = min(n, cbuf_used_bytes(cb));
 	while (rdsz < n) {
 		sz = min(cb->size - tail + 1, n - rdsz);
 		memcpy(buf + rdsz, cb->buf + tail, sz);
@@ -39,7 +39,7 @@ size_t cbuf_write(cbuf_t *cb, void const *buf, size_t n)
 	size_t wrsz = 0;
 	size_t sz;
 
-	assert(n <= cbuf_free_bytes(cb));
+	n = min(n, cbuf_free_bytes(cb));
 	while (wrsz < n) {
 		sz = min(cb->size - cb->head + 1, n - wrsz);
 		memcpy(cb->buf + cb->head, buf + wrsz, sz);
