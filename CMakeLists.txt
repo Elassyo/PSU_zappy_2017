@@ -86,6 +86,7 @@ add_executable(zappy_server
         src/server/player_move.c
         src/server/player_items.c
         src/server/teams.c
+        src/server/vision.c
         src/server/cmd_ai/cmd_broadcast.c
         src/server/cmd_ai/cmd_connect.c
         src/server/cmd_ai/cmd_eject.c
