@@ -38,6 +38,8 @@ SRCS_AI		=	ai/CBuffer.cpp					\
 			ai/RequestHandler.cpp				\
 			ai/Vision.cpp					\
 			ai/Exception/Exception.cpp			\
+			ai/Tile.cpp					\
+			ai/Vision.cpp					\
 			ai/main.cpp
 
 SRCS_SRV	=	server/main.c					\
