@@ -41,15 +41,11 @@ bool tcp_conn_flush(tcp_conn_t *conn)
 
 size_t tcp_conn_read(tcp_conn_t *conn, void *buf, size_t n)
 {
-	if (conn->block && cbuf_used_bytes(&conn->in) < n)
-		tcp_conn_fetch(conn);
 	return (cbuf_read(&conn->in, buf, n));
 }
 
 size_t tcp_conn_peek(tcp_conn_t *conn, void *buf, size_t n)
 {
-	if (conn->block && cbuf_used_bytes(&conn->in) < n)
-		tcp_conn_fetch(conn);
 	return (cbuf_peek(&conn->in, buf, n));
 }
 
