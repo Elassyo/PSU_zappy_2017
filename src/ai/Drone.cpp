@@ -22,18 +22,19 @@ zappy::ai::Drone::Drone(const std::string &team, const VertexS &mapSize,
 		{EXPLORE, std::bind(&Drone::_explore, this)}}),
 	_reqHandler(requestHandler)
 {
-	std::cout << "salut" << std::endl;
+	_reqHandler.fetch();
 	std::string welcome = _reqHandler.recv();
-	std::cout << welcome << std::endl;
 	if (welcome != "WELCOME")
 		throw Exception("Drone", "Welcome msg expected");
 	_reqHandler.send(_team + "\n");
+	_reqHandler.fetch();
 	welcome = _reqHandler.recv();
 	welcome = _reqHandler.recv();
 }
 
 bool zappy::ai::Drone::live()
 {
+	std::cout << "Begin to live" << std::endl;
 	while (_alive) {
 		_evaluatePriorities();
 		_act.at(_behave);

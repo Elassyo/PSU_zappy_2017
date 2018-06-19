@@ -26,10 +26,15 @@ void zappy::RequestHandler::send(const std::string &msg)
 		throw Exception("RequestHandler", "msg not send correctly");
 }
 
+void zappy::RequestHandler::fetch()
+{
+	tcp_conn_fetch(&_client.conn);
+}
+
 std::string zappy::RequestHandler::recv()
 {
 	char buffer[512];
-	if (tcp_conn_getline(&_client.conn, buffer, 512, '\n'))
+	if (!tcp_conn_getline(&_client.conn, buffer, 512, '\n'))
 		throw Exception("RequestHandler", "Error while receving msg");
 	return std::string(buffer);
 }
