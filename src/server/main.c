@@ -27,9 +27,26 @@ static int zpy_srv_usage(char const *progname, int ret)
 	return (ret);
 }
 
-static int zpy_srv_run(zpy_srv_t *server, char const *progname)
+static bool zpy_srv_init(zpy_srv_t *server)
 {
 	if (!zpy_srv_map_init(&server->map) || !zpy_srv_teams_init(server))
+		return (false);
+	server->graphic_clients = list_create(false);
+	if (server->graphic_clients == NULL)
+		return (false);
+	return (true);
+}
+
+static void zpy_srv_cleanup(zpy_srv_t *server)
+{
+	list_destroy(server->graphic_clients);
+	zpy_srv_teams_cleanup(server->teams);
+	zpy_srv_map_cleanup(&server->map);
+}
+
+static int zpy_srv_run(zpy_srv_t *server, char const *progname)
+{
+	if (!zpy_srv_init(server))
 		return (84);
 	server->tcp.on_connect_args = server;
 	server->tcp.on_connect = &zpy_srv_conn_on_connect;
@@ -43,7 +60,7 @@ static int zpy_srv_run(zpy_srv_t *server, char const *progname)
 	}
 	tcp_server_serve_forever(&server->tcp);
 	tcp_server_stop(&server->tcp);
-	zpy_srv_map_cleanup(&server->map);
+	zpy_srv_cleanup(server);
 	return (0);
 }
 
@@ -59,12 +76,14 @@ int main(int argc, char **argv)
 	memset(&server, 0, sizeof(server));
 	server.freq = 100;
 	server.teams = list_create(true);
+	if (server.teams == NULL)
+		return (84);
 	if (!zpy_srv_args_parse(&server, argc, argv)) {
 		fprintf(stderr, "%s: invalid or missing argument\n", argv[0]);
 		return (zpy_srv_usage(argv[0], 84));
 	}
 	srand(time(NULL));
 	ret = zpy_srv_run(&server, argv[0]);
-	zpy_srv_teams_cleanup(server.teams);
+	list_destroy(server.teams);
 	return (ret);
 }

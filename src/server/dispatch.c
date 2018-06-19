@@ -33,15 +33,15 @@ static zpy_srv_cmd_t const zpy_srv_cmds[] = {
 	{ "take", &zpy_srv_cmd_take, CLIENT_AI, 7, NULL },
 	{ "set", &zpy_srv_cmd_set, CLIENT_AI, 7, NULL },
 	{ "incantation", &zpy_srv_cmd_incantation, CLIENT_AI, 300, NULL },
-	{ "msz", &zpy_srv_cmd_msz, CLIENT_GRAPHICAL, 0, NULL },
-	{ "bct", &zpy_srv_cmd_bct, CLIENT_GRAPHICAL, 0, NULL },
-	{ "mct", &zpy_srv_cmd_not_implemented, CLIENT_GRAPHICAL, 0, NULL },
-	{ "tna", &zpy_srv_cmd_not_implemented, CLIENT_GRAPHICAL, 0, NULL },
-	{ "ppo", &zpy_srv_cmd_not_implemented, CLIENT_GRAPHICAL, 0, NULL },
-	{ "plv", &zpy_srv_cmd_not_implemented, CLIENT_GRAPHICAL, 0, NULL },
-	{ "pin", &zpy_srv_cmd_not_implemented, CLIENT_GRAPHICAL, 0, NULL },
-	{ "sgt", &zpy_srv_cmd_not_implemented, CLIENT_GRAPHICAL, 0, NULL },
-	{ "sst", &zpy_srv_cmd_not_implemented, CLIENT_GRAPHICAL, 0, NULL },
+	{ "msz", &zpy_srv_cmd_msz, CLIENT_GRAPHIC, 0, NULL },
+	{ "bct", &zpy_srv_cmd_bct, CLIENT_GRAPHIC, 0, NULL },
+	{ "mct", &zpy_srv_cmd_not_implemented, CLIENT_GRAPHIC, 0, NULL },
+	{ "tna", &zpy_srv_cmd_not_implemented, CLIENT_GRAPHIC, 0, NULL },
+	{ "ppo", &zpy_srv_cmd_not_implemented, CLIENT_GRAPHIC, 0, NULL },
+	{ "plv", &zpy_srv_cmd_not_implemented, CLIENT_GRAPHIC, 0, NULL },
+	{ "pin", &zpy_srv_cmd_not_implemented, CLIENT_GRAPHIC, 0, NULL },
+	{ "sgt", &zpy_srv_cmd_not_implemented, CLIENT_GRAPHIC, 0, NULL },
+	{ "sst", &zpy_srv_cmd_not_implemented, CLIENT_GRAPHIC, 0, NULL },
 	{ NULL, NULL, CLIENT_UNKNOWN, 0, NULL }
 };
 
@@ -55,7 +55,7 @@ bool zpy_srv_dispatch_cmd(tcp_conn_t *conn, zpy_srv_client_t *client,
 			continue;
 		if (client->type != zpy_srv_cmds[i].client_type)
 			break;
-		if (client->type == CLIENT_GRAPHICAL)
+		if (client->type == CLIENT_GRAPHIC)
 			return (zpy_srv_cmds[i].handler(conn, client, args));
 		c = malloc(sizeof(*c));
 		if (!c)

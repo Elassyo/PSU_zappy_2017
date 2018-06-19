@@ -10,6 +10,7 @@
 
 	#include <netdb.h>
 	#include <poll.h>
+	#include <stdarg.h>
 	#include <stdbool.h>
 	#include <arpa/inet.h>
 	#include <netinet/in.h>
@@ -86,6 +87,7 @@ size_t tcp_conn_peek(tcp_conn_t *conn, void *buf, size_t n);
 size_t tcp_conn_write(tcp_conn_t *conn, void const *buf, size_t n);
 
 ssize_t tcp_conn_getline(tcp_conn_t *conn, char *buf, size_t n, char delim);
+size_t tcp_conn_vprintf(tcp_conn_t *conn, char const *fmt, va_list args);
 size_t tcp_conn_printf(tcp_conn_t *conn, char const *fmt, ...)
 	__attribute__ ((format (printf, 2, 3)));
 

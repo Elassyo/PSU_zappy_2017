@@ -28,6 +28,8 @@ void zpy_srv_conn_on_disconnect(tcp_conn_t *conn)
 	if (client->type == CLIENT_AI) {
 		zpy_srv_player_remove(client->server, client->player);
 		tcp_conn_printf(conn, "dead\n");
+	} else if (client->type == CLIENT_GRAPHIC) {
+		zpy_srv_grph_remove(client->server, conn);
 	}
 	free(client);
 }
