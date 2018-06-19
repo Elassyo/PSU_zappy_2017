@@ -32,5 +32,4 @@ namespace zappy {
 	}
 }
 
-
 #endif /* PSU_ZAPPY_2017_TILE_HPP */
