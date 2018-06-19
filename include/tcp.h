@@ -10,6 +10,7 @@
 
 	#include <netdb.h>
 	#include <poll.h>
+	#include <stdarg.h>
 	#include <stdbool.h>
 	#include <arpa/inet.h>
 	#include <netinet/in.h>
@@ -21,20 +22,29 @@
 extern "C" {
 	#endif
 
-typedef struct tcp_sock {
+typedef struct tcp_sock tcp_sock_t;
+typedef struct tcp_conn tcp_conn_t;
+typedef struct tcp_client tcp_client_t;
+typedef struct tcp_server tcp_server_t;
+
+struct tcp_sock {
 	int fd;
 	struct sockaddr_in sin;
-} tcp_sock_t;
+};
 
-typedef struct tcp_conn {
+struct tcp_conn {
 	tcp_sock_t sock;
 	cbuf_t in;
 	cbuf_t out;
 	bool block;
 	void *data;
-} tcp_conn_t;
+};
 
-typedef struct tcp_server {
+struct tcp_client {
+	tcp_conn_t conn;
+};
+
+struct tcp_server {
 	tcp_sock_t sock;
 	tcp_conn_t **conns;
 	size_t conns_count;
@@ -44,7 +54,7 @@ typedef struct tcp_server {
 	void (*on_disconnect)(tcp_conn_t *);
 	bool (*on_tick)(tcp_conn_t *);
 	double tickrate;
-} tcp_server_t;
+};
 
 bool tcp_sock_create(tcp_sock_t *sock);
 void tcp_sock_close(tcp_sock_t *sock);
@@ -69,12 +79,20 @@ bool tcp_sock_bind(tcp_sock_t *sock, uint32_t addr, uint16_t port);
 bool tcp_sock_listen(tcp_sock_t *sock, int backlog);
 bool tcp_sock_accept(tcp_sock_t *sock, tcp_sock_t *conn);
 
+bool tcp_conn_fetch(tcp_conn_t *conn);
 bool tcp_conn_flush(tcp_conn_t *conn);
+
 size_t tcp_conn_read(tcp_conn_t *conn, void *buf, size_t n);
 size_t tcp_conn_peek(tcp_conn_t *conn, void *buf, size_t n);
 size_t tcp_conn_write(tcp_conn_t *conn, void const *buf, size_t n);
+
+ssize_t tcp_conn_getline(tcp_conn_t *conn, char *buf, size_t n, char delim);
+size_t tcp_conn_vprintf(tcp_conn_t *conn, char const *fmt, va_list args);
 size_t tcp_conn_printf(tcp_conn_t *conn, char const *fmt, ...)
 	__attribute__ ((format (printf, 2, 3)));
+
+bool tcp_client_connect(tcp_client_t *c, char const *host, uint16_t port);
+void tcp_client_close(tcp_client_t *c);
 
 bool tcp_server_start(tcp_server_t *s, uint16_t port);
 void tcp_server_stop(tcp_server_t *s);

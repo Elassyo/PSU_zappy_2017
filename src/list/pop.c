@@ -13,12 +13,14 @@ bool list_pop(list_t *l)
 {
 	list_node_t *tmp;
 
-	if (l->len == 0)
-		return (false);
 	tmp = l->head;
+	if (tmp == NULL)
+		return (false);
 	l->head = tmp->next;
-	if (l->head)
+	if (l->head != NULL)
 		l->head->prev = NULL;
+	if (l->back == tmp)
+		l->back = NULL;
 	if (l->free_on_pop)
 		free(tmp->data);
 	free(tmp);
@@ -30,12 +32,14 @@ bool list_pop_back(list_t *l)
 {
 	list_node_t *tmp;
 
-	if (l->len == 0)
-		return (false);
 	tmp = l->back;
+	if (tmp == NULL)
+		return (false);
 	l->back = tmp->prev;
 	if (l->back)
 		l->back->next = NULL;
+	if (l->head == tmp)
+		l->head = NULL;
 	if (l->free_on_pop)
 		free(tmp->data);
 	free(tmp);

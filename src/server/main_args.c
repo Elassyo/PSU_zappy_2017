@@ -56,13 +56,16 @@ static bool zpy_srv_args_parse_names(zpy_srv_t *server, int ac, char **av)
 static bool zpy_srv_args_check_name(zpy_srv_t *server, unsigned int i)
 {
 	list_node_t *cur;
+	zpy_srv_team_t *team_a;
+	zpy_srv_team_t *team_b;
 
 	cur = list_get_node(server->teams, i);
-	if (strcmp(cur->data, ZPY_GRAPHICAL_TEAM) == 0)
+	team_a = cur->data;
+	if (strcmp(team_a->name, ZPY_GRAPHIC_TEAM) == 0)
 		return (false);
 	for (list_node_t *node = cur->next; node != NULL; node = node->next) {
-		if (strcmp(((zpy_srv_team_t*)cur->data)->name,
-			((zpy_srv_team_t*)node->data)->name) == 0)
+		team_b = node->data;
+		if (strcmp(team_a->name, team_b->name) == 0)
 			return (false);
 	}
 	return (true);

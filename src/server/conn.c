@@ -25,8 +25,12 @@ void zpy_srv_conn_on_disconnect(tcp_conn_t *conn)
 {
 	zpy_srv_client_t *client = conn->data;
 
-	if (client->type == CLIENT_AI)
+	if (client->type == CLIENT_AI) {
 		zpy_srv_player_remove(client->server, client->player);
+		tcp_conn_printf(conn, "dead\n");
+	} else if (client->type == CLIENT_GRAPHIC) {
+		zpy_srv_grph_remove(client->server, conn);
+	}
 	free(client);
 }
 
@@ -72,20 +76,15 @@ bool zpy_srv_conn_on_tick(tcp_conn_t *conn)
 {
 	zpy_srv_client_t *client = conn->data;
 	char buf[512];
-	char *end;
-	size_t sz;
+	ssize_t ssz;
 
 	if (client->type == CLIENT_AI && !zpy_srv_conn_calc_tick(conn, client))
 		return (false);
 	while (client->type != CLIENT_AI ||
 		client->player->cmd_queue->len < 10) {
-		sz = min(512, cbuf_used_bytes(&conn->in));
-		tcp_conn_peek(conn, buf, sz);
-		end = memchr(buf, '\n', sz);
-		if (end == NULL)
-			return (sz != 512);
-		*end = '\0';
-		tcp_conn_read(conn, NULL, end - buf + 1);
+		ssz = tcp_conn_getline(conn, buf, 512, '\n');
+		if (ssz <= 0)
+			return (ssz == 0);
 		if (!zpy_srv_conn_do_command(conn, client, buf))
 			return (false);
 	}

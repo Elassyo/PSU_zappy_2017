@@ -11,9 +11,8 @@
 	#include <sstream>
 	#include <iostream>
 	#include "Inventory.hpp"
-#include "Vertex.hpp"
-#include "Drone.hpp"
-
+	#include "Vertex.hpp"
+	#include "Drone.hpp"
 
 namespace zappy {
 	namespace ai {
@@ -32,6 +31,5 @@ namespace zappy {
 		};
 	}
 }
-
 
 #endif /* PSU_ZAPPY_2017_TILE_HPP */

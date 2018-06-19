@@ -21,7 +21,8 @@ SRCS		=	cbuf.c						\
 			tcp_server.c					\
 			tcp_server_serve.c				\
 			tcp_server_conn.c				\
-			tcp_conn.c					\
+			tcp_conn_io.c					\
+			tcp_conn_io2.c					\
 			tcp_sock.c					\
 			tcp_sock_client.c				\
 			tcp_sock_server.c				\
@@ -29,20 +30,22 @@ SRCS		=	cbuf.c						\
 			tcp_sock_info.c					\
 			tcp_sock_rinfo.c
 
-SRCS_AI		=	ai/CBuffer.cpp					\
+SRCS_AI		=	ai/Exception/Exception.cpp			\
+			ai/CBuffer.cpp					\
 			ai/Drone.cpp					\
-			ai/Vertex.cpp					\
 			ai/Inventory.cpp				\
 			ai/RequestConstructor.cpp			\
 			ai/RequestHandler.cpp				\
+			ai/Tile.cpp					\
+			ai/Vertex.cpp					\
 			ai/Vision.cpp					\
-			ai/Exception/Exception.cpp			\
 			ai/main.cpp
 
 SRCS_SRV	=	server/main.c					\
 			server/main_args.c				\
 			server/conn.c					\
 			server/dispatch.c				\
+			server/graphic.c				\
 			server/map.c					\
 			server/player.c					\
 			server/player_items.c				\
@@ -65,7 +68,19 @@ INCS		=	zappy.h						\
 			cbuf.h						\
 			list.h						\
 			tcp.h
-INCS_AI		=
+
+INCS_AI		=	ai/Exception/Exception.hpp		\
+			ai/CBuffer.hpp				\
+			ai/Drone.hpp				\
+			ai/Inventory.hpp			\
+			ai/Memory.hpp				\
+			ai/RequestConstructor.hpp		\
+			ai/RequestHandler.hpp			\
+			ai/RequestParser.hpp			\
+			ai/Tile.hpp				\
+			ai/Vertex.hpp				\
+			ai/Vision.hpp
+
 LIBS		=
 OBJS		=	$(SRCS:.c=.o)
 OBJS_AI		=	$(SRCS_AI:.cpp=.o)
