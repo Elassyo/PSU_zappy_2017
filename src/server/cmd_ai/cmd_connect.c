@@ -12,7 +12,6 @@
 bool zpy_srv_cmd_connect(tcp_conn_t *conn, zpy_srv_client_t *client,
 	char const *args)
 {
-	printf("tg calr\n");
 	unsigned short teamnumber = client->player->team;
 	list_node_t *teams = client->server->teams->head;
 	zpy_srv_team_t *data;
