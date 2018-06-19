@@ -25,7 +25,7 @@ _strItem({
 		 {"mendiane", ai::Item::MENDIANE},
 		 {"phiras", ai::Item::PHIRAS},
 		 {"thystame", ai::Item::THYSTAME},
-})
+	 })
 {}
 
 bool zappy::RequestParser::parseBool(const std::string &request)
