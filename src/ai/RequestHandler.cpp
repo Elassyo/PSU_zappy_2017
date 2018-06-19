@@ -24,7 +24,7 @@ void zappy::RequestHandler::send(const std::string &msg)
 	tcp_conn_write(&_client.conn, msg.c_str(), msg.length());
 }
 
-std::string zappy::RequestHandler::recv() const
+std::string zappy::RequestHandler::recv()
 {
 	char buffer[512];
 	if (tcp_conn_getline(&_client.conn, buffer, 512, '\n'))
