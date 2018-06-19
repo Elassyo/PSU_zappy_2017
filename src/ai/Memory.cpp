@@ -7,10 +7,6 @@
 
 #include "Memory.hpp"
 
-zappy::ai::Memory::Memory()
-{
-}
-
 bool zappy::ai::Memory::alreadySeen(zappy::ai::Item item) const
 {
 	return _remembered.find(item) != _remembered.end();
@@ -40,9 +36,8 @@ const zappy::VertexS zappy::ai::Memory::closestItem
 void zappy::ai::Memory::remember(const zappy::VertexS &pos, zappy::ai::Item it)
 {
 	for (auto i = _remembered.begin(); i != _remembered.end(); i++) {
-		if (i->second == pos) {
+		if (i->second == pos)
 			_remembered.erase(i);
-		}
 	}
 	_remembered.insert({it, pos});
 }

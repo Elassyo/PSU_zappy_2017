@@ -18,7 +18,7 @@ namespace zappy {
 	namespace ai {
 		class Memory {
 		public:
-			Memory();
+			Memory() = default;
 			~Memory() = default;
 
 			bool alreadySeen(Item) const;
