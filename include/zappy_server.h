@@ -121,20 +121,34 @@ bool zpy_srv_conn_on_tick(tcp_conn_t *conn);
 bool zpy_srv_dispatch_cmd(tcp_conn_t *conn, zpy_srv_client_t *client,
 	char const *cmd, char const *args);
 
-bool cmd_broadcast(tcp_conn_t *conn, zpy_srv_client_t *cmd, char const *args);
-bool cmd_connect(tcp_conn_t *conn, zpy_srv_client_t *cmd, char const *args);
-bool cmd_eject(tcp_conn_t *conn, zpy_srv_client_t *cmd, char const *args);
-bool cmd_fork(tcp_conn_t *conn, zpy_srv_client_t *cmd, char const *args);
-bool cmd_forward(tcp_conn_t *conn, zpy_srv_client_t *cmd, char const *args);
-bool cmd_incantation(tcp_conn_t *conn, zpy_srv_client_t *cmd, char const *args);
-bool cmd_inventory(tcp_conn_t *conn, zpy_srv_client_t *cmd, char const *args);
-bool cmd_left(tcp_conn_t *conn, zpy_srv_client_t *cmd, char const *args);
-bool cmd_look(tcp_conn_t *conn, zpy_srv_client_t *cmd, char const *args);
-bool cmd_msz(tcp_conn_t *conn, zpy_srv_client_t *cmd, char const *args);
-bool cmd_right(tcp_conn_t *conn, zpy_srv_client_t *cmd, char const *args);
-bool cmd_set(tcp_conn_t *conn, zpy_srv_client_t *cmd, char const *args);
-bool cmd_take(tcp_conn_t *conn, zpy_srv_client_t *cmd, char const *args);
-bool cmd_msz(tcp_conn_t *conn, zpy_srv_client_t *cmd, char const *args);
-bool cmd_bct(tcp_conn_t *conn, zpy_srv_client_t *cmd, char const *args);
+bool zpy_srv_cmd_broadcast(tcp_conn_t *conn, zpy_srv_client_t *client,
+	char const *args);
+bool zpy_srv_cmd_connect(tcp_conn_t *conn, zpy_srv_client_t *client,
+	char const *args);
+bool zpy_srv_cmd_eject(tcp_conn_t *conn, zpy_srv_client_t *client,
+	char const *args);
+bool zpy_srv_cmd_fork(tcp_conn_t *conn, zpy_srv_client_t *client,
+	char const *args);
+bool zpy_srv_cmd_forward(tcp_conn_t *conn, zpy_srv_client_t *client,
+	char const *args);
+bool zpy_srv_cmd_incantation(tcp_conn_t *conn, zpy_srv_client_t *client,
+	char const *args);
+bool zpy_srv_cmd_inventory(tcp_conn_t *conn, zpy_srv_client_t *client,
+	char const *args);
+bool zpy_srv_cmd_left(tcp_conn_t *conn, zpy_srv_client_t *client,
+	char const *args);
+bool zpy_srv_cmd_look(tcp_conn_t *conn, zpy_srv_client_t *client,
+	char const *args);
+bool zpy_srv_cmd_right(tcp_conn_t *conn, zpy_srv_client_t *client,
+	char const *args);
+bool zpy_srv_cmd_set(tcp_conn_t *conn, zpy_srv_client_t *client,
+	char const *args);
+bool zpy_srv_cmd_take(tcp_conn_t *conn, zpy_srv_client_t *client,
+	char const *args);
+
+bool zpy_srv_cmd_msz(tcp_conn_t *conn, zpy_srv_client_t *client,
+	char const *args);
+bool zpy_srv_cmd_bct(tcp_conn_t *conn, zpy_srv_client_t *client,
+	char const *args);
 
 #endif /* !defined (ZAPPY_SERVER_H_) */

@@ -1,34 +1,37 @@
 /*
 ** EPITECH PROJECT, 2018
-** cmd map
+** PSU_zappy_2017
 ** File description:
-** cmd map
+** Map command (MSZ and BCT)
 */
 
 #include <stdio.h>
 #include <string.h>
+
 #include "zappy_server.h"
 
-bool cmd_msz(tcp_conn_t *conn,
-		zpy_srv_client_t *client,
-		__attribute__((unused))char const *cmd)
+bool zpy_srv_cmd_msz(tcp_conn_t *conn, zpy_srv_client_t *client,
+	char const *args __attribute__ ((unused)))
 {
-	char buff[256];
-
-	snprintf(buff, 256, "msz %u %u\n", client->server->map.width,
-		client->server->map.height);
-	cbuf_write(&conn->out, &buff, strlen(buff));
+	tcp_conn_printf(conn, "msz %u %u\n",
+		client->server->map.width, client->server->map.height);
 	return (true);
 }
 
-bool cmd_bct(tcp_conn_t *conn,
-		zpy_srv_client_t *client,
-		__attribute__((unused))char const *cmd)
+bool zpy_srv_cmd_bct(tcp_conn_t *conn, zpy_srv_client_t *client,
+	char const *args)
 {
-	char buff[256];
+	unsigned int x;
+	unsigned int y;
+	size_t rd;
 
-	snprintf(buff, 256, "msz %u %u\n", client->server->map.width,
-		client->server->map.height);
-	cbuf_write(&conn->out, &buff, strlen(buff));
+	if (sscanf(args, "%u %u%zn", &x, &y, &rd) != 3 || rd != strlen(args) ||
+		x >= client->server->map.width ||
+		y >= client->server->map.height) {
+		tcp_conn_printf(conn, "sbp\n");
+		return (true);
+	}
+	tcp_conn_printf(conn, "bct %u %u %u %u %u %u %u %u %u\n", x, y,
+		0, 0, 0, 0, 0, 0, 0);
 	return (true);
 }

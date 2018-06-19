@@ -28,8 +28,6 @@ set(SRC_LIST
 
 set(SRC_TCP
 		include/tcp.h
-		src/tcp_client.c
-		src/tcp_client_conn.c
 		src/tcp_server.c
 		src/tcp_server_conn.c
 		src/tcp_server_serve.c

@@ -12,7 +12,8 @@
 
 #include <stdio.h>
 
-static bool not_implemented(tcp_conn_t *conn __attribute__((unused)),
+static bool zpy_srv_cmd_not_implemented(
+	tcp_conn_t *conn __attribute__((unused)),
 	zpy_srv_client_t *client __attribute__((unused)), char const *cmd)
 {
 	printf("%s: Command not implemented yet.\n", cmd);
@@ -20,27 +21,27 @@ static bool not_implemented(tcp_conn_t *conn __attribute__((unused)),
 }
 
 static zpy_srv_cmd_t const zpy_srv_cmds[] = {
-	{ "Forward", &cmd_forward, CLIENT_AI, 7, NULL },
-	{ "Right", &cmd_right, CLIENT_AI, 7, NULL },
-	{ "Left", &cmd_left, CLIENT_AI, 7, NULL },
-	{ "Look", &cmd_look, CLIENT_AI, 7, NULL },
-	{ "Inventory", &cmd_inventory, CLIENT_AI, 1, NULL },
-	{ "Broadcast", &cmd_broadcast, CLIENT_AI, 7, NULL },
-	{ "Connect_nbr", &cmd_connect, CLIENT_AI, 0, NULL },
-	{ "Fork", &cmd_fork, CLIENT_AI, 42, NULL },
-	{ "Eject", &cmd_eject, CLIENT_AI, 7, NULL },
-	{ "Take", &cmd_take, CLIENT_AI, 7, NULL },
-	{ "Set", &cmd_set, CLIENT_AI, 7, NULL },
-	{ "Incantation", &cmd_incantation, CLIENT_AI, 300, NULL },
-	{ "msz", &cmd_msz, CLIENT_GRAPHICAL, 0, NULL },
-	{ "bct", &not_implemented, CLIENT_GRAPHICAL, 0, NULL },
-	{ "mct", &not_implemented, CLIENT_GRAPHICAL, 0, NULL },
-	{ "tna", &not_implemented, CLIENT_GRAPHICAL, 0, NULL },
-	{ "ppo", &not_implemented, CLIENT_GRAPHICAL, 0, NULL },
-	{ "plv", &not_implemented, CLIENT_GRAPHICAL, 0, NULL },
-	{ "pin", &not_implemented, CLIENT_GRAPHICAL, 0, NULL },
-	{ "sgt", &not_implemented, CLIENT_GRAPHICAL, 0, NULL },
-	{ "sst", &not_implemented, CLIENT_GRAPHICAL, 0, NULL },
+	{ "forward", &zpy_srv_cmd_forward, CLIENT_AI, 7, NULL },
+	{ "right", &zpy_srv_cmd_right, CLIENT_AI, 7, NULL },
+	{ "left", &zpy_srv_cmd_left, CLIENT_AI, 7, NULL },
+	{ "look", &zpy_srv_cmd_look, CLIENT_AI, 7, NULL },
+	{ "inventory", &zpy_srv_cmd_inventory, CLIENT_AI, 1, NULL },
+	{ "broadcast", &zpy_srv_cmd_broadcast, CLIENT_AI, 7, NULL },
+	{ "connect_nbr", &zpy_srv_cmd_connect, CLIENT_AI, 0, NULL },
+	{ "fork", &zpy_srv_cmd_fork, CLIENT_AI, 42, NULL },
+	{ "eject", &zpy_srv_cmd_eject, CLIENT_AI, 7, NULL },
+	{ "take", &zpy_srv_cmd_take, CLIENT_AI, 7, NULL },
+	{ "set", &zpy_srv_cmd_set, CLIENT_AI, 7, NULL },
+	{ "incantation", &zpy_srv_cmd_incantation, CLIENT_AI, 300, NULL },
+	{ "msz", &zpy_srv_cmd_msz, CLIENT_GRAPHICAL, 0, NULL },
+	{ "bct", &zpy_srv_cmd_bct, CLIENT_GRAPHICAL, 0, NULL },
+	{ "mct", &zpy_srv_cmd_not_implemented, CLIENT_GRAPHICAL, 0, NULL },
+	{ "tna", &zpy_srv_cmd_not_implemented, CLIENT_GRAPHICAL, 0, NULL },
+	{ "ppo", &zpy_srv_cmd_not_implemented, CLIENT_GRAPHICAL, 0, NULL },
+	{ "plv", &zpy_srv_cmd_not_implemented, CLIENT_GRAPHICAL, 0, NULL },
+	{ "pin", &zpy_srv_cmd_not_implemented, CLIENT_GRAPHICAL, 0, NULL },
+	{ "sgt", &zpy_srv_cmd_not_implemented, CLIENT_GRAPHICAL, 0, NULL },
+	{ "sst", &zpy_srv_cmd_not_implemented, CLIENT_GRAPHICAL, 0, NULL },
 	{ NULL, NULL, CLIENT_UNKNOWN, 0, NULL }
 };
 

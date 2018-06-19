@@ -1,19 +1,17 @@
 /*
 ** EPITECH PROJECT, 2018
-** cmd incantation
+** PSU_zappy_2017
 ** File description:
-** cmd incantation
+** Incantation command
 */
-
 #include <stdio.h>
+
 #include "zappy_server.h"
 
-bool cmd_incantation(tcp_conn_t *conn,
-		__attribute__((unused))zpy_srv_client_t *client,
-		__attribute__((unused))char const *cmd)
+bool zpy_srv_cmd_incantation(tcp_conn_t *conn, zpy_srv_client_t *client,
+	char const *args)
 {
-	printf("incantation nbr\n");
-	//TODO
-	cbuf_write(&conn->out, "todo\n", 5);
+	(void)conn, (void)client, (void)args;
+	printf("Incantation TODO\n");
 	return (true);
 }

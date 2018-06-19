@@ -13,7 +13,7 @@
 
 #include "zappy_server.h"
 
-static int usage(char const *progname, int ret)
+static int zpy_srv_usage(char const *progname, int ret)
 {
 	printf("USAGE: %s -p port -x width -y height -n name1 name2 ... -c "
 		"clientsNb -f freq\n", progname);
@@ -27,7 +27,7 @@ static int usage(char const *progname, int ret)
 	return (ret);
 }
 
-static int zpy_server(zpy_srv_t *server, char const *progname)
+static int zpy_srv_run(zpy_srv_t *server, char const *progname)
 {
 	if (!zpy_srv_map_init(&server->map) || !zpy_srv_teams_init(server))
 		return (84);
@@ -54,17 +54,17 @@ int main(int argc, char **argv)
 
 	for (int i = 1; i < argc; i++) {
 		if (strcmp(argv[i], "-help") == 0)
-			return (usage(argv[0], 0));
+			return (zpy_srv_usage(argv[0], 0));
 	}
 	memset(&server, 0, sizeof(server));
 	server.freq = 100;
 	server.teams = list_create(true);
 	if (!zpy_srv_args_parse(&server, argc, argv)) {
 		fprintf(stderr, "%s: invalid or missing argument\n", argv[0]);
-		return (usage(argv[0], 84));
+		return (zpy_srv_usage(argv[0], 84));
 	}
 	srand(time(NULL));
-	ret = zpy_server(&server, argv[0]);
+	ret = zpy_srv_run(&server, argv[0]);
 	zpy_srv_teams_cleanup(server.teams);
 	return (ret);
 }
