@@ -79,7 +79,6 @@ std::vector<zappy::ai::Item> zappy::ai::Drone::_evaluateNeeds() const
 
 void zappy::ai::Drone::_move(const zappy::VertexS &dir)
 {
-
 }
 
 void zappy::ai::Drone::_moveForward()

@@ -12,8 +12,9 @@
 	#include <unordered_map>
 	#include <functional>
 	#include "Inventory.hpp"
+	#include "Memory.hpp"
 	#include "Vertex.hpp"
-#include "RequestConstructor.hpp"
+	#include "RequestConstructor.hpp"
 
 
 namespace zappy {
@@ -74,7 +75,7 @@ namespace zappy {
 			Item _need;
 			std::vector<Item> _lookingFor;
 			const std::vector<Inventory> _lvlStuff;
-			std::multimap<Item, VertexS> _memory;
+			Memory _memory;
 			std::unordered_map<Behavior, std::function<void(void)>>
 				_act;
 			RequestConstructor _reqConstr;
