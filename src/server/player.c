@@ -10,27 +10,25 @@
 
 #include "zappy_server.h"
 
-bool zpy_srv_player_new(zpy_srv_t *server, unsigned short team)
+bool zpy_srv_player_new(zpy_srv_client_t *client, unsigned short team)
 {
-	zpy_srv_player_t *player;
-
-	player = malloc(sizeof(*player));
-	if (player == NULL)
+	client->player = malloc(sizeof(*client->player));
+	if (client->player == NULL)
 		return (false);
-	player->cmd_queue = list_create(true);
-	if (player->cmd_queue == NULL)
+	client->player->cmd_queue = list_create(true);
+	if (client->player->cmd_queue == NULL)
 		return (false);
-	player->team = team;
-	player->x = rand() % server->map.width;
-	player->y = rand() % server->map.height;
-	player->direction = rand() % NDIRECTIONS;
-	memset(player->inventory, 0, sizeof(player->inventory));
-	player->inventory[FOOD] = 1;
-	player->level = 1;
-	player->food_countdown = 1260;
-	list_push_back(((zpy_srv_team_t*)list_get(server->teams, team))->
-		players, player);
-	list_push_back(server->map.players, player);
+	client->player->team = team;
+	client->player->x = rand() % client->server->map.width;
+	client->player->y = rand() % client->server->map.height;
+	client->player->direction = rand() % NDIRECTIONS;
+	memset(client->player->inventory, 0, sizeof(client->player->inventory));
+	client->player->inventory[FOOD] = 1;
+	client->player->level = 1;
+	client->player->food_countdown = 1260;
+	list_push_back(((zpy_srv_team_t*)list_get(client->server->teams,
+		team))->players, client->player);
+	list_push_back(client->server->map.players, client->player);
 	return (true);
 }
 
