@@ -18,6 +18,7 @@ SRCS		=	cbuf.c						\
 			list/pop.c					\
 			list/push.c					\
 			list/remove.c					\
+			tcp_client.c					\
 			tcp_server.c					\
 			tcp_server_serve.c				\
 			tcp_server_conn.c				\
