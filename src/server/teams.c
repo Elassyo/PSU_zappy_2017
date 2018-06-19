@@ -49,7 +49,7 @@ static bool zpy_srv_team_join(tcp_conn_t *conn, zpy_srv_client_t *client,
 		tcp_conn_printf(conn, "ko\n");
 		return (true);
 	}
-	if (!zpy_srv_player_new(client->server, i))
+	if (!zpy_srv_player_new(client, i))
 		return (false);
 	tcp_conn_printf(conn, "%d\n", team->max_players - team->players->len);
 	tcp_conn_printf(conn, "%u %u\n",
