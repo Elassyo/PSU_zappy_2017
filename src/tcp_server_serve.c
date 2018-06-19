@@ -51,7 +51,7 @@ static void tcp_server_handle_poll_conn(tcp_server_t *s)
 		if (tcp_server_handle_poll_io(s, s->conns[i],
 			s->pfds[pfds_idx++].revents))
 			continue;
-		tcp_server_conn_close(s, i--, false);
+		tcp_server_conn_close(s, i--, true);
 	}
 	if (s->pfds[0].revents & POLLIN)
 		tcp_server_conn_accept(s);

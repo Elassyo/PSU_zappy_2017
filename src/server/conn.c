@@ -35,8 +35,6 @@ static bool zpy_srv_conn_calc_tick(tcp_conn_t *conn, zpy_srv_client_t *client)
 	struct timespec ts;
 	double delta;
 
-	if (client->type != CLIENT_AI)
-		return (true);
 	clock_gettime(CLOCK_MONOTONIC_RAW, &ts);
 	delta = (ts.tv_sec + (double)ts.tv_nsec / 1000000000) -
 		(client->last_tick.tv_sec +
@@ -56,8 +54,12 @@ static bool zpy_srv_conn_do_command(tcp_conn_t *conn, zpy_srv_client_t *client,
 	size_t len;
 	char *args;
 
-	if (client->type == CLIENT_UNKNOWN)
-		return (zpy_srv_teams_join(conn, client, msg));
+	if (client->type == CLIENT_UNKNOWN) {
+		if (!zpy_srv_teams_join(conn, client, msg))
+			return (false);
+		clock_gettime(CLOCK_MONOTONIC_RAW, &client->last_tick);
+		return (true);
+	}
 	len = strcspn(msg, " ");
 	args = msg + len;
 	if (*args)
@@ -73,7 +75,7 @@ bool zpy_srv_conn_on_tick(tcp_conn_t *conn)
 	char *end;
 	size_t sz;
 
-	if (!zpy_srv_conn_calc_tick(conn, client))
+	if (client->type == CLIENT_AI && !zpy_srv_conn_calc_tick(conn, client))
 		return (false);
 	while (client->type != CLIENT_AI ||
 		client->player->cmd_queue->len < 10) {

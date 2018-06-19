@@ -77,7 +77,7 @@ INCDIR		=	include
 SUBDIRS		=	ai server ai/Exception list server/cmd_ai server/cmd_graphic
 
 CC		=	gcc
-CFLAGS		=	-c -W -Wall -Wextra -I$(INCDIR)
+CFLAGS		=	-c -g -W -Wall -Wextra -I$(INCDIR)
 
 CXX		=	g++
 CXXFLAGS	=	-c -W -Wall -Wextra -std=c++17 -I$(INCDIR)
