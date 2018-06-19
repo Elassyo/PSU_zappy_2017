@@ -16,11 +16,12 @@ ssize_t tcp_conn_getline(tcp_conn_t *conn, char *buf, size_t n, char delim)
 	char *end;
 
 	sz = tcp_conn_peek(conn, buf, n);
-	end = memchr(buf, delim, sz);
+	end = memchr(buf, delim, sz - 1);
 	if (end == NULL)
 		return (sz == n ? -1 : 0);
-	*end = '\0';
-	tcp_conn_read(conn, NULL, end - buf + 1);
+	*(end + 1) = '\0';
+	sz = end - buf + 1;
+	tcp_conn_read(conn, NULL, sz);
 	return (sz);
 }
 
