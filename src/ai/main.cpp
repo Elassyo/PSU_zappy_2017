@@ -8,7 +8,7 @@
 #include <cstring>
 #include <iostream>
 
-#include "CBuffer.hpp"
+#include "Drone.hpp"
 
 static int zpy_ai_usage(char const *progname, int ret)
 {
@@ -23,9 +23,26 @@ static int zpy_ai_usage(char const *progname, int ret)
 
 int main(int argc, char const **argv)
 {
+	uint16_t port = 0;
+	std::string name;
+	std::string hostname;
 	for (int i = 1; i < argc; i++) {
 		if (std::strcmp(argv[i], "-help") == 0)
 			return zpy_ai_usage(argv[0], 0);
+		if (argc > i + 1 && std::strcmp(argv[i], "-p") == 0)
+			port = (uint16_t) atoi(argv[i + 1]);
+		if (argc > i + 1 && std::strcmp(argv[i], "-n") == 0)
+			name = argv[i + 1];
+		if (argc > i + 1 && std::strcmp(argv[i], "-h") == 0)
+			hostname = argv[i + 1];
 	}
+	try {
+		zappy::RequestHandler requestHandler(hostname, port);
+		zappy::ai::Drone drone(name, {0, 0}, requestHandler);
+		drone.live();
+	} catch (const zappy::Exception &e) {
+		std::cerr << e.where() << ": "<<  e.what() << std::endl;
+	}
+
 	return 0;
 }

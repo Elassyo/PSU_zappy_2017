@@ -12,7 +12,6 @@
 	#include <vector>
 	#include <sstream>
 	#include "Tile.hpp"
-	#include "Exception/Exception.hpp"
 
 namespace zappy {
 	namespace ai {

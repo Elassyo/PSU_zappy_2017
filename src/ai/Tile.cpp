@@ -27,7 +27,20 @@ zappy::ai::Tile::Tile(const std::string &itTile) :
 
 zappy::VertexS zappy::ai::Tile::computePosition(const zappy::VertexS &playerPos,
 						const zappy::VertexS &mapSize,
-						zappy::ai::Direction) const
+						zappy::ai::Direction dir, size_t index) const
 {
-	return VertexS(0, 0);
+	size_t y = (size_t) std::trunc(sqrt(index));
+	switch (dir) {
+	case NORTH:
+		return VertexS(index - y *(y + 1), y);
+	case SOUTH:
+		return VertexS((index - y *(y + 1)) * (-1), y * (-1));
+	case EAST:
+		return VertexS(y, (index - y *(y + 1)) * (-1));
+	case WEST:
+		return VertexS(y * (-1), index - y *(y + 1));
+	default:
+		return VertexS();
+	}
+
 }
