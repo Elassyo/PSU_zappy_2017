@@ -12,7 +12,14 @@
 bool zpy_srv_cmd_connect(tcp_conn_t *conn, zpy_srv_client_t *client,
 	char const *args)
 {
-	(void)conn, (void)client, (void)args;
-	printf("Connect_nbr TODO\n");
+	printf("tg calr\n");
+	unsigned short teamnumber = client->player->team;
+	list_node_t *teams = client->server->teams->head;
+	zpy_srv_team_t *data;
+
+	for (unsigned short i = 0; i < teamnumber; i++)
+		teams = teams->next;
+	data = teams->data;
+	tcp_conn_printf(conn, "%d\n", (data->max_players - data->players->len));
 	return (true);
 }
