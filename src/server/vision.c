@@ -22,12 +22,12 @@ static void zpy_srv_vision_tile_pos_direction(zpy_direction_t direction,
 		*pos_x = *pos_y;
 		*pos_y = tmp;
 		break;
-	case DOWN:
-		break;
 	case LEFT:
 		tmp = *pos_x;
 		*pos_x = -(*pos_y);
 		*pos_y = tmp;
+		break;
+	default:
 		break;
 	}
 }

@@ -29,7 +29,7 @@ static int zpy_srv_usage(char const *progname, int ret)
 
 static bool zpy_srv_init(zpy_srv_t *server)
 {
-	if (!zpy_srv_map_init(&server->map) || !zpy_srv_teams_init(server))
+	if (!zpy_srv_map_init(server) || !zpy_srv_teams_init(server))
 		return (false);
 	server->graphic_clients = list_create(false);
 	if (server->graphic_clients == NULL)

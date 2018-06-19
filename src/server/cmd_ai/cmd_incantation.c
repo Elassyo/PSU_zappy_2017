@@ -4,14 +4,20 @@
 ** File description:
 ** Incantation command
 */
+
 #include <stdio.h>
+#include <string.h>
 
 #include "zappy_server.h"
 
 bool zpy_srv_cmd_incantation(tcp_conn_t *conn, zpy_srv_client_t *client,
 	char const *args)
 {
-	(void)conn, (void)client, (void)args;
+	(void)client;
+	if (strcmp(args, "") != 0) {
+		tcp_conn_printf(conn, "ko\n");
+		return (true);
+	}
 	printf("Incantation TODO\n");
 	return (true);
 }

@@ -100,10 +100,12 @@ void zpy_srv_teams_cleanup(list_t *teams);
 bool zpy_srv_teams_join(tcp_conn_t *conn, zpy_srv_client_t *client,
 	char const *name);
 
-bool zpy_srv_map_init(zpy_srv_map_t *map);
+bool zpy_srv_map_init(zpy_srv_t *server);
 void zpy_srv_map_cleanup(zpy_srv_map_t *map);
 
-int zpy_srv_map_find_item_group(zpy_srv_map_t *map,
+zpy_srv_item_group_t *zpy_srv_map_find_item_group(zpy_srv_map_t *map,
+	unsigned int x, unsigned int y, zpy_item_type_t item_type);
+int zpy_srv_map_find_item_group_idx(zpy_srv_map_t *map,
 	unsigned int x, unsigned int y, zpy_item_type_t item_type);
 bool zpy_srv_map_add_item(zpy_srv_map_t *map,
 	unsigned int x, unsigned int y, zpy_item_type_t item_type);
@@ -160,5 +162,12 @@ bool zpy_srv_cmd_msz(tcp_conn_t *conn, zpy_srv_client_t *client,
 	char const *args);
 bool zpy_srv_cmd_bct(tcp_conn_t *conn, zpy_srv_client_t *client,
 	char const *args);
+bool zpy_srv_cmd_mct(tcp_conn_t *conn, zpy_srv_client_t *client,
+	char const *args);
+
+bool zpy_srv_grph_msz(tcp_conn_t *conn, zpy_srv_map_t *map);
+bool zpy_srv_grph_bct(tcp_conn_t *conn, zpy_srv_map_t *map,
+	unsigned int x, unsigned int y);
+bool zpy_srv_grph_mct(tcp_conn_t *conn, zpy_srv_map_t *map);
 
 #endif /* !defined (ZAPPY_SERVER_H_) */

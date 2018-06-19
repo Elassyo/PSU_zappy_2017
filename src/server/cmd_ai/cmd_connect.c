@@ -6,19 +6,20 @@
 */
 
 #include <stdio.h>
+#include <string.h>
 
 #include "zappy_server.h"
 
 bool zpy_srv_cmd_connect(tcp_conn_t *conn, zpy_srv_client_t *client,
 	char const *args)
 {
-	unsigned short teamnumber = client->player->team;
-	list_node_t *teams = client->server->teams->head;
-	zpy_srv_team_t *data;
+	zpy_srv_team_t *team;
 
-	for (unsigned short i = 0; i < teamnumber; i++)
-		teams = teams->next;
-	data = teams->data;
-	tcp_conn_printf(conn, "%d\n", (data->max_players - data->players->len));
+	if (strcmp(args, "") != 0) {
+		tcp_conn_printf(conn, "ko\n");
+		return (true);
+	}
+	team = list_get(client->server->teams, client->player->team);
+	tcp_conn_printf(conn, "%d\n", (team->max_players - team->players->len));
 	return (true);
 }
