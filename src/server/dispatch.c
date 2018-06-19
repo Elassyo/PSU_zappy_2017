@@ -61,8 +61,8 @@ bool zpy_srv_dispatch_cmd(tcp_conn_t *conn, zpy_srv_client_t *client,
 		memcpy(c, &zpy_srv_cmds[i], sizeof(*c));
 		c->args = strdup(args);
 		list_push_back(client->player->cmd_queue, c);
+		return (true);
 	}
 	tcp_conn_printf(conn, client->type == CLIENT_AI ? "ko\n" : "suc\n");
-	printf("%s: Unknown command\n", cmd);
 	return (true);
 }

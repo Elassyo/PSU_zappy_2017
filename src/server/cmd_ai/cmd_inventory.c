@@ -13,8 +13,8 @@ bool zpy_srv_cmd_inventory(tcp_conn_t *conn, zpy_srv_client_t *client,
 	char const *args)
 {
 	zpy_srv_player_t *player = client->player;
-	char *items[NITEM_TYPES] = {"food", "linemate", "deraumere",
-				"sibur", "mendiane", "phiras", "thystame"};
+	char *items[NITEM_TYPES] = { "food", "linemate", "deraumere",
+		"sibur", "mendiane", "phiras", "thystame" };
 
 	for (unsigned short i = 0; i < NITEM_TYPES; i++) {
 		printf("%s : %d", items[i], player->inventory[i]);

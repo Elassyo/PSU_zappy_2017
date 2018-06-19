@@ -21,7 +21,8 @@ SRCS		=	cbuf.c						\
 			tcp_server.c					\
 			tcp_server_serve.c				\
 			tcp_server_conn.c				\
-			tcp_conn.c					\
+			tcp_conn_io.c					\
+			tcp_conn_io2.c					\
 			tcp_sock.c					\
 			tcp_sock_client.c				\
 			tcp_sock_server.c				\

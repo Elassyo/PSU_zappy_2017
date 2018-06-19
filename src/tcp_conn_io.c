@@ -2,13 +2,25 @@
 ** EPITECH PROJECT, 2018
 ** PSU_zappy_2017
 ** File description:
-** TCP connections
+** TCP connections (low level IO routines)
 */
 
-#include <stdarg.h>
 #include <stdio.h>
 
 #include "tcp.h"
+
+bool tcp_conn_fetch(tcp_conn_t *conn)
+{
+	char buf[1024];
+	ssize_t ssz;
+
+	ssz = tcp_sock_recv(&conn->sock, buf,
+		min(1024, cbuf_free_bytes(&conn->in)));
+	if (ssz <= 0)
+		return (false);
+	cbuf_write(&conn->in, buf, ssz);
+	return (true);
+}
 
 bool tcp_conn_flush(tcp_conn_t *conn)
 {
@@ -29,11 +41,16 @@ bool tcp_conn_flush(tcp_conn_t *conn)
 
 size_t tcp_conn_read(tcp_conn_t *conn, void *buf, size_t n)
 {
+
+	while (conn->block && cbuf_used_bytes(&conn->in) < n)
+		tcp_conn_fetch(conn);
 	return (cbuf_read(&conn->in, buf, n));
 }
 
 size_t tcp_conn_peek(tcp_conn_t *conn, void *buf, size_t n)
 {
+	while (conn->block && cbuf_used_bytes(&conn->in) < n)
+		tcp_conn_fetch(conn);
 	return (cbuf_peek(&conn->in, buf, n));
 }
 
@@ -45,16 +62,4 @@ size_t tcp_conn_write(tcp_conn_t *conn, void const *buf, size_t n)
 	if (conn->block)
 		tcp_conn_flush(conn);
 	return (sz);
-}
-
-size_t tcp_conn_printf(tcp_conn_t *conn, char const *fmt, ...)
-{
-	char buf[512];
-	va_list va;
-	size_t len;
-
-	va_start(va, fmt);
-	len = vsnprintf(buf, 512, fmt, va);
-	va_end(va);
-	return (tcp_conn_write(conn, buf, len));
 }

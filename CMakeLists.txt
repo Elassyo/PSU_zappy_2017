@@ -31,13 +31,13 @@ set(SRC_TCP
 		src/tcp_server.c
 		src/tcp_server_conn.c
 		src/tcp_server_serve.c
-		src/tcp_conn.c
+        src/tcp_conn_io.c
 		src/tcp_sock.c
 		src/tcp_sock_client.c
 		src/tcp_sock_server.c
 		src/tcp_sock_io.c
 		src/tcp_sock_info.c
-		src/tcp_sock_rinfo.c)
+		src/tcp_sock_rinfo.c src/tcp_client.c src/tcp_conn_io2.c)
 
 set(SRC_COMMON
 		include/zappy.h
