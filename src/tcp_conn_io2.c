@@ -16,7 +16,7 @@ ssize_t tcp_conn_getline(tcp_conn_t *conn, char *buf, size_t n, char delim)
 	char *end;
 
 	sz = tcp_conn_peek(conn, buf, n);
-	end = memchr(buf, delim, sz - 1);
+	end = memchr(buf, delim, sz);
 	if (end == NULL)
 		return (sz == n ? -1 : 0);
 	*(end + 1) = '\0';
