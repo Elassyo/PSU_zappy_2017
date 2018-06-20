@@ -84,6 +84,7 @@ struct zpy_srv_egg {
 	unsigned int creator_id;
 	unsigned int x;
 	unsigned int y;
+	unsigned int countdown;
 	unsigned int team;
 };
 
@@ -143,6 +144,7 @@ size_t zpy_srv_get_vision_tile_pos(zpy_srv_map_t *map,
 	zpy_srv_player_t *player, size_t tile);
 
 zpy_srv_egg_t *zpy_srv_egg_init(size_t *id, zpy_srv_player_t *parent);
+void zpy_srv_tick_eggs(zpy_srv_t *server);
 
 bool zpy_srv_grph_add(zpy_srv_t *server, tcp_conn_t *conn);
 void zpy_srv_grph_remove(zpy_srv_t *server, tcp_conn_t *conn);

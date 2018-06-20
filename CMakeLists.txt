@@ -82,6 +82,7 @@ add_executable(zappy_server
         src/server/main_args.c
         src/server/conn.c
         src/server/dispatch.c
+        src/server/eggs.c
         src/server/map.c
         src/server/map_items.c
         src/server/map_players.c
