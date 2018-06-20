@@ -30,6 +30,7 @@ bool zpy_srv_player_new(zpy_srv_client_t *client, unsigned short team)
 	list_push_back(((zpy_srv_team_t*)list_get(client->server->teams,
 		team))->players, client->player);
 	list_push_back(client->server->map.players, client->player);
+	zpy_srv_grph_sendall(client->server, &zpy_srv_grph_pnw, client->player);
 	return (true);
 }
 

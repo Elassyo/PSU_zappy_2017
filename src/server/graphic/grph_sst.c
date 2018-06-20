@@ -7,11 +7,11 @@
 
 #include "zappy_server.h"
 
-void zpy_srv_grph_sst(tcp_conn_t *conn, va_list args)
+void zpy_srv_grph_sst(tcp_conn_t *conn, va_list args __attribute__ ((unused)))
 {
-	zpy_srv_t *server = va_arg(args, zpy_srv_t*);
+	zpy_srv_client_t *client = conn->data;
 
-	server->freq = va_arg(args, unsigned int);
-	server->tcp.tickrate = 1.0 / server->freq;
-	tcp_conn_printf(conn, "sst %u\n", server->freq);
+	client->server->freq = va_arg(args, unsigned int);
+	client->server->tcp.tickrate = 1.0 / client->server->freq;
+	tcp_conn_printf(conn, "sst %u\n", client->server->freq);
 }

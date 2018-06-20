@@ -10,8 +10,8 @@
 
 #include "zappy_server.h"
 
-bool zpy_srv_cmd_sst(tcp_conn_t *conn, zpy_srv_client_t *client,
-	char const *args)
+bool zpy_srv_cmd_sst(tcp_conn_t *conn,
+	zpy_srv_client_t *client __attribute__ ((unused)), char const *args)
 {
 	unsigned int freq;
 	size_t rd;
@@ -21,6 +21,6 @@ bool zpy_srv_cmd_sst(tcp_conn_t *conn, zpy_srv_client_t *client,
 		tcp_conn_printf(conn, "sbp\n");
 		return (true);
 	}
-	zpy_srv_grph_send(conn, &zpy_srv_grph_sst, client->server, freq);
+	zpy_srv_grph_send(conn, &zpy_srv_grph_sst, freq);
 	return (true);
 }

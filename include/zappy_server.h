@@ -131,7 +131,7 @@ void zpy_srv_grph_remove(zpy_srv_t *server, tcp_conn_t *conn);
 
 void zpy_srv_grph_send(tcp_conn_t *conn,
 	void (*handler)(tcp_conn_t *, va_list), ...);
-void zpy_srv_grph_send_all(zpy_srv_t *server,
+void zpy_srv_grph_sendall(zpy_srv_t *server,
 	void (*handler)(tcp_conn_t *, va_list), ...);
 
 bool zpy_srv_dispatch_cmd(tcp_conn_t *conn, zpy_srv_client_t *client,
@@ -181,23 +181,25 @@ bool zpy_srv_cmd_sst(tcp_conn_t *conn, zpy_srv_client_t *client,
 bool zpy_srv_cmd_tna(tcp_conn_t *conn, zpy_srv_client_t *client,
 	char const *args);
 
-/* args: zpy_srv_map_t *map */
-void zpy_srv_grph_msz(tcp_conn_t *conn, va_list args);
-/* args: zpy_srv_map_t *map, unsigned int x, unsigned int y */
+/* args: unsigned int x, unsigned int y */
 void zpy_srv_grph_bct(tcp_conn_t *conn, va_list args);
-/* args: zpy_srv_map_t *map */
+/* args: none */
 void zpy_srv_grph_mct(tcp_conn_t *conn, va_list args);
+/* args: none */
+void zpy_srv_grph_msz(tcp_conn_t *conn, va_list args);
 /* args: zpy_srv_player_t *player */
 void zpy_srv_grph_pin(tcp_conn_t *conn, va_list args);
 /* args: zpy_srv_player_t *player */
 void zpy_srv_grph_plv(tcp_conn_t *conn, va_list args);
 /* args: zpy_srv_player_t *player */
+void zpy_srv_grph_pnw(tcp_conn_t *conn, va_list args);
+/* args: zpy_srv_player_t *player */
 void zpy_srv_grph_ppo(tcp_conn_t *conn, va_list args);
-/* args: zpy_srv_t *server */
+/* args: none */
 void zpy_srv_grph_sgt(tcp_conn_t *conn, va_list args);
-/* args: zpy_srv_t *server, unsigned int freq */
+/* args: unsigned int freq */
 void zpy_srv_grph_sst(tcp_conn_t *conn, va_list args);
-/* args: list_t<zpy_srv_team_t*> *teams */
+/* args: none */
 void zpy_srv_grph_tna(tcp_conn_t *conn, va_list args);
 
 #endif /* !defined (ZAPPY_SERVER_H_) */

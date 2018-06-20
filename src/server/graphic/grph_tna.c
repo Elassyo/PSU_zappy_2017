@@ -7,13 +7,13 @@
 
 #include "zappy_server.h"
 
-void zpy_srv_grph_tna(tcp_conn_t *conn, va_list args)
+void zpy_srv_grph_tna(tcp_conn_t *conn, va_list args __attribute__ ((unused)))
 {
-	list_t *teams = va_arg(args, list_t*);
-	list_node_t *node;
+	zpy_srv_client_t *client = conn->data;
 	zpy_srv_team_t *team;
+	list_node_t *node;
 
-	node = teams->head;
+	node = client->server->teams->head;
 	while (node != NULL) {
 		team = node->data;
 		tcp_conn_printf(conn, "tna %s\n", team->name);
