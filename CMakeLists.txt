@@ -64,6 +64,8 @@ add_executable(zappy_ai
         src/ai/RequestHandler.hpp
         src/ai/RequestConstructor.cpp
         src/ai/RequestConstructor.hpp
+        src/ai/RequestParser.hpp
+        src/ai/RequestParser.cpp
         src/ai/Vision.cpp
         src/ai/Vision.hpp
         src/ai/Tile.cpp

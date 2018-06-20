@@ -37,6 +37,7 @@ SRCS_AI		=	ai/Exception/Exception.cpp			\
 			ai/Inventory.cpp				\
 			ai/RequestConstructor.cpp			\
 			ai/RequestHandler.cpp				\
+			ai/RequestParser.cpp				\
 			ai/Tile.cpp					\
 			ai/Vertex.cpp					\
 			ai/Vision.cpp					\

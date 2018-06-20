@@ -98,7 +98,7 @@ void zappy::ai::Drone::_moveForward()
 		_pos.ry() += _dir == NORTH ? 1 : -1;
 	else
 		_pos.rx() += _dir == EAST ? 1 : -1;
-	_reqConstr.moveForward();
+	_reqHandler.send(_reqConstr.moveForward());
 }
 
 void zappy::ai::Drone::_lookFor()
@@ -107,7 +107,7 @@ void zappy::ai::Drone::_lookFor()
 
 void zappy::ai::Drone::_look()
 {
-	_reqConstr.look();
+	_reqHandler.send(_reqConstr.look());
 }
 
 void zappy::ai::Drone::_turnRight()

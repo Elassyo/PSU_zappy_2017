@@ -20,13 +20,14 @@ namespace zappy
 		RequestParser();
 		~RequestParser() = default;
 
-		bool parseBool(const std::string &);
-		uint8_t parseValue(const std::string &);
-		bool isDead(const std::string &);
+		bool isEvent(const std::string &) const;
+		bool parseBool(const std::string &) const;
+		uint8_t parseValue(const std::string &) const;
+		bool isDead(const std::string &) const;
 		ai::Inventory parseInventory(const std::string &);
 	private:
 		std::map<zappy::ai::Item, size_t> _itemNbr;
-		std::map<std::string, zappy::ai::Item> _strItem;
+		const std::map<std::string, zappy::ai::Item> _strItem;
 	};
 }
 

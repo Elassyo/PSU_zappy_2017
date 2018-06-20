@@ -16,6 +16,7 @@
 	#include "Vertex.hpp"
 	#include "RequestConstructor.hpp"
 	#include "RequestHandler.hpp"
+	#include "RequestParser.hpp"
 
 
 namespace zappy {
@@ -54,6 +55,9 @@ namespace zappy {
 			void _evolve();
 			void _wait();
 
+/*			bool handleResponces(const std::string &,
+					     std::function<void(void)>);
+*/
 			void _move(const VertexS &dir);
 			void setTarget();
 			void _moveForward();
@@ -81,6 +85,7 @@ namespace zappy {
 			std::unordered_map<Behavior, std::function<void(void)>>
 				_act;
 			RequestConstructor _reqConstr;
+			RequestParser _reqParser;
 			RequestHandler &_reqHandler;
 		};
 	}
