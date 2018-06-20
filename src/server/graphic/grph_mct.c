@@ -7,12 +7,13 @@
 
 #include "zappy_server.h"
 
-bool zpy_srv_grph_mct(tcp_conn_t *conn, zpy_srv_map_t *map)
+void zpy_srv_grph_mct(tcp_conn_t *conn, va_list args)
 {
+	zpy_srv_map_t *map = va_arg(args, zpy_srv_map_t *);
+
 	for (unsigned int y = 0; y < map->height; y++) {
 		for (unsigned int x = 0; x < map->width; x++)
-			zpy_srv_grph_bct(conn, map, x, y);
+			zpy_srv_grph_send(conn, &zpy_srv_grph_bct, map, x, y);
 		tcp_conn_flush(conn);
 	}
-	return (true);
 }

@@ -13,11 +13,11 @@ bool zpy_srv_grph_add(zpy_srv_t *server, tcp_conn_t *conn)
 
 	client = conn->data;
 	list_push_back(server->graphic_clients, conn);
-	zpy_srv_grph_msz(conn, &client->server->map);
-	//zpy_srv_grph_sgt(conn, &client->server);
-	zpy_srv_grph_mct(conn, &client->server->map);
-	//tna teams
-	//pnw players
+	zpy_srv_grph_send(conn, &zpy_srv_grph_msz, &client->server->map);
+	/* sgt */
+	zpy_srv_grph_send(conn, &zpy_srv_grph_mct, &client->server->map);
+	/* tna foreach team */
+	/* pnw foreach players */
 	return (true);
 }
 
@@ -27,17 +27,28 @@ void zpy_srv_grph_remove(zpy_srv_t *server, tcp_conn_t *conn)
 		list_find(server->graphic_clients, conn, NULL));
 }
 
-void zpy_srv_grph_printf(zpy_srv_t *server, const char *fmt, ...)
+void zpy_srv_grph_send(tcp_conn_t *conn,
+	void (*handler)(tcp_conn_t *, va_list), ...)
+{
+	va_list args;
+
+	va_start(args, handler);
+	handler(conn, args);
+	va_end(args);
+}
+
+void zpy_srv_grph_send_all(zpy_srv_t *server,
+	void (*handler)(tcp_conn_t *, va_list), ...)
 {
 	list_node_t *node;
 	va_list args;
 	va_list args_copy;
 
-	va_start(args, fmt);
+	va_start(args, handler);
 	node = server->graphic_clients->head;
 	while (node != NULL) {
 		va_copy(args_copy, args);
-		tcp_conn_vprintf(node->data, fmt, args_copy);
+		handler(node->data, args_copy);
 		va_end(args_copy);
 		node = node->next;
 	}

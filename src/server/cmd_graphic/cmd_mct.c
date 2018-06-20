@@ -16,6 +16,6 @@ bool zpy_srv_cmd_mct(tcp_conn_t *conn, zpy_srv_client_t *client,
 		tcp_conn_printf(conn, "sbp\n");
 		return (true);
 	}
-	zpy_srv_grph_mct(conn, &client->server->map);
+	zpy_srv_grph_send(conn, &zpy_srv_grph_mct, &client->server->map);
 	return (true);
 }

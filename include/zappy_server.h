@@ -127,8 +127,10 @@ bool zpy_srv_player_item_drop(zpy_srv_map_t *map, zpy_srv_player_t *player,
 bool zpy_srv_grph_add(zpy_srv_t *server, tcp_conn_t *conn);
 void zpy_srv_grph_remove(zpy_srv_t *server, tcp_conn_t *conn);
 
-void zpy_srv_grph_printf(zpy_srv_t *server, const char *fmt, ...)
-	__attribute__ ((format (printf, 2, 3)));
+void zpy_srv_grph_send(tcp_conn_t *conn,
+	void (*handler)(tcp_conn_t *, va_list), ...);
+void zpy_srv_grph_send_all(zpy_srv_t *server,
+	void (*handler)(tcp_conn_t *, va_list), ...);
 
 bool zpy_srv_dispatch_cmd(tcp_conn_t *conn, zpy_srv_client_t *client,
 	char const *cmd, char const *args);
@@ -165,9 +167,11 @@ bool zpy_srv_cmd_bct(tcp_conn_t *conn, zpy_srv_client_t *client,
 bool zpy_srv_cmd_mct(tcp_conn_t *conn, zpy_srv_client_t *client,
 	char const *args);
 
-bool zpy_srv_grph_msz(tcp_conn_t *conn, zpy_srv_map_t *map);
-bool zpy_srv_grph_bct(tcp_conn_t *conn, zpy_srv_map_t *map,
-	unsigned int x, unsigned int y);
-bool zpy_srv_grph_mct(tcp_conn_t *conn, zpy_srv_map_t *map);
+/* args: zpy_srv_map_t *map */
+void zpy_srv_grph_msz(tcp_conn_t *conn, va_list args);
+/* args: zpy_srv_map_t *map, unsigned int x, unsigned int y */
+void zpy_srv_grph_bct(tcp_conn_t *conn, va_list args);
+/* args: zpy_srv_map_t *map */
+void zpy_srv_grph_mct(tcp_conn_t *conn, va_list args);
 
 #endif /* !defined (ZAPPY_SERVER_H_) */
