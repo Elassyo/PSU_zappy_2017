@@ -24,6 +24,7 @@ zappy::ai::Drone::Drone(const std::string &team, const VertexS &mapSize,
 {
 	_reqHandler.fetch();
 	std::string welcome = _reqHandler.recv();
+	std::cout << welcome << std::endl;
 	if (welcome != "WELCOME")
 		throw Exception("Drone", "Welcome msg expected");
 	_reqHandler.send(_team + "\n");
