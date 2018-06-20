@@ -35,12 +35,17 @@ SRCS_AI		=	ai/Exception/Exception.cpp			\
 			ai/CBuffer.cpp					\
 			ai/Drone.cpp					\
 			ai/Inventory.cpp				\
+			ai/Memory.cpp					\
+			ai/Properties.cpp				\
 			ai/RequestConstructor.cpp			\
 			ai/RequestHandler.cpp				\
 			ai/RequestParser.cpp				\
 			ai/Tile.cpp					\
 			ai/Vertex.cpp					\
 			ai/Vision.cpp					\
+			ai/Behavior/Help.cpp				\
+			ai/Behavior/Evolve.cpp				\
+			ai/Behavior/LookFor.cpp				\
 			ai/main.cpp
 
 SRCS_SRV	=	server/main.c					\
@@ -77,15 +82,22 @@ SRCS_SRV	=	server/main.c					\
 			server/cmd_graphic/cmd_sst.c			\
 			server/cmd_graphic/cmd_tna.c			\
 			server/graphic/grph_bct.c			\
+			server/graphic/grph_ebo.c			\
+			server/graphic/grph_eht.c			\
+			server/graphic/grph_enw.c			\
 			server/graphic/grph_mct.c			\
 			server/graphic/grph_msz.c			\
+			server/graphic/grph_pbc.c			\
+			server/graphic/grph_pdi.c			\
+			server/graphic/grph_pdr.c			\
+			server/graphic/grph_pex.c			\
+			server/graphic/grph_pfk.c			\
+			server/graphic/grph_pgt.c			\
+			server/graphic/grph_pic.c			\
+			server/graphic/grph_pie.c			\
 			server/graphic/grph_pin.c			\
 			server/graphic/grph_plv.c			\
 			server/graphic/grph_pnw.c			\
-			server/graphic/grph_pex.c			\
-			server/graphic/grph_pgt.c			\
-			server/graphic/grph_pdr.c			\
-			server/graphic/grph_pfk.c			\
 			server/graphic/grph_ppo.c			\
 			server/graphic/grph_sgt.c			\
 			server/graphic/grph_sst.c			\
@@ -107,7 +119,11 @@ INCS_AI		=	ai/Exception/Exception.hpp		\
 			ai/RequestParser.hpp			\
 			ai/Tile.hpp				\
 			ai/Vertex.hpp				\
-			ai/Vision.hpp
+			ai/Vision.hpp				\
+			ai/Behavior/Evolve.hpp			\
+			ai/Behavior/Help.hpp			\
+			ai/Behavior/IBehavior.hpp		\
+			ai/Behavior/LookFor.hpp
 
 LIBS		=
 OBJS		=	$(SRCS:.c=.o)
@@ -117,7 +133,7 @@ OBJS_SRV	=	$(SRCS_SRV:.c=.o)
 SRCDIR		=	src
 OBJDIR		=	obj
 INCDIR		=	include
-SUBDIRS		=	ai ai/Exception list server server/cmd_ai server/cmd_graphic server/graphic
+SUBDIRS		=	ai ai/Exception ai/Behavior list server server/cmd_ai server/cmd_graphic server/graphic
 
 CC		=	gcc
 CFLAGS		=	-c -W -Wall -Wextra -I$(INCDIR)

@@ -41,5 +41,11 @@ std::string zappy::RequestHandler::recv()
 		throw Exception("RequestHandler", "Error while receving msg");
 	std::string s(buffer);
 	s.pop_back();
+	_lastMsg = s;
 	return s;
+}
+
+const std::string &zappy::RequestHandler::getLastMessage()
+{
+	return _lastMsg;
 }

@@ -20,7 +20,7 @@ bool zpy_srv_grph_add(zpy_srv_t *server, tcp_conn_t *conn)
 	zpy_srv_grph_send(conn, &zpy_srv_grph_tna, client->server->teams);
 	node = client->server->map.players->head;
 	while (node != NULL) {
-		zpy_srv_grph_send(conn, &zpy_srv_grph_pnw, conn->data);
+		zpy_srv_grph_send(conn, &zpy_srv_grph_pnw, node->data);
 		node = node->next;
 	}
 	return (true);

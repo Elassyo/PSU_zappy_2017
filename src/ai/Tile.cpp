@@ -5,6 +5,8 @@
 ** Tile.cpp
 */
 
+#include <cmath>
+#include <algorithm>
 #include "Tile.hpp"
 
 const std::map<std::string, zappy::ai::Item> zappy::ai::Tile::_strItem = {

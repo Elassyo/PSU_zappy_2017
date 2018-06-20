@@ -9,15 +9,15 @@
 	#define PSU_ZAPPY_2017_DRONE_HPP
 
 	#include <vector>
-	#include <unordered_map>
+	#include <map>
 	#include <functional>
-	#include "Inventory.hpp"
-	#include "Memory.hpp"
-	#include "Vertex.hpp"
-	#include "RequestConstructor.hpp"
+	#include <memory>
 	#include "RequestHandler.hpp"
 	#include "RequestParser.hpp"
 
+	#include "Behavior/Evolve.hpp"
+	#include "Behavior/LookFor.hpp"
+	#include "Behavior/Help.hpp"
 
 namespace zappy {
 	namespace ai {
@@ -51,18 +51,15 @@ namespace zappy {
 
 			void _move(const VertexS &dir);
 			void setTarget();
-			void _moveForward();
 			void _look();
-			void _turnRight();
-			void _turnLeft();
 			bool _take(Item);
 
+			Properties _properties;
 			Vertex<size_t> _mapSize;
 			const std::string &_team;
 			Behavior _behave;
 
-
-			std::unordered_map<Behavior, std::function<void(void)>>
+			std::map<Behavior, std::shared_ptr<IBehavior>>
 				_act;
 			RequestConstructor _reqConstr;
 			RequestParser _reqParser;
