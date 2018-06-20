@@ -35,12 +35,17 @@ SRCS_AI		=	ai/Exception/Exception.cpp			\
 			ai/CBuffer.cpp					\
 			ai/Drone.cpp					\
 			ai/Inventory.cpp				\
+			ai/Memory.cpp					\
+			ai/Properties.cpp				\
 			ai/RequestConstructor.cpp			\
 			ai/RequestHandler.cpp				\
 			ai/RequestParser.cpp				\
 			ai/Tile.cpp					\
 			ai/Vertex.cpp					\
 			ai/Vision.cpp					\
+			ai/Behavior/Help.cpp				\
+			ai/Behavior/Evolve.cpp				\
+			ai/Behavior/LookFor.cpp				\
 			ai/main.cpp
 
 SRCS_SRV	=	server/main.c					\
@@ -50,10 +55,12 @@ SRCS_SRV	=	server/main.c					\
 			server/graphic.c				\
 			server/map.c					\
 			server/map_items.c				\
+			server/map_players.c				\
 			server/player.c					\
 			server/player_items.c				\
 			server/player_move.c				\
 			server/teams.c					\
+			server/vision.c					\
 			server/cmd_ai/cmd_move.c			\
 			server/cmd_ai/cmd_look.c			\
 			server/cmd_ai/cmd_inventory.c			\
@@ -111,7 +118,11 @@ INCS_AI		=	ai/Exception/Exception.hpp		\
 			ai/RequestParser.hpp			\
 			ai/Tile.hpp				\
 			ai/Vertex.hpp				\
-			ai/Vision.hpp
+			ai/Vision.hpp				\
+			ai/Behavior/Evolve.hpp			\
+			ai/Behavior/Help.hpp			\
+			ai/Behavior/IBehavior.hpp		\
+			ai/Behavior/LookFor.hpp
 
 LIBS		=
 OBJS		=	$(SRCS:.c=.o)
@@ -121,7 +132,7 @@ OBJS_SRV	=	$(SRCS_SRV:.c=.o)
 SRCDIR		=	src
 OBJDIR		=	obj
 INCDIR		=	include
-SUBDIRS		=	ai ai/Exception list server server/cmd_ai server/cmd_graphic server/graphic
+SUBDIRS		=	ai ai/Exception ai/Behavior list server server/cmd_ai server/cmd_graphic server/graphic
 
 CC		=	gcc
 CFLAGS		=	-c -W -Wall -Wextra -I$(INCDIR)

@@ -72,7 +72,16 @@ add_executable(zappy_ai
         src/ai/Tile.hpp
         src/ai/Memory.cpp
         src/ai/Memory.hpp
-        src/ai/Behavior/LookFor.cpp src/ai/Behavior/LookFor.hpp src/ai/Behavior/IBehavior.hpp src/ai/Behavior/Evolve.cpp src/ai/Behavior/Evolve.hpp src/ai/Properties.cpp src/ai/Properties.hpp)
+        src/ai/Behavior/LookFor.cpp
+        src/ai/Behavior/LookFor.hpp
+        src/ai/Behavior/IBehavior.hpp
+        src/ai/Behavior/Evolve.cpp
+        src/ai/Behavior/Evolve.hpp
+        src/ai/Properties.cpp
+        src/ai/Properties.hpp
+        src/ai/Behavior/Help.cpp
+        src/ai/Behavior/Help.hpp
+        )
 
 add_executable(zappy_server
         ${SRC_COMMON}
@@ -84,6 +93,7 @@ add_executable(zappy_server
         src/server/dispatch.c
         src/server/map.c
         src/server/map_items.c
+        src/server/map_players.c
         src/server/graphic.c
         src/server/player.c
         src/server/player_move.c

@@ -9,17 +9,10 @@
 
 zappy::ai::Drone::Drone(const std::string &team, const VertexS &mapSize,
 			RequestHandler &requestHandler) :
-	_pos(0, 0), _mapSize(mapSize), _dir(NORTH), _target(0, 0), _alive(true),
-	_lvl(1), _team(team), _behave(EXPLORE), _food(10), _minFood(3),
-	_inventory(), _need(NONE),
-	_lvlStuff({Inventory(1, 0, 0, 0, 0, 0), Inventory(1, 1, 1, 0, 0, 0),
-		  Inventory(2, 0, 1, 0, 2, 0), Inventory(1, 1, 2, 0, 1, 0),
-		  Inventory(1, 2, 1, 3, 0, 0), Inventory(1, 2, 3, 0, 1, 0),
-		  Inventory(2, 2, 2, 2, 2, 1)}),
-	_act({	{EVOLVE, std::bind(&Drone::_evolve, this)},
-		{WAIT, std::bind(&Drone::_wait, this)},
-		{LOOKFOR, std::bind(&Drone::_lookingFor, this)},
-		{EXPLORE, std::bind(&Drone::_explore, this)}}),
+	_team(team),
+	_act({make_pair(EVOLVE, std::make_shared<Evolve>(_reqConstr)),
+	      make_pair(LOOKFOR, std::make_shared<LookFor>(_reqConstr)),
+	      make_pair(HELP, std::make_shared<Help>(_reqConstr))}),
 	_reqHandler(requestHandler)
 {
 	_reqHandler.fetch();
@@ -36,46 +29,25 @@ zappy::ai::Drone::Drone(const std::string &team, const VertexS &mapSize,
 bool zappy::ai::Drone::live()
 {
 	std::cout << "Begin to live" << std::endl;
-	while (_alive) {
+	while (_properties.isAlive()) {
 		_evaluatePriorities();
-		_act.at(_behave);
+		_act.at(_behave)->act(_properties);
 	}
 	return false;
 }
 
 void zappy::ai::Drone::_evaluatePriorities()
 {
-	if (_food <= _minFood) {
-		_need = FOOD;
+	if (_properties.getFood() <= _properties.getMinFood()) {
+		_properties.setNeed(FOOD);
 		_behave = LOOKFOR;
 	} else if (_canEvolve()) {
 		_behave = EVOLVE;
-		_need = NONE;
+		_properties.setNeed(NONE);
 	} else {
 		_behave = LOOKFOR;
-		_lookingFor = _evaluateNeeds();
+		_evaluateNeeds();
 	}
-}
-
-void zappy::ai::Drone::_explore()
-{
-}
-
-void zappy::ai::Drone::_gatherResources()
-{
-}
-
-void zappy::ai::Drone::_evolve()
-{
-	for (auto needed : _lvlStuff.at(_lvl).getItems()) {
-		for (size_t i = 0; i < needed.second; i++)
-			_reqConstr.setObject(needed.first);
-	}
-	_reqConstr.incantation();
-}
-
-void zappy::ai::Drone::_wait()
-{
 }
 
 bool zappy::ai::Drone::_canEvolve() const
@@ -85,7 +57,7 @@ bool zappy::ai::Drone::_canEvolve() const
 
 std::vector<zappy::ai::Item> zappy::ai::Drone::_evaluateNeeds() const
 {
-	return _inventory.diff(_lvlStuff.at(_lvl));
+	return _properties.diff();
 }
 
 void zappy::ai::Drone::_move(const zappy::VertexS &dir)

@@ -49,7 +49,7 @@ bool zpy_srv_cmd_eject(tcp_conn_t *conn, zpy_srv_client_t *client,
 	list_node_t *clients = client->server->map.players->head;
 	zpy_srv_player_t *player;
 	int i = 0;
-	
+
 	if (strcmp(args, "") != 0) {
 		tcp_conn_printf(conn, "ko\n");
 		return (true);
@@ -58,11 +58,12 @@ bool zpy_srv_cmd_eject(tcp_conn_t *conn, zpy_srv_client_t *client,
 		player = clients->data;
 		if (is_different(player, client->player) == true) {
 			zpy_srv_player_eject_forward(&(client->server->map),
-						player, client->player->direction);
-			zpy_srv_grph_sendall(client->server, &zpy_srv_grph_pex, player);
+					player, client->player->direction);
+			zpy_srv_grph_sendall(client->server, &zpy_srv_grph_pex,
+					player);
 			i++;
 		}
 	}
-        i > 0 ? tcp_conn_printf(conn, "ok\n") : tcp_conn_printf(conn, "ko\n");
+	i > 0 ? tcp_conn_printf(conn, "ok\n") : tcp_conn_printf(conn, "ko\n");
 	return (true);
 }

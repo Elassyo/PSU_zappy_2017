@@ -22,6 +22,7 @@ typedef struct zpy_srv_team zpy_srv_team_t;
 typedef struct zpy_srv_client zpy_srv_client_t;
 typedef struct zpy_srv_map zpy_srv_map_t;
 typedef struct zpy_srv_item_group zpy_srv_item_group_t;
+typedef	struct zpy_srv_egg zpy_srv_egg_t;
 typedef	struct zpy_srv_player zpy_srv_player_t;
 
 enum zpy_srv_client_type {
@@ -47,7 +48,7 @@ struct zpy_srv {
 	list_t *graphic_clients; /* list_t<tcp_conn_t*> */
 	struct timespec last_tick;
 	unsigned int last_player_id;
-	unsigned int last_egg_id;
+	list_t *eggs; /* list_t<zpy_srv_egg_t*> */
 };
 
 struct zpy_srv_cmd {
@@ -76,6 +77,14 @@ struct zpy_srv_item_group {
 	unsigned int y;
 	unsigned char amount;
 	zpy_item_type_t type;
+};
+
+struct zpy_srv_egg {
+	unsigned int id;
+	unsigned int creator_id;
+	unsigned int x;
+	unsigned int y;
+	unsigned int team;
 };
 
 struct zpy_srv_player {
@@ -112,6 +121,8 @@ int zpy_srv_map_find_item_group_idx(zpy_srv_map_t *map,
 bool zpy_srv_map_add_item(zpy_srv_map_t *map,
 	unsigned int x, unsigned int y, zpy_item_type_t item_type);
 
+list_t *zpy_srv_map_players_on_tile(zpy_srv_map_t *map, size_t x, size_t y);
+
 bool zpy_srv_player_new(zpy_srv_client_t *client, unsigned short team);
 void zpy_srv_player_remove(zpy_srv_t *server, zpy_srv_player_t *player);
 
@@ -127,6 +138,11 @@ bool zpy_srv_player_item_take(zpy_srv_map_t *map, zpy_srv_player_t *player,
 	zpy_item_type_t item_type);
 bool zpy_srv_player_item_drop(zpy_srv_map_t *map, zpy_srv_player_t *player,
 	zpy_item_type_t item_type);
+
+size_t zpy_srv_get_vision_tile_pos(zpy_srv_map_t *map,
+	zpy_srv_player_t *player, size_t tile);
+
+zpy_srv_egg_t *zpy_srv_egg_init(size_t *id, zpy_srv_player_t *parent);
 
 bool zpy_srv_grph_add(zpy_srv_t *server, tcp_conn_t *conn);
 void zpy_srv_grph_remove(zpy_srv_t *server, tcp_conn_t *conn);

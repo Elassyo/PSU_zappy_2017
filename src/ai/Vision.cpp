@@ -6,9 +6,12 @@
 */
 
 #include "Vision.hpp"
+#include "Exception/Exception.hpp"
 
 zappy::ai::Vision::Vision(const std::string &rsp)
 {
+	if (rsp.empty())
+		return;
 	size_t len = rsp.length();
 
 	if (rsp[0] != '[' && rsp[len - 1] != ']')
@@ -38,4 +41,10 @@ const zappy::VertexS zappy::ai::Vision::getObject(zappy::ai::Item item,
 			return _tiles[i].computePosition(pos, dir, i);
 	}
 	throw Exception("Vision", "Item doesn't exist");
+}
+
+zappy::ai::Vision &zappy::ai::Vision::operator=(const zappy::ai::Vision &vision)
+{
+	_tiles = vision._tiles;
+	return *this;
 }

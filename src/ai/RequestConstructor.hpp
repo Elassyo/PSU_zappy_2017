@@ -6,11 +6,11 @@
 //
 
 #ifndef PSU_ZAPPY_2017_REQUESTCONSTRUCTOR_HPP
-#define PSU_ZAPPY_2017_REQUESTCONSTRUCTOR_HPP
+	#define PSU_ZAPPY_2017_REQUESTCONSTRUCTOR_HPP
 
-#include <iostream>
-#include <map>
-#include "Inventory.hpp"
+	#include <iostream>
+	#include <map>
+	#include "Inventory.hpp"
 
 namespace zappy
 {
