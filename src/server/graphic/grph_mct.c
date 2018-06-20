@@ -9,7 +9,7 @@
 
 void zpy_srv_grph_mct(tcp_conn_t *conn, va_list args)
 {
-	zpy_srv_map_t *map = va_arg(args, zpy_srv_map_t *);
+	zpy_srv_map_t *map = va_arg(args, zpy_srv_map_t*);
 
 	for (unsigned int y = 0; y < map->height; y++) {
 		for (unsigned int x = 0; x < map->width; x++)
