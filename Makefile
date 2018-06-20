@@ -50,10 +50,12 @@ SRCS_SRV	=	server/main.c					\
 			server/graphic.c				\
 			server/map.c					\
 			server/map_items.c				\
+			server/map_players.c				\
 			server/player.c					\
 			server/player_items.c				\
 			server/player_move.c				\
 			server/teams.c					\
+			server/vision.c					\
 			server/cmd_ai/cmd_move.c			\
 			server/cmd_ai/cmd_look.c			\
 			server/cmd_ai/cmd_inventory.c			\
