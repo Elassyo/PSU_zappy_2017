@@ -119,6 +119,8 @@ add_executable(zappy_server
         src/server/graphic/grph_plv.c
         src/server/graphic/grph_pnw.c
 	src/server/graphic/grph_pex.c
+	src/server/graphic/grph_pdr.c
+	src/server/graphic/grph_pgt.c
 	src/server/graphic/grph_pfk.c
         src/server/graphic/grph_ppo.c
         src/server/graphic/grph_sgt.c
