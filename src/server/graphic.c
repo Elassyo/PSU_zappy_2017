@@ -9,7 +9,15 @@
 
 bool zpy_srv_grph_add(zpy_srv_t *server, tcp_conn_t *conn)
 {
+	zpy_srv_client_t *client;
+
+	client = conn->data;
 	list_push_back(server->graphic_clients, conn);
+	zpy_srv_grph_msz(conn, &client->server->map);
+	//zpy_srv_grph_sgt(conn, &client->server);
+	zpy_srv_grph_mct(conn, &client->server->map);
+	//tna teams
+	//pnw players
 	return (true);
 }
 

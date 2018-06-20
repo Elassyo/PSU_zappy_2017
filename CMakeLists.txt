@@ -81,11 +81,14 @@ add_executable(zappy_server
         src/server/conn.c
         src/server/dispatch.c
         src/server/map.c
+        src/server/map_items.c
         src/server/graphic.c
         src/server/player.c
         src/server/player_move.c
         src/server/player_items.c
         src/server/teams.c
+        src/server/vision.c
+
         src/server/cmd_ai/cmd_broadcast.c
         src/server/cmd_ai/cmd_connect.c
         src/server/cmd_ai/cmd_eject.c
@@ -96,5 +99,12 @@ add_executable(zappy_server
         src/server/cmd_ai/cmd_move.c
         src/server/cmd_ai/cmd_set.c
         src/server/cmd_ai/cmd_take.c
-        src/server/cmd_graphic/cmd_map.c
+
+        src/server/cmd_graphic/cmd_bct.c
+        src/server/cmd_graphic/cmd_mct.c
+        src/server/cmd_graphic/cmd_msz.c
+
+        src/server/graphic/grph_bct.c
+        src/server/graphic/grph_mct.c
+        src/server/graphic/grph_msz.c
         )

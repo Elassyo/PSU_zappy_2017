@@ -2,21 +2,13 @@
 ** EPITECH PROJECT, 2018
 ** PSU_zappy_2017
 ** File description:
-** Map command (MSZ and BCT)
+** BCT command
 */
 
 #include <stdio.h>
 #include <string.h>
 
 #include "zappy_server.h"
-
-bool zpy_srv_cmd_msz(tcp_conn_t *conn, zpy_srv_client_t *client,
-	char const *args __attribute__ ((unused)))
-{
-	tcp_conn_printf(conn, "msz %u %u\n",
-		client->server->map.width, client->server->map.height);
-	return (true);
-}
 
 bool zpy_srv_cmd_bct(tcp_conn_t *conn, zpy_srv_client_t *client,
 	char const *args)
@@ -31,7 +23,5 @@ bool zpy_srv_cmd_bct(tcp_conn_t *conn, zpy_srv_client_t *client,
 		tcp_conn_printf(conn, "sbp\n");
 		return (true);
 	}
-	tcp_conn_printf(conn, "bct %u %u %u %u %u %u %u %u %u\n", x, y,
-		0, 0, 0, 0, 0, 0, 0);
-	return (true);
+	return (zpy_srv_grph_bct(conn, &client->server->map, x, y));
 }

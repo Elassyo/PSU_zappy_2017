@@ -18,6 +18,7 @@ SRCS		=	cbuf.c						\
 			list/pop.c					\
 			list/push.c					\
 			list/remove.c					\
+			tcp_client.c					\
 			tcp_server.c					\
 			tcp_server_serve.c				\
 			tcp_server_conn.c				\
@@ -47,6 +48,7 @@ SRCS_SRV	=	server/main.c					\
 			server/dispatch.c				\
 			server/graphic.c				\
 			server/map.c					\
+			server/map_items.c				\
 			server/player.c					\
 			server/player_items.c				\
 			server/player_move.c				\
@@ -61,7 +63,12 @@ SRCS_SRV	=	server/main.c					\
 			server/cmd_ai/cmd_take.c			\
 			server/cmd_ai/cmd_set.c				\
 			server/cmd_ai/cmd_incantation.c			\
-			server/cmd_graphic/cmd_map.c
+			server/cmd_graphic/cmd_bct.c			\
+			server/cmd_graphic/cmd_mct.c			\
+			server/cmd_graphic/cmd_msz.c			\
+			server/graphic/grph_bct.c			\
+			server/graphic/grph_mct.c			\
+			server/graphic/grph_msz.c
 
 INCS		=	zappy.h						\
 			zappy_server.h					\
@@ -89,10 +96,10 @@ OBJS_SRV	=	$(SRCS_SRV:.c=.o)
 SRCDIR		=	src
 OBJDIR		=	obj
 INCDIR		=	include
-SUBDIRS		=	ai server ai/Exception list server/cmd_ai server/cmd_graphic
+SUBDIRS		=	ai ai/Exception list server server/cmd_ai server/cmd_graphic server/graphic
 
 CC		=	gcc
-CFLAGS		=	-c -g -W -Wall -Wextra -I$(INCDIR)
+CFLAGS		=	-c -W -Wall -Wextra -I$(INCDIR)
 
 CXX		=	g++
 CXXFLAGS	=	-c -W -Wall -Wextra -std=c++17 -I$(INCDIR)

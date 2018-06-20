@@ -35,7 +35,7 @@ static zpy_srv_cmd_t const zpy_srv_cmds[] = {
 	{ "incantation", &zpy_srv_cmd_incantation, CLIENT_AI, 300, NULL },
 	{ "msz", &zpy_srv_cmd_msz, CLIENT_GRAPHIC, 0, NULL },
 	{ "bct", &zpy_srv_cmd_bct, CLIENT_GRAPHIC, 0, NULL },
-	{ "mct", &zpy_srv_cmd_not_implemented, CLIENT_GRAPHIC, 0, NULL },
+	{ "mct", &zpy_srv_cmd_mct, CLIENT_GRAPHIC, 0, NULL },
 	{ "tna", &zpy_srv_cmd_not_implemented, CLIENT_GRAPHIC, 0, NULL },
 	{ "ppo", &zpy_srv_cmd_not_implemented, CLIENT_GRAPHIC, 0, NULL },
 	{ "plv", &zpy_srv_cmd_not_implemented, CLIENT_GRAPHIC, 0, NULL },
