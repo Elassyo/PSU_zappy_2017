@@ -34,6 +34,7 @@ static bool zpy_srv_init(zpy_srv_t *server)
 	server->graphic_clients = list_create(false);
 	if (server->graphic_clients == NULL)
 		return (false);
+	clock_gettime(CLOCK_MONOTONIC_RAW, &server->last_tick);
 	return (true);
 }
 

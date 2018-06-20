@@ -55,10 +55,12 @@ SRCS_SRV	=	server/main.c					\
 			server/graphic.c				\
 			server/map.c					\
 			server/map_items.c				\
+			server/map_players.c				\
 			server/player.c					\
 			server/player_items.c				\
 			server/player_move.c				\
 			server/teams.c					\
+			server/vision.c					\
 			server/cmd_ai/cmd_move.c			\
 			server/cmd_ai/cmd_look.c			\
 			server/cmd_ai/cmd_inventory.c			\
@@ -84,6 +86,10 @@ SRCS_SRV	=	server/main.c					\
 			server/graphic/grph_pin.c			\
 			server/graphic/grph_plv.c			\
 			server/graphic/grph_pnw.c			\
+			server/graphic/grph_pex.c			\
+			server/graphic/grph_pgt.c			\
+			server/graphic/grph_pdr.c			\
+			server/graphic/grph_pfk.c			\
 			server/graphic/grph_ppo.c			\
 			server/graphic/grph_sgt.c			\
 			server/graphic/grph_sst.c			\

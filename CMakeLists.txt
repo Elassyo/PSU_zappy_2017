@@ -93,6 +93,7 @@ add_executable(zappy_server
         src/server/dispatch.c
         src/server/map.c
         src/server/map_items.c
+        src/server/map_players.c
         src/server/graphic.c
         src/server/player.c
         src/server/player_move.c
@@ -127,6 +128,10 @@ add_executable(zappy_server
         src/server/graphic/grph_pin.c
         src/server/graphic/grph_plv.c
         src/server/graphic/grph_pnw.c
+	src/server/graphic/grph_pex.c
+	src/server/graphic/grph_pdr.c
+	src/server/graphic/grph_pgt.c
+	src/server/graphic/grph_pfk.c
         src/server/graphic/grph_ppo.c
         src/server/graphic/grph_sgt.c
         src/server/graphic/grph_sst.c

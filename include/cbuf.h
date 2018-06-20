@@ -32,7 +32,7 @@ size_t cbuf_read(cbuf_t *cb, void *buf, size_t n);
 size_t cbuf_peek(cbuf_t *cb, void *buf, size_t n);
 size_t cbuf_write(cbuf_t *cb, void const *buf, size_t n);
 
-static inline size_t min(size_t a, size_t b)
+inline __attribute__ ((always_inline)) size_t min(size_t a, size_t b)
 {
 	return (a < b ? a : b);
 }
