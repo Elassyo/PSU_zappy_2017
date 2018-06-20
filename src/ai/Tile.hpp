@@ -23,7 +23,8 @@ namespace zappy {
 
 			VertexS computePosition
 				(const VertexS &playerPos,
-				 const VertexS &mapSize, ai::Direction) const;
+				 const VertexS &mapSize, ai::Direction,
+				size_t) const;
 
 		private:
 			std::map<std::string, zappy::ai::Item> _strItem;

@@ -15,6 +15,7 @@
 	#include "Memory.hpp"
 	#include "Vertex.hpp"
 	#include "RequestConstructor.hpp"
+	#include "RequestHandler.hpp"
 
 
 namespace zappy {
@@ -35,8 +36,8 @@ namespace zappy {
 		};
 		class Drone {
 		public:
-			explicit Drone(const Inventory &, uint8_t team,
-			const VertexS &);
+			explicit Drone(const std::string &team,
+			const VertexS &, RequestHandler &);
 			~Drone() = default;
 
 			bool live();
@@ -67,7 +68,7 @@ namespace zappy {
 			Vertex<size_t> _target;
 			bool _alive;
 			uint8_t _lvl;
-			uint8_t _team;
+			const std::string &_team;
 			Behavior _behave;
 
 			uint _food;
@@ -80,6 +81,7 @@ namespace zappy {
 			std::unordered_map<Behavior, std::function<void(void)>>
 				_act;
 			RequestConstructor _reqConstr;
+			RequestHandler &_reqHandler;
 		};
 	}
 }

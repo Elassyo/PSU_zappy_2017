@@ -7,11 +7,11 @@
 
 #include "Drone.hpp"
 
-zappy::ai::Drone::Drone(const zappy::ai::Inventory &inventory, uint8_t team,
-const VertexS &mapSize) :
+zappy::ai::Drone::Drone(const std::string &team, const VertexS &mapSize,
+			RequestHandler &requestHandler) :
 	_pos(0, 0), _mapSize(mapSize), _dir(NORTH), _target(0, 0), _alive(true),
 	_lvl(1), _team(team), _behave(EXPLORE), _food(10), _minFood(3),
-	_inventory(inventory), _need(NONE),
+	_inventory(), _need(NONE),
 	_lvlStuff({Inventory(1, 0, 0, 0, 0, 0), Inventory(1, 1, 1, 0, 0, 0),
 		  Inventory(2, 0, 1, 0, 2, 0), Inventory(1, 1, 2, 0, 1, 0),
 		  Inventory(1, 2, 1, 3, 0, 0), Inventory(1, 2, 3, 0, 1, 0),
@@ -19,8 +19,17 @@ const VertexS &mapSize) :
 	_act({	{EVOLVE, std::bind(&Drone::_evolve, this)},
 		{WAIT, std::bind(&Drone::_wait, this)},
 		{LOOKFOR, std::bind(&Drone::_lookingFor, this)},
-		{EXPLORE, std::bind(&Drone::_explore, this)}})
+		{EXPLORE, std::bind(&Drone::_explore, this)}}),
+	_reqHandler(requestHandler)
 {
+	std::cout << "salut" << std::endl;
+	std::string welcome = _reqHandler.recv();
+	std::cout << welcome << std::endl;
+	if (welcome != "WELCOME")
+		throw Exception("Drone", "Welcome msg expected");
+	_reqHandler.send(_team + "\n");
+	welcome = _reqHandler.recv();
+	welcome = _reqHandler.recv();
 }
 
 bool zappy::ai::Drone::live()

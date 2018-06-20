@@ -21,7 +21,9 @@ zappy::RequestHandler::~RequestHandler()
 
 void zappy::RequestHandler::send(const std::string &msg)
 {
-	tcp_conn_write(&_client.conn, msg.c_str(), msg.length());
+	size_t len = msg.length();
+	if (tcp_conn_write(&_client.conn, msg.c_str(), len) != len)
+		throw Exception("RequestHandler", "msg not send correctly");
 }
 
 std::string zappy::RequestHandler::recv()
