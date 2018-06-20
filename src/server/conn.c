@@ -84,6 +84,7 @@ bool zpy_srv_conn_on_tick(tcp_conn_t *conn)
 		ssz = tcp_conn_getline(conn, buf, 512, '\n');
 		if (ssz <= 0)
 			return (ssz == 0);
+		buf[ssz - 1] = '\0';
 		if (!zpy_srv_conn_do_command(conn, client, buf))
 			return (false);
 	}

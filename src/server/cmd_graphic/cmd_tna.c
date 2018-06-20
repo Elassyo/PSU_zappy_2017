@@ -9,13 +9,13 @@
 
 #include "zappy_server.h"
 
-bool zpy_srv_cmd_tna(tcp_conn_t *conn, zpy_srv_client_t *client,
-	char const *args)
+bool zpy_srv_cmd_tna(tcp_conn_t *conn,
+	zpy_srv_client_t *client __attribute__ ((unused)), char const *args)
 {
 	if (strcmp(args, "") != 0) {
 		tcp_conn_printf(conn, "sbp\n");
 		return (true);
 	}
-	zpy_srv_grph_send(conn, &zpy_srv_grph_tna, &client->server->teams);
+	zpy_srv_grph_send(conn, &zpy_srv_grph_tna);
 	return (true);
 }

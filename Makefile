@@ -67,9 +67,22 @@ SRCS_SRV	=	server/main.c					\
 			server/cmd_graphic/cmd_bct.c			\
 			server/cmd_graphic/cmd_mct.c			\
 			server/cmd_graphic/cmd_msz.c			\
+			server/cmd_graphic/cmd_pin.c			\
+			server/cmd_graphic/cmd_plv.c			\
+			server/cmd_graphic/cmd_ppo.c			\
+			server/cmd_graphic/cmd_sgt.c			\
+			server/cmd_graphic/cmd_sst.c			\
+			server/cmd_graphic/cmd_tna.c			\
 			server/graphic/grph_bct.c			\
 			server/graphic/grph_mct.c			\
-			server/graphic/grph_msz.c
+			server/graphic/grph_msz.c			\
+			server/graphic/grph_pin.c			\
+			server/graphic/grph_plv.c			\
+			server/graphic/grph_pnw.c			\
+			server/graphic/grph_ppo.c			\
+			server/graphic/grph_sgt.c			\
+			server/graphic/grph_sst.c			\
+			server/graphic/grph_tna.c
 
 INCS		=	zappy.h						\
 			zappy_server.h					\

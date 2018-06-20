@@ -26,6 +26,6 @@ bool zpy_srv_cmd_pin(tcp_conn_t *conn, zpy_srv_client_t *client,
 		tcp_conn_printf(conn, "sbp\n");
 		return (true);
 	}
-	zpy_srv_grph_send(conn, &zpy_srv_grph_ppo, player);
+	zpy_srv_grph_send(conn, &zpy_srv_grph_pin, player);
 	return (true);
 }

@@ -7,9 +7,10 @@
 
 #include "zappy_server.h"
 
-void zpy_srv_grph_msz(tcp_conn_t *conn, va_list args)
+void zpy_srv_grph_msz(tcp_conn_t *conn, va_list args __attribute__ ((unused)))
 {
-	zpy_srv_map_t *map = va_arg(args, zpy_srv_map_t *);
+	zpy_srv_client_t *client = conn->data;
+	zpy_srv_map_t *map = &client->server->map;
 
 	tcp_conn_printf(conn, "msz %u %u\n", map->width, map->height);
 }

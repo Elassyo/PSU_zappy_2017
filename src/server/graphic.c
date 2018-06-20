@@ -10,14 +10,19 @@
 bool zpy_srv_grph_add(zpy_srv_t *server, tcp_conn_t *conn)
 {
 	zpy_srv_client_t *client;
+	list_node_t *node;
 
 	client = conn->data;
 	list_push_back(server->graphic_clients, conn);
 	zpy_srv_grph_send(conn, &zpy_srv_grph_msz, &client->server->map);
-	/* sgt */
+	zpy_srv_grph_send(conn, &zpy_srv_grph_sgt, client->server);
 	zpy_srv_grph_send(conn, &zpy_srv_grph_mct, &client->server->map);
-	/* tna foreach team */
-	/* pnw foreach players */
+	zpy_srv_grph_send(conn, &zpy_srv_grph_tna, client->server->teams);
+	node = client->server->map.players->head;
+	while (node != NULL) {
+		zpy_srv_grph_send(conn, &zpy_srv_grph_pnw, conn->data);
+		node = node->next;
+	}
 	return (true);
 }
 
@@ -37,7 +42,7 @@ void zpy_srv_grph_send(tcp_conn_t *conn,
 	va_end(args);
 }
 
-void zpy_srv_grph_send_all(zpy_srv_t *server,
+void zpy_srv_grph_sendall(zpy_srv_t *server,
 	void (*handler)(tcp_conn_t *, va_list), ...)
 {
 	list_node_t *node;
