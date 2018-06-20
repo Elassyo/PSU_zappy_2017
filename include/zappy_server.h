@@ -45,6 +45,7 @@ struct zpy_srv {
 	unsigned int freq;
 	list_t *teams; /* list_t<zpy_srv_team_t*> */
 	list_t *graphic_clients; /* list_t<tcp_conn_t*> */
+	struct timespec last_tick;
 	unsigned int last_player_id;
 	unsigned int last_egg_id;
 };
@@ -79,6 +80,7 @@ struct zpy_srv_item_group {
 
 struct zpy_srv_player {
 	unsigned int id;
+	tcp_conn_t *conn;
 	unsigned short team;
 	unsigned int x;
 	unsigned int y;
@@ -201,5 +203,12 @@ void zpy_srv_grph_sgt(tcp_conn_t *conn, va_list args);
 void zpy_srv_grph_sst(tcp_conn_t *conn, va_list args);
 /* args: none */
 void zpy_srv_grph_tna(tcp_conn_t *conn, va_list args);
+
+inline __attribute__ ((always_inline)) double timespec_diff(
+	struct timespec const *a, struct timespec const *b)
+{
+	return ((a->tv_sec + (double)a->tv_nsec / 1000000000) -
+		(b->tv_sec + (double)b->tv_nsec / 1000000000));
+}
 
 #endif /* !defined (ZAPPY_SERVER_H_) */

@@ -39,13 +39,17 @@ static bool zpy_srv_conn_calc_tick(tcp_conn_t *conn, zpy_srv_client_t *client)
 	double delta;
 
 	clock_gettime(CLOCK_MONOTONIC_RAW, &ts);
-	delta = (ts.tv_sec + (double)ts.tv_nsec / 1000000000) -
-		(client->last_tick.tv_sec +
-			(double)client->last_tick.tv_nsec / 1000000000);
+	delta = timespec_diff(&ts, &client->last_tick);
 	while (delta > 1.0 / client->server->freq) {
 		if (!zpy_srv_player_tick(conn, client->player))
 			return (false);
 		client->last_tick = ts;
+		delta -= 1.0 / client->server->freq;
+	}
+	delta = timespec_diff(&ts, &client->server->last_tick);
+	while (delta > 1.0 / client->server->freq) {
+		/* tick eggs */
+		client->server->last_tick = ts;
 		delta -= 1.0 / client->server->freq;
 	}
 	return (true);
