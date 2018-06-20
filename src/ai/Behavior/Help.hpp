@@ -2,31 +2,30 @@
 ** EPITECH PROJECT, 2018
 ** PSU_zappy_2017
 ** File description:
-** LookFor.hpp
+** Help.hpp
 */
 
-#ifndef PSU_ZAPPY_2017_LOOKFOR_HPP
-	#define PSU_ZAPPY_2017_LOOKFOR_HPP
+#ifndef PSU_ZAPPY_2017_HELP_HPP
+	#define PSU_ZAPPY_2017_HELP_HPP
 
 	#include "IBehavior.hpp"
 	#include "../RequestConstructor.hpp"
 
 namespace zappy {
 	namespace ai {
-		class LookFor : public virtual IBehavior {
-		public:
-			explicit LookFor(const RequestConstructor &);
+		class Help : public virtual IBehavior {
 
-			std::string
-			act(zappy::ai::Properties &properties) override;
+		public:
+			Help(const RequestConstructor &);
+
+			std::string act(Properties &properties) override;
 			bool callback(const std::string &string, Properties &properties) override;
 			void reset() override;
 
 		private:
-			std::string _expected;
 			const RequestConstructor &_reqConst;
 		};
 	}
 }
 
-#endif /* PSU_ZAPPY_2017_LOOKFOR_HPP */
+#endif /* PSU_ZAPPY_2017_HELP_HPP */

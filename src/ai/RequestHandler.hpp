@@ -21,7 +21,9 @@ namespace zappy {
 		void send(const std::string &);
 		std::string recv();
 		void fetch();
+		const std::string &getLastMessage();
 	private:
+		std::string _lastMsg;
 		tcp_client_t _client;
 	};
 }

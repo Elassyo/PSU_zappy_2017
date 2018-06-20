@@ -12,16 +12,10 @@
 	#include "Vertex.hpp"
 	#include "Inventory.hpp"
 	#include "Memory.hpp"
+	#include "Vision.hpp"
 
 namespace zappy {
 	namespace ai {
-		enum Direction {
-			NORTH = 0,
-			EAST = 1,
-			SOUTH = 2,
-			WEST = 3,
-			MAX = 4
-		};
 		class Properties {
 		public:
 			Properties();
@@ -31,9 +25,27 @@ namespace zappy {
 			void turnLeft();
 			void setTarget();
 			void setNeed(Item);
+			void addLookingFor(Item);
+			void pickLookingFor(Item);
+			void setLookingFor(const std::vector<Item> &);
+			void addLvl();
+			void setFood(uint amount);
+			void addItem(Item);
+			void dropItem(Item);
+			std::vector<Item> diff() const;
+			void setVision(const Vision &);
 
 			Vertex<size_t> getPos() const;
 			Direction getDir() const;
+			bool isAlive() const;
+			uint8_t getLvl() const;
+			uint getFood() const;
+			uint getMinFood() const;
+			size_t nbrItem(Item item) const;
+			Item getNeed() const;
+			const std::vector<Item> &getLookingFor() const;
+			const Inventory &getLvlInventory(uint8_t lvl) const;
+			const Vision &getVision() const;
 
 		private:
 			Vertex<size_t> _pos;
@@ -48,6 +60,7 @@ namespace zappy {
 			std::vector<Item> _lookingFor;
 			const std::vector<Inventory> _lvlStuff;
 			Memory _memory;
+			Vision _vision;
 		};
 	}
 }

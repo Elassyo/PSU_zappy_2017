@@ -9,22 +9,29 @@
 	#define PSU_ZAPPY_2017_TILE_HPP
 
 	#include <sstream>
-	#include <iostream>
-	#include "Inventory.hpp"
+	#include <map>
+	#include <vector>
 	#include "Vertex.hpp"
-	#include "Drone.hpp"
+	#include "Inventory.hpp"
 
 namespace zappy {
 	namespace ai {
+		enum Direction {
+			NORTH = 0,
+			EAST = 1,
+			SOUTH = 2,
+			WEST = 3,
+			MAX = 4
+		};
 		class Tile {
 		public:
-			Tile(const std::string &itTiles);
+			explicit Tile(const std::string &itTiles);
 			~Tile() = default;
 
 			bool containsItem(Item) const;
 			VertexS computePosition
 				(const VertexS &playerPos,
-				 ai::Direction, size_t) const;
+				Direction, size_t) const;
 
 		private:
 			const static std::map<std::string, zappy::ai::Item>

@@ -22,8 +22,8 @@ namespace zappy {
 			bool seeObject(Item) const;
 			const zappy::VertexS getObject(zappy::ai::Item,
 							const VertexS &pos,
-							Direction dir) const;
-
+		zappy::ai::Direction dir) const;
+			Vision &operator=(const Vision &);
 			~Vision() = default;
 		private:
 			std::vector<ai::Tile> _tiles;

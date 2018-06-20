@@ -9,6 +9,7 @@
 	#define PSU_ZAPPY_2017_IBEHAVIOR_HPP
 
 	#include <string>
+	#include "../Properties.hpp"
 
 namespace zappy {
 	namespace ai {
@@ -16,8 +17,9 @@ namespace zappy {
 		public:
 			~IBehavior() = default;
 
-			virtual std::string act() = 0;
-			virtual bool callback(const std::string &) = 0;
+			virtual std::string act(Properties &properties) = 0;
+			virtual bool callback(const std::string &,
+					Properties &properties) = 0;
 			virtual void reset() = 0;
 		};
 	}
