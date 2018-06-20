@@ -115,6 +115,8 @@ void zpy_srv_player_remove(zpy_srv_t *server, zpy_srv_player_t *player);
 
 bool zpy_srv_player_tick(tcp_conn_t *conn, zpy_srv_player_t *player);
 
+zpy_srv_player_t *zpy_srv_player_find(zpy_srv_map_t *map, unsigned int id);
+
 void zpy_srv_player_move_forward(zpy_srv_map_t *map, zpy_srv_player_t *player);
 void zpy_srv_player_turn_left(zpy_srv_player_t *player);
 void zpy_srv_player_turn_right(zpy_srv_player_t *player);
@@ -166,6 +168,18 @@ bool zpy_srv_cmd_bct(tcp_conn_t *conn, zpy_srv_client_t *client,
 	char const *args);
 bool zpy_srv_cmd_mct(tcp_conn_t *conn, zpy_srv_client_t *client,
 	char const *args);
+bool zpy_srv_cmd_pin(tcp_conn_t *conn, zpy_srv_client_t *client,
+	char const *args);
+bool zpy_srv_cmd_plv(tcp_conn_t *conn, zpy_srv_client_t *client,
+	char const *args);
+bool zpy_srv_cmd_ppo(tcp_conn_t *conn, zpy_srv_client_t *client,
+	char const *args);
+bool zpy_srv_cmd_sgt(tcp_conn_t *conn, zpy_srv_client_t *client,
+	char const *args);
+bool zpy_srv_cmd_sst(tcp_conn_t *conn, zpy_srv_client_t *client,
+	char const *args);
+bool zpy_srv_cmd_tna(tcp_conn_t *conn, zpy_srv_client_t *client,
+	char const *args);
 
 /* args: zpy_srv_map_t *map */
 void zpy_srv_grph_msz(tcp_conn_t *conn, va_list args);
@@ -173,5 +187,17 @@ void zpy_srv_grph_msz(tcp_conn_t *conn, va_list args);
 void zpy_srv_grph_bct(tcp_conn_t *conn, va_list args);
 /* args: zpy_srv_map_t *map */
 void zpy_srv_grph_mct(tcp_conn_t *conn, va_list args);
+/* args: zpy_srv_player_t *player */
+void zpy_srv_grph_pin(tcp_conn_t *conn, va_list args);
+/* args: zpy_srv_player_t *player */
+void zpy_srv_grph_plv(tcp_conn_t *conn, va_list args);
+/* args: zpy_srv_player_t *player */
+void zpy_srv_grph_ppo(tcp_conn_t *conn, va_list args);
+/* args: zpy_srv_t *server */
+void zpy_srv_grph_sgt(tcp_conn_t *conn, va_list args);
+/* args: zpy_srv_t *server, unsigned int freq */
+void zpy_srv_grph_sst(tcp_conn_t *conn, va_list args);
+/* args: list_t<zpy_srv_team_t*> *teams */
+void zpy_srv_grph_tna(tcp_conn_t *conn, va_list args);
 
 #endif /* !defined (ZAPPY_SERVER_H_) */

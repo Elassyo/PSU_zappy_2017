@@ -65,3 +65,18 @@ bool zpy_srv_player_tick(tcp_conn_t *conn, zpy_srv_player_t *player)
 	}
 	return (true);
 }
+
+zpy_srv_player_t *zpy_srv_player_find(zpy_srv_map_t *map, unsigned int id)
+{
+	list_node_t *node;
+	zpy_srv_player_t *player;
+
+	node = map->players->head;
+	while (node != NULL) {
+		player = node->data;
+		if (player->id == id)
+			return (player);
+		node = node->next;
+	}
+	return (NULL);
+}

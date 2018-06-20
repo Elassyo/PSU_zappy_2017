@@ -105,8 +105,15 @@ add_executable(zappy_server
         src/server/cmd_graphic/cmd_bct.c
         src/server/cmd_graphic/cmd_mct.c
         src/server/cmd_graphic/cmd_msz.c
+        src/server/cmd_graphic/cmd_pin.c
+        src/server/cmd_graphic/cmd_plv.c
+        src/server/cmd_graphic/cmd_ppo.c
+        src/server/cmd_graphic/cmd_sgt.c
+        src/server/cmd_graphic/cmd_sst.c
+        src/server/cmd_graphic/cmd_tna.c
 
         src/server/graphic/grph_bct.c
         src/server/graphic/grph_mct.c
         src/server/graphic/grph_msz.c
+
         )

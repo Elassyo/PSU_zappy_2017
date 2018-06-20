@@ -9,7 +9,7 @@
 
 #include "tcp.h"
 
-bool tcp_conn_fetch(tcp_conn_t *conn)
+ssize_t tcp_conn_fetch(tcp_conn_t *conn)
 {
 	char buf[1024];
 	ssize_t ssz;
@@ -17,9 +17,9 @@ bool tcp_conn_fetch(tcp_conn_t *conn)
 	ssz = tcp_sock_recv(&conn->sock, buf,
 		min(1024, cbuf_free_bytes(&conn->in)));
 	if (ssz <= 0)
-		return (false);
+		return (ssz);
 	cbuf_write(&conn->in, buf, ssz);
-	return (true);
+	return (ssz);
 }
 
 bool tcp_conn_flush(tcp_conn_t *conn)
