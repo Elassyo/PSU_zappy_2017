@@ -21,12 +21,14 @@ namespace zappy {
 			Tile(const std::string &itTiles);
 			~Tile() = default;
 
+			bool containsItem(Item) const;
 			VertexS computePosition
 				(const VertexS &playerPos,
 				 ai::Direction, size_t) const;
 
 		private:
-			std::map<std::string, zappy::ai::Item> _strItem;
+			const static std::map<std::string, zappy::ai::Item>
+			        _strItem;
 			std::vector<zappy::ai::Item> _tileItems;
 		};
 	}

@@ -28,7 +28,10 @@ void zappy::RequestHandler::send(const std::string &msg)
 
 void zappy::RequestHandler::fetch()
 {
-	tcp_conn_fetch(&_client.conn);
+	ssize_t ssz = tcp_conn_fetch(&_client.conn);
+
+	while (ssz == 1024)
+		ssz = tcp_conn_fetch(&_client.conn);
 }
 
 std::string zappy::RequestHandler::recv()

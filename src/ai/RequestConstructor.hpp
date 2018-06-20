@@ -20,21 +20,21 @@ namespace zappy
 		RequestConstructor();
 		~RequestConstructor() = default;
 
-		std::string moveForward();
-		std::string turnLeft();
-		std::string turnRight();
+		std::string moveForward() const;
+		std::string turnLeft() const;
+		std::string turnRight() const;
 
-		std::string look();
-		std::string inventory();
-		std::string broadcast(std::string text);
+		std::string look() const;
+		std::string inventory() const;
+		std::string broadcast(std::string text) const;
 
-		std::string connectNbr();
-		std::string fork();
-		std::string eject();
+		std::string connectNbr() const;
+		std::string fork() const;
+		std::string eject() const;
 
-		std::string takeObject(zappy::ai::Item item);
-		std::string setObject(zappy::ai::Item item);
-		std::string incantation();
+		std::string takeObject(zappy::ai::Item item) const;
+		std::string setObject(zappy::ai::Item item) const;
+		std::string incantation() const;
 
 	private:
 		std::map<zappy::ai::Item, std::string> _itemStr;

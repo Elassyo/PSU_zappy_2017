@@ -92,34 +92,9 @@ void zappy::ai::Drone::_move(const zappy::VertexS &dir)
 {
 }
 
-void zappy::ai::Drone::_moveForward()
-{
-	if (_dir % 2 == 0)
-		_pos.ry() += _dir == NORTH ? 1 : -1;
-	else
-		_pos.rx() += _dir == EAST ? 1 : -1;
-	_reqHandler.send(_reqConstr.moveForward());
-}
-
-void zappy::ai::Drone::_lookFor()
-{
-}
-
 void zappy::ai::Drone::_look()
 {
 	_reqHandler.send(_reqConstr.look());
-}
-
-void zappy::ai::Drone::_turnRight()
-{
-	_dir = (Direction) ((_dir + 1) % MAX);
-	_reqConstr.turnRight();
-}
-
-void zappy::ai::Drone::_turnLeft()
-{
-	_dir = (Direction) (_dir ? _dir - 1 : MAX - 1);
-	_reqConstr.turnLeft();
 }
 
 bool zappy::ai::Drone::_take(zappy::ai::Item)
@@ -130,5 +105,16 @@ bool zappy::ai::Drone::_take(zappy::ai::Item)
 
 void zappy::ai::Drone::setTarget()
 {
-	if (_need != NONE);
+}
+
+bool
+zappy::ai::Drone::handleResponse(std::function<bool(const std::string &)> fun)
+{
+	_reqHandler.fetch();
+	std::string res = _reqHandler.recv();
+	while (!fun(res)) {
+		_reqHandler.fetch();
+		res = _reqHandler.recv();
+	}
+	return true;
 }

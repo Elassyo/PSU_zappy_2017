@@ -19,85 +19,62 @@ zappy::RequestConstructor::RequestConstructor() :
 {
 }
 
-std::string zappy::RequestConstructor::moveForward()
+std::string zappy::RequestConstructor::moveForward() const
 {
 	return "forward\n";
 }
 
-std::string zappy::RequestConstructor::turnLeft()
+std::string zappy::RequestConstructor::turnLeft() const
 {
 	return "left\n";
 }
 
-std::string zappy::RequestConstructor::turnRight()
+std::string zappy::RequestConstructor::turnRight() const
 {
 	return "right\n";
 }
 
-std::string zappy::RequestConstructor::look()
+std::string zappy::RequestConstructor::look() const
 {
 	return "look\n";
 }
 
-std::string zappy::RequestConstructor::inventory()
+std::string zappy::RequestConstructor::inventory() const
 {
 	return "inventory\n";
 }
 
-std::string zappy::RequestConstructor::broadcast(std::string text)
+std::string zappy::RequestConstructor::broadcast(std::string text) const
 {
 	return "broadcast " + text + "\n";
 }
 
-std::string zappy::RequestConstructor::connectNbr()
+std::string zappy::RequestConstructor::connectNbr() const
 {
 	return "connect_nbr\n";
 }
 
-std::string zappy::RequestConstructor::fork()
+std::string zappy::RequestConstructor::fork() const
 {
 	return "fork\n";
 }
 
-std::string zappy::RequestConstructor::eject()
+std::string zappy::RequestConstructor::eject() const
 {
 	return "eject\n";
 }
 
-std::string zappy::RequestConstructor::takeObject(zappy::ai::Item item)
+std::string zappy::RequestConstructor::takeObject(zappy::ai::Item item) const
 {
 	return "take " + this->_itemStr.at(item) + "\n";
 }
 
-std::string zappy::RequestConstructor::setObject(zappy::ai::Item item)
+std::string zappy::RequestConstructor::setObject(zappy::ai::Item item) const
 {
 	return "set " + this->_itemStr.at(item) + "\n";
 }
 
-std::string zappy::RequestConstructor::incantation()
+std::string zappy::RequestConstructor::incantation() const
 {
 	return "incantation\n";
-}
-
-int testRequestMain()
-{
-	zappy::RequestConstructor rc;
-
-	std::cout << rc.moveForward();
-	std::cout << rc.turnLeft();
-	std::cout << rc.turnRight();
-
-	std::cout << rc.look();
-	std::cout << rc.inventory();
-	std::cout << rc.broadcast("Bonjour, moi c'est jaka");
-
-	std::cout << rc.connectNbr();
-	std::cout << rc.fork();
-	std::cout << rc.eject();
-
-	std::cout << rc.takeObject(zappy::ai::Item::FOOD);
-	std::cout << rc.setObject(zappy::ai::Item::LINEMATE);
-	std::cout << rc.incantation();
-
-	return 0;
 }
