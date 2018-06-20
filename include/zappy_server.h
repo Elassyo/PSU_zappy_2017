@@ -214,6 +214,10 @@ void zpy_srv_grph_sgt(tcp_conn_t *conn, va_list args);
 void zpy_srv_grph_sst(tcp_conn_t *conn, va_list args);
 /* args: none */
 void zpy_srv_grph_tna(tcp_conn_t *conn, va_list args);
+/* args: zpy_srv_player_t *player */
+void zpy_srv_grph_pex(tcp_conn_t *conn, va_list args);
+/* args: zpy_srv_player_t *player */
+void zpy_srv_grph_pfk(tcp_conn_t *conn, va_list args);
 
 inline __attribute__ ((always_inline)) double timespec_diff(
 	struct timespec const *a, struct timespec const *b)
