@@ -10,16 +10,6 @@
 
 #include "zappy_server.h"
 
-#include <stdio.h>
-
-static bool zpy_srv_cmd_not_implemented(
-	tcp_conn_t *conn __attribute__((unused)),
-	zpy_srv_client_t *client __attribute__((unused)), char const *cmd)
-{
-	printf("%s: Command not implemented yet.\n", cmd);
-	return (true);
-}
-
 static zpy_srv_cmd_t const zpy_srv_cmds[] = {
 	{ "forward", &zpy_srv_cmd_forward, CLIENT_AI, 7, NULL },
 	{ "right", &zpy_srv_cmd_right, CLIENT_AI, 7, NULL },
@@ -36,12 +26,12 @@ static zpy_srv_cmd_t const zpy_srv_cmds[] = {
 	{ "msz", &zpy_srv_cmd_msz, CLIENT_GRAPHIC, 0, NULL },
 	{ "bct", &zpy_srv_cmd_bct, CLIENT_GRAPHIC, 0, NULL },
 	{ "mct", &zpy_srv_cmd_mct, CLIENT_GRAPHIC, 0, NULL },
-	{ "tna", &zpy_srv_cmd_not_implemented, CLIENT_GRAPHIC, 0, NULL },
-	{ "ppo", &zpy_srv_cmd_not_implemented, CLIENT_GRAPHIC, 0, NULL },
-	{ "plv", &zpy_srv_cmd_not_implemented, CLIENT_GRAPHIC, 0, NULL },
-	{ "pin", &zpy_srv_cmd_not_implemented, CLIENT_GRAPHIC, 0, NULL },
-	{ "sgt", &zpy_srv_cmd_not_implemented, CLIENT_GRAPHIC, 0, NULL },
-	{ "sst", &zpy_srv_cmd_not_implemented, CLIENT_GRAPHIC, 0, NULL },
+	{ "pin", &zpy_srv_cmd_pin, CLIENT_GRAPHIC, 0, NULL },
+	{ "plv", &zpy_srv_cmd_plv, CLIENT_GRAPHIC, 0, NULL },
+	{ "ppo", &zpy_srv_cmd_ppo, CLIENT_GRAPHIC, 0, NULL },
+	{ "sgt", &zpy_srv_cmd_sgt, CLIENT_GRAPHIC, 0, NULL },
+	{ "sst", &zpy_srv_cmd_sst, CLIENT_GRAPHIC, 0, NULL },
+	{ "tna", &zpy_srv_cmd_tna, CLIENT_GRAPHIC, 0, NULL },
 	{ NULL, NULL, CLIENT_UNKNOWN, 0, NULL }
 };
 

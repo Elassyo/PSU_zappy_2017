@@ -20,3 +20,22 @@ zappy::ai::Vision::Vision(const std::string &rsp)
 	for (size_t i = 0; std::getline(ss, token, ','); i++)
 		this->_tiles.emplace_back(Tile(token));
 }
+
+bool zappy::ai::Vision::seeObject(zappy::ai::Item item) const
+{
+	for (const Tile &tile : _tiles)
+		if (tile.containsItem(item))
+			return true;
+	return false;
+}
+
+const zappy::VertexS zappy::ai::Vision::getObject(zappy::ai::Item item,
+						const VertexS &pos,
+						Direction dir) const
+{
+	for (size_t i = 0, len = _tiles.size(); i < len ;i++) {
+		if (_tiles[i].containsItem(item))
+			return _tiles[i].computePosition(pos, dir, i);
+	}
+	throw Exception("Vision", "Item doesn't exist");
+}

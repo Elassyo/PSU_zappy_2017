@@ -72,7 +72,7 @@ add_executable(zappy_ai
         src/ai/Tile.hpp
         src/ai/Memory.cpp
         src/ai/Memory.hpp
-        )
+        src/ai/Behavior/LookFor.cpp src/ai/Behavior/LookFor.hpp src/ai/Behavior/IBehavior.hpp src/ai/Behavior/Evolve.cpp src/ai/Behavior/Evolve.hpp src/ai/Properties.cpp src/ai/Properties.hpp)
 
 add_executable(zappy_server
         ${SRC_COMMON}
@@ -106,8 +106,25 @@ add_executable(zappy_server
         src/server/cmd_graphic/cmd_bct.c
         src/server/cmd_graphic/cmd_mct.c
         src/server/cmd_graphic/cmd_msz.c
+        src/server/cmd_graphic/cmd_pin.c
+        src/server/cmd_graphic/cmd_plv.c
+        src/server/cmd_graphic/cmd_ppo.c
+        src/server/cmd_graphic/cmd_sgt.c
+        src/server/cmd_graphic/cmd_sst.c
+        src/server/cmd_graphic/cmd_tna.c
 
         src/server/graphic/grph_bct.c
         src/server/graphic/grph_mct.c
         src/server/graphic/grph_msz.c
+        src/server/graphic/grph_pin.c
+        src/server/graphic/grph_plv.c
+        src/server/graphic/grph_pnw.c
+	src/server/graphic/grph_pex.c
+	src/server/graphic/grph_pdr.c
+	src/server/graphic/grph_pgt.c
+	src/server/graphic/grph_pfk.c
+        src/server/graphic/grph_ppo.c
+        src/server/graphic/grph_sgt.c
+        src/server/graphic/grph_sst.c
+        src/server/graphic/grph_tna.c
         )

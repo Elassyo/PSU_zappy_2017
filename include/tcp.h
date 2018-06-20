@@ -79,7 +79,7 @@ bool tcp_sock_bind(tcp_sock_t *sock, uint32_t addr, uint16_t port);
 bool tcp_sock_listen(tcp_sock_t *sock, int backlog);
 bool tcp_sock_accept(tcp_sock_t *sock, tcp_sock_t *conn);
 
-bool tcp_conn_fetch(tcp_conn_t *conn);
+ssize_t tcp_conn_fetch(tcp_conn_t *conn);
 bool tcp_conn_flush(tcp_conn_t *conn);
 
 size_t tcp_conn_read(tcp_conn_t *conn, void *buf, size_t n);

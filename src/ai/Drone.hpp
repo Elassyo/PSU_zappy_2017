@@ -21,20 +21,15 @@
 
 namespace zappy {
 	namespace ai {
-		enum Direction {
-			NORTH = 0,
-			EAST = 1,
-			SOUTH = 2,
-			WEST = 3,
-			MAX = 4
-		};
 		enum Behavior {
 			WAIT,
 			LOOKFOR,
 			GATHER,
 			EVOLVE,
-			EXPLORE
+			EXPLORE,
+			HELP
 		};
+
 		class Drone {
 		public:
 			explicit Drone(const std::string &team,
@@ -49,15 +44,11 @@ namespace zappy {
 			bool _canEvolve() const;
 			std::vector<Item> _evaluateNeeds() const;
 
-			void _lookFor();
-			void _explore();
-			void _gatherResources();
-			void _evolve();
-			void _wait();
+			void handleBroadcast(const std::string &msg);
 
-/*			bool handleResponces(const std::string &,
-					     std::function<void(void)>);
-*/
+			bool handleResponse(std::function<bool
+				(const std::string &)>);
+
 			void _move(const VertexS &dir);
 			void setTarget();
 			void _moveForward();
@@ -66,22 +57,11 @@ namespace zappy {
 			void _turnLeft();
 			bool _take(Item);
 
-			Vertex<size_t> _pos;
 			Vertex<size_t> _mapSize;
-			Direction _dir;
-			Vertex<size_t> _target;
-			bool _alive;
-			uint8_t _lvl;
 			const std::string &_team;
 			Behavior _behave;
 
-			uint _food;
-			uint _minFood;
-			Inventory _inventory;
-			Item _need;
-			std::vector<Item> _lookingFor;
-			const std::vector<Inventory> _lvlStuff;
-			Memory _memory;
+
 			std::unordered_map<Behavior, std::function<void(void)>>
 				_act;
 			RequestConstructor _reqConstr;

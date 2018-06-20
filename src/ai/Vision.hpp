@@ -17,9 +17,14 @@ namespace zappy {
 	namespace ai {
 		class Vision {
 		public:
-			Vision(const std::string &);
-			~Vision() = default;
+			explicit Vision(const std::string &);
 
+			bool seeObject(Item) const;
+			const zappy::VertexS getObject(zappy::ai::Item,
+							const VertexS &pos,
+							Direction dir) const;
+
+			~Vision() = default;
 		private:
 			std::vector<ai::Tile> _tiles;
 		};

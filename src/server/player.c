@@ -30,6 +30,7 @@ bool zpy_srv_player_new(zpy_srv_client_t *client, unsigned short team)
 	list_push_back(((zpy_srv_team_t*)list_get(client->server->teams,
 		team))->players, client->player);
 	list_push_back(client->server->map.players, client->player);
+	zpy_srv_grph_sendall(client->server, &zpy_srv_grph_pnw, client->player);
 	return (true);
 }
 
@@ -64,4 +65,19 @@ bool zpy_srv_player_tick(tcp_conn_t *conn, zpy_srv_player_t *player)
 		list_pop(player->cmd_queue);
 	}
 	return (true);
+}
+
+zpy_srv_player_t *zpy_srv_player_find(zpy_srv_map_t *map, unsigned int id)
+{
+	list_node_t *node;
+	zpy_srv_player_t *player;
+
+	node = map->players->head;
+	while (node != NULL) {
+		player = node->data;
+		if (player->id == id)
+			return (player);
+		node = node->next;
+	}
+	return (NULL);
 }
