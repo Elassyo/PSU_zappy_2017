@@ -7,9 +7,9 @@
 
 #include "Drone.hpp"
 
-zappy::ai::Drone::Drone(const std::string &team, const VertexS &mapSize,
+zappy::ai::Drone::Drone(const std::string &team,
 			RequestHandler &requestHandler) :
-	_team(team),
+	_team(team), _behave(LOOKFOR),
 	_act({make_pair(EVOLVE, std::make_shared<Evolve>(_reqConstr)),
 	      make_pair(LOOKFOR, std::make_shared<LookFor>(_reqConstr)),
 	      make_pair(HELP, std::make_shared<Help>(_reqConstr))}),
@@ -52,16 +52,12 @@ void zappy::ai::Drone::_evaluatePriorities()
 
 bool zappy::ai::Drone::_canEvolve() const
 {
-	return false;
+	return _properties.diff().empty();
 }
 
 std::vector<zappy::ai::Item> zappy::ai::Drone::_evaluateNeeds() const
 {
 	return _properties.diff();
-}
-
-void zappy::ai::Drone::_move(const zappy::VertexS &dir)
-{
 }
 
 void zappy::ai::Drone::_look()
@@ -75,16 +71,11 @@ bool zappy::ai::Drone::_take(zappy::ai::Item)
 	return false;
 }
 
-void zappy::ai::Drone::setTarget()
-{
-}
-
-bool
-zappy::ai::Drone::handleResponse(std::function<bool(const std::string &)> fun)
+bool zappy::ai::Drone::handleResponse()
 {
 	_reqHandler.fetch();
 	std::string res = _reqHandler.recv();
-	while (!fun(res)) {
+	while (!_act.at(_behave)->callback(res, _properties)) {
 		_reqHandler.fetch();
 		res = _reqHandler.recv();
 	}

@@ -152,5 +152,6 @@ bool zappy::Vertex<T>::operator==(const zappy::Vertex<T> &other) const
 
 template class zappy::Vertex<int>;
 template class zappy::Vertex<size_t>;
+template class zappy::Vertex<ssize_t>;
 template class zappy::Vertex<float>;
 template class zappy::Vertex<double>;

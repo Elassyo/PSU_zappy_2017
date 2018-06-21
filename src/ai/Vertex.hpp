@@ -41,7 +41,7 @@ namespace zappy {
 		T _y;
 	};
 
-	typedef Vertex<size_t> VertexS;
+	typedef Vertex<ssize_t> VertexS;
 	typedef Vertex<int> VertexI;
 	typedef Vertex<float> VertexF;
 	typedef Vertex<double> VertexD;

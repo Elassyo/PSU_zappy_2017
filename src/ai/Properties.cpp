@@ -45,12 +45,9 @@ void zappy::ai::Properties::setNeed(zappy::ai::Item item)
 	_need = item;
 }
 
-void zappy::ai::Properties::setTarget()
+void zappy::ai::Properties::setTarget(const VertexS &pos)
 {
-	if (_need != NONE) {
-		if (_memory.alreadySeen(_need))
-			_target = _memory.closestItem(_need, _pos);
-	}
+	_target = pos;
 }
 
 void zappy::ai::Properties::addLookingFor(zappy::ai::Item item)
@@ -101,7 +98,7 @@ void zappy::ai::Properties::setVision(const zappy::ai::Vision &vision)
 	_vision = vision;
 }
 
-zappy::Vertex<size_t> zappy::ai::Properties::getPos() const
+zappy::VertexS zappy::ai::Properties::getPos() const
 {
 	return _pos;
 }
@@ -124,6 +121,11 @@ uint8_t zappy::ai::Properties::getLvl() const
 uint zappy::ai::Properties::getFood() const
 {
 	return _food;
+}
+
+const zappy::VertexS &zappy::ai::Properties::getTarget() const
+{
+	return _target;
 }
 
 uint zappy::ai::Properties::getMinFood() const
