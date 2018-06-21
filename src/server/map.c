@@ -21,7 +21,7 @@ static void zpy_srv_map_fill(zpy_srv_t *server)
 	for (unsigned int i = 0; i < res_amt; i++) {
 		x = rand() % server->map.width;
 		y = rand() % server->map.height;
-		type = (zpy_item_type_t) (rand() % (NITEM_TYPES - 1)) + 1;
+		type = (zpy_item_type_t)(rand() % (NITEM_TYPES - 1)) + 1;
 		zpy_srv_map_add_item(&server->map, x, y, type);
 		x = rand() % server->map.width;
 		y = rand() % server->map.height;
