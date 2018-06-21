@@ -8,6 +8,8 @@
 #if !defined (ZAPPY_H_)
 	#define ZAPPY_H_
 
+	#define U(x) (unsigned int)(x)
+
 	#define ZPY_GRAPHIC_TEAM "GRAPHIC"
 
 typedef enum zpy_direction {

@@ -40,7 +40,7 @@ size_t zpy_srv_get_vision_tile_pos(zpy_srv_map_t *map,
 	int i = 0;
 	int j = 1;
 
-	while ((unsigned) i < tile) {
+	while (U(i) < tile) {
 		i++;
 		if (i <= j) {
 			j += j + 2;
