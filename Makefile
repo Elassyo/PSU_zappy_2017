@@ -62,6 +62,7 @@ SRCS_SRV	=	server/main.c					\
 			server/player_move.c				\
 			server/teams.c					\
 			server/vision.c					\
+			server/incantation.c				\
 			server/cmd_ai/cmd_move.c			\
 			server/cmd_ai/cmd_look.c			\
 			server/cmd_ai/cmd_inventory.c			\

@@ -157,6 +157,9 @@ void zpy_srv_grph_sendall(zpy_srv_t *server,
 bool zpy_srv_dispatch_cmd(tcp_conn_t *conn, zpy_srv_client_t *client,
 	char const *cmd, char const *args);
 
+bool zpy_srv_is_incantation_ok(zpy_srv_client_t *client);
+list_t *zpy_srv_get_player_same_level(zpy_srv_client_t *client);
+
 bool zpy_srv_cmd_broadcast(tcp_conn_t *conn, zpy_srv_client_t *client,
 	char const *args);
 bool zpy_srv_cmd_connect(tcp_conn_t *conn, zpy_srv_client_t *client,
