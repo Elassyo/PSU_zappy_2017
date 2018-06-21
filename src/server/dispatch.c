@@ -22,7 +22,7 @@ static zpy_srv_cmd_t const zpy_srv_cmds[] = {
 	{ "eject", &zpy_srv_cmd_eject, CLIENT_AI, 7, NULL },
 	{ "take", &zpy_srv_cmd_take, CLIENT_AI, 7, NULL },
 	{ "set", &zpy_srv_cmd_set, CLIENT_AI, 7, NULL },
-	{ "incantation", &zpy_srv_cmd_incantation, CLIENT_AI, 300, NULL },
+	{ "incantation", &zpy_srv_cmd_incantation, CLIENT_AI, 0, NULL },
 	{ "msz", &zpy_srv_cmd_msz, CLIENT_GRAPHIC, 0, NULL },
 	{ "bct", &zpy_srv_cmd_bct, CLIENT_GRAPHIC, 0, NULL },
 	{ "mct", &zpy_srv_cmd_mct, CLIENT_GRAPHIC, 0, NULL },
