@@ -28,10 +28,14 @@ zappy::ai::Drone::Drone(const std::string &team,
 
 bool zappy::ai::Drone::live()
 {
+	std::string s;
 	std::cout << "Begin to live" << std::endl;
 	while (_properties.isAlive()) {
 		_evaluatePriorities();
-		_act.at(_behave)->act(_properties);
+		s = _act.at(_behave)->act(_properties);
+		std::cout << s << std::endl;
+		_reqHandler.send(s);
+		handleResponse();
 	}
 	return false;
 }
@@ -46,12 +50,16 @@ void zappy::ai::Drone::_evaluatePriorities()
 		_properties.setNeed(NONE);
 	} else {
 		_behave = LOOKFOR;
-		_evaluateNeeds();
+		_properties.setLookingFor(_evaluateNeeds());
 	}
 }
 
 bool zappy::ai::Drone::_canEvolve() const
 {
+	_reqHandler.send(_reqConstr.inventory());
+	_reqHandler.fetch();
+	std::cout << _reqHandler.recv() << std::endl;
+	auto a = _properties.diff();
 	return _properties.diff().empty();
 }
 
@@ -78,6 +86,7 @@ bool zappy::ai::Drone::handleResponse()
 	while (!_act.at(_behave)->callback(res, _properties)) {
 		_reqHandler.fetch();
 		res = _reqHandler.recv();
+		std::cout << res << std::endl;
 	}
 	return true;
 }

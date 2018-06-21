@@ -35,6 +35,7 @@ std::string zappy::ai::LookFor::act(zappy::ai::Properties &properties)
 
 bool zappy::ai::LookFor::callback(const std::string &string, Properties &properties)
 {
+	std::cout << "callback" << std::endl;
 	switch (_lookState) {
 	case LOOK:
 		return _lookBack(string, properties);
@@ -135,24 +136,32 @@ std::string zappy::ai::LookFor::_gather()
 
 bool zappy::ai::LookFor::_lookBack(const std::string &res, Properties &prop)
 {
+	auto lf = prop.getLookingFor();
 	try {
 		Vision vision(res);
 		_item = prop.getNeed();
-		if (_item == NONE && !prop.getLookingFor().empty())
-			_item = prop.getLookingFor()[0];
+		if (_item == NONE && !lf.empty())
+			_item = lf[0];
 		else
 			throw Exception("LookFor", "No object to search");
 		for (size_t i = 0; i < prop.getLookingFor().size(); i++)
-			if (vision.seeObject(_item)) {
+			if (vision.seeObject(lf[i])) {
+				std::cout << "OBJ Seen" << std::endl;
 				prop.setTarget(vision.getObject(_item,
 								prop.getPos(),
 								prop.getDir()));
+				_lookState = GO;
+				_item = lf[i];
 				return true;
 			}
+		std::cout << "random target" << std::endl;
+		prop.setTarget(prop.getPos() + random() % 5);
 		_item = NONE;
-	} catch (const Exception &) {
+	} catch (const Exception &e) {
+		std::cerr <<  e.where() << e.what() << std::endl;
 		return false;
 	}
+	_lookState = GO;
 	return true;
 }
 

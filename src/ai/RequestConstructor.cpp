@@ -36,12 +36,12 @@ std::string zappy::RequestConstructor::turnRight() const
 
 std::string zappy::RequestConstructor::look() const
 {
-	return "look\n";
+	return "Look\n";
 }
 
 std::string zappy::RequestConstructor::inventory() const
 {
-	return "inventory\n";
+	return "Inventory\n";
 }
 
 std::string zappy::RequestConstructor::broadcast(std::string text) const

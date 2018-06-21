@@ -12,7 +12,7 @@
 zappy::ai::Properties::Properties() :
 	_pos(0, 0), _dir(NORTH), _target(0, 0), _alive(true),
 	_lvl(1), _food(10), _minFood(3),
-	_inventory(), _need(NONE),
+	_inventory(0, 0, 0, 0, 0, 0), _need(NONE),
 	_lvlStuff({Inventory(1, 0, 0, 0, 0, 0), Inventory(1, 1, 1, 0, 0, 0),
 		   Inventory(2, 0, 1, 0, 2, 0), Inventory(1, 1, 2, 0, 1, 0),
 		   Inventory(1, 2, 1, 3, 0, 0), Inventory(1, 2, 3, 0, 1, 0),
@@ -90,7 +90,7 @@ void zappy::ai::Properties::dropItem(zappy::ai::Item item)
 
 std::vector<zappy::ai::Item> zappy::ai::Properties::diff() const
 {
-	return _inventory.diff(_lvlStuff.at(_lvl));
+	return _inventory.diff(_lvlStuff.at(_lvl - 1));
 }
 
 void zappy::ai::Properties::setVision(const zappy::ai::Vision &vision)
