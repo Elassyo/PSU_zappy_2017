@@ -62,7 +62,6 @@ std::string zappy::ai::LookFor::_go(Properties &prop)
 	if (prop.getPos() == prop.getTarget()) {
 		_lookState = _item == NONE ? LOOK : TAKE;
 		_lastAction = "";
-		_lookState = LOOK;
 		return "";
 	}
 	return _move(prop);
@@ -71,8 +70,10 @@ std::string zappy::ai::LookFor::_go(Properties &prop)
 std::string zappy::ai::LookFor::_move(zappy::ai::Properties &properties)
 {
 	std::string s = _cor[properties.getDir()](properties);
-	if (s.empty())
+	if (s.empty()) {
+		_lastAction = "move";
 		return _reqConst.moveForward();
+	}
 	_lastAction = s;
 	return s;
 }
@@ -140,29 +141,54 @@ bool zappy::ai::LookFor::_lookBack(const std::string &res, Properties &prop)
 	try {
 		Vision vision(res);
 		_item = prop.getNeed();
-		if (_item == NONE && !lf.empty())
-			_item = lf[0];
+		bool saw = false;
+		if (_item != NONE)
+			saw = sawObject(_item, prop, vision);
 		else
-			throw Exception("LookFor", "No object to search");
-		for (size_t i = 0; i < prop.getLookingFor().size(); i++)
-			if (vision.seeObject(lf[i])) {
-				std::cout << "OBJ Seen" << std::endl;
-				prop.setTarget(vision.getObject(_item,
-								prop.getPos(),
-								prop.getDir()));
-				_lookState = GO;
-				_item = lf[i];
-				return true;
-			}
-		std::cout << "random target" << std::endl;
-		prop.setTarget(prop.getPos() + random() % 5);
-		_item = NONE;
+			saw = sawObject(lf, prop, vision);
+		std::cout << "PObject saw" << std::endl;
+		if (!saw) {
+			std::cout << "random target" << std::endl;
+			prop.setTarget(prop.getPos() + random() % 5);
+			_item = NONE;
+		}
 	} catch (const Exception &e) {
 		std::cerr <<  e.where() << e.what() << std::endl;
 		return false;
 	}
 	_lookState = GO;
 	return true;
+}
+
+bool zappy::ai::LookFor::sawObject(const std::vector<zappy::ai::Item> &lf,
+					Properties &prop, Vision &vision)
+{
+	for (size_t i = 0; i < prop.getLookingFor().size(); i++)
+		if (vision.seeObject(lf[i])) {
+			std::cout << "OBJ Seen" << std::endl;
+			prop.setTarget(vision.getObject(lf[i],
+							prop.getPos(),
+							prop.getDir()));
+			_lookState = GO;
+			_item = lf[i];
+			return true;
+		}
+	return false;
+}
+
+bool zappy::ai::LookFor::sawObject(zappy::ai::Item need, Properties &prop,
+					Vision &vision)
+{
+	if (vision.seeObject(need)) {
+		std::cout << "OBJ Seen" << std::endl;
+		prop.setTarget(vision.getObject(need,
+						prop.getPos(),
+						prop.getDir()));
+		_lookState = GO;
+		_item = need;
+		return true;
+	}
+	return false;
 }
 
 bool zappy::ai::LookFor::_goBack(const std::string &res, Properties &prop)
@@ -188,8 +214,7 @@ bool zappy::ai::LookFor::_gatherBack(const std::string &res, Properties &prop)
 		prop.setTarget(prop.getPos() + random() % 5);
 		_item = NONE;
 	} else if (res == "ko") {
-		prop.setTarget(prop.getPos() + random() % 5);
-		_item = NONE;
+		_lookState = LOOK;
 	} else
 		return false;
 	_lookState = GO;

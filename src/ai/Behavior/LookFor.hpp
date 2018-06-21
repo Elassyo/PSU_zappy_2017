@@ -46,6 +46,9 @@ namespace zappy {
 			std::string _fromEast(Properties &prp);
 			std::string _fromWest(Properties &prp);
 
+			bool sawObject(const std::vector<Item> &, Properties &, Vision &);
+			bool sawObject(Item, Properties &, Vision &);
+
 			LookForState _lookState;
 			std::string _lastAction;
 			const RequestConstructor &_reqConst;
