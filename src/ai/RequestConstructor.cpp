@@ -21,17 +21,17 @@ zappy::RequestConstructor::RequestConstructor() :
 
 std::string zappy::RequestConstructor::moveForward() const
 {
-	return "forward\n";
+	return "Forward\n";
 }
 
 std::string zappy::RequestConstructor::turnLeft() const
 {
-	return "left\n";
+	return "Left\n";
 }
 
 std::string zappy::RequestConstructor::turnRight() const
 {
-	return "right\n";
+	return "Right\n";
 }
 
 std::string zappy::RequestConstructor::look() const
@@ -46,35 +46,35 @@ std::string zappy::RequestConstructor::inventory() const
 
 std::string zappy::RequestConstructor::broadcast(std::string text) const
 {
-	return "broadcast " + text + "\n";
+	return "Broadcast " + text + "\n";
 }
 
 std::string zappy::RequestConstructor::connectNbr() const
 {
-	return "connect_nbr\n";
+	return "Connect_nbr\n";
 }
 
 std::string zappy::RequestConstructor::fork() const
 {
-	return "fork\n";
+	return "Fork\n";
 }
 
 std::string zappy::RequestConstructor::eject() const
 {
-	return "eject\n";
+	return "Eject\n";
 }
 
 std::string zappy::RequestConstructor::takeObject(zappy::ai::Item item) const
 {
-	return "take " + this->_itemStr.at(item) + "\n";
+	return "Take " + this->_itemStr.at(item) + "\n";
 }
 
 std::string zappy::RequestConstructor::setObject(zappy::ai::Item item) const
 {
-	return "set " + this->_itemStr.at(item) + "\n";
+	return "Set " + this->_itemStr.at(item) + "\n";
 }
 
 std::string zappy::RequestConstructor::incantation() const
 {
-	return "incantation\n";
+	return "Incantation\n";
 }
