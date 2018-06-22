@@ -33,14 +33,16 @@ bool zappy::ai::Drone::live()
 	while (_properties.isAlive()) {
 		_evaluatePriorities();
 		s = _act.at(_behave)->act(_properties);
-		std::cout << "POS : " << _properties.getPos().x() << " " << _properties.getPos().y() << std::endl;
-		std::cout << "TARGET : " << _properties.getTarget().x() << " " << _properties.getTarget().y() << std::endl;
-		std::cout << "COMMAND : " << s << std::endl;
-		if (!s.empty()) {
-			_reqHandler.send(s);
-			std::cout << "Message send" << std::endl;
+//		std::cout << "POS : " << _properties.getPos().x() << " " << _properties.getPos().y() << std::endl;
+//		std::cout << "TARGET : " << _properties.getTarget().x() << " " << _properties.getTarget().y() << std::endl;
+//		std::cout << "COMMAND : " << s << std::endl;
+		if (s == "wait") {
 			handleResponse();
-			std::cout << "Responce received" << std::endl;
+		} else if (!s.empty()) {
+			_reqHandler.send(s);
+			std::cout << "Message " << s;
+			handleResponse();
+			std::cout << "Responce " << std::endl;
 		}
 	}
 	return false;
@@ -51,7 +53,7 @@ void zappy::ai::Drone::_evaluatePriorities()
 	if (_properties.getFood() <= _properties.getMinFood()) {
 		_properties.setNeed(FOOD);
 		_behave = LOOKFOR;
-	} else if (_canEvolve()) {
+	} else if (_properties.isEvolving() || _canEvolve()) {
 		_behave = EVOLVE;
 		_properties.setNeed(NONE);
 	} else {
@@ -86,11 +88,12 @@ bool zappy::ai::Drone::handleResponse()
 {
 	_reqHandler.fetch();
 	std::string res = _reqHandler.recv();
+	std::cout << "RESPONCE = " << res << std::endl;
 	while (!_reqParser.isEvent(res) && !_act.at(_behave)->callback(res, _properties)) {
 		std::cout << "Message not parsed fetch again" << std::endl;
 		_reqHandler.fetch();
 		res = _reqHandler.recv();
-//		std::cout << res << std::endl;
+		std::cout << res << std::endl;
 	}
 	return true;
 }

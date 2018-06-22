@@ -66,6 +66,8 @@ std::string zappy::RequestConstructor::eject() const
 
 std::string zappy::RequestConstructor::takeObject(zappy::ai::Item item) const
 {
+	if (item == zappy::ai::Item::DRONE)
+		return "";
 	return "Take " + this->_itemStr.at(item) + "\n";
 }
 

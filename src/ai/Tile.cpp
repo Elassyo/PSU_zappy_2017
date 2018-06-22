@@ -50,6 +50,29 @@ zappy::VertexS zappy::ai::Tile::computePosition(const zappy::VertexS &playerPos,
 
 }
 
+bool zappy::ai::Tile::empty() const
+{
+	int i = 0;
+	for (i = 0; i < _tileItems.size() && _tileItems.at(i) == DRONE; i++);
+	return i == _tileItems.size();
+}
+
+zappy::ai::Item zappy::ai::Tile::getItem() const
+{
+	int i = 0;
+	for (i = 0; _tileItems.at(i) == DRONE && i < _tileItems.size(); i++);
+	return i == _tileItems.size() ? DRONE : _tileItems.at(i);
+}
+
+ssize_t zappy::ai::Tile::nbrItem(zappy::ai::Item item) const
+{
+	int nbr = 0;
+	for (Item tileItem : _tileItems)
+		if (item == tileItem)
+			++nbr;
+	return nbr;
+}
+
 bool zappy::ai::Tile::containsItem(Item item) const
 {
 	return std::find(_tileItems.begin(), _tileItems.end(), item)

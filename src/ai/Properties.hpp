@@ -34,6 +34,8 @@ namespace zappy {
 			void dropItem(Item);
 			std::vector<Item> diff() const;
 			void setVision(const Vision &);
+			void setEvolving(bool b);
+
 
 			VertexS getPos() const;
 			Direction getDir() const;
@@ -46,7 +48,9 @@ namespace zappy {
 			Item getNeed() const;
 			const std::vector<Item> &getLookingFor() const;
 			const Inventory &getLvlInventory(uint8_t lvl) const;
+			uint8_t getLvlPlayers(uint8_t lvl) const;
 			const Vision &getVision() const;
+			bool isEvolving() const;
 
 		private:
 			VertexS _pos;
@@ -60,8 +64,10 @@ namespace zappy {
 			Item _need;
 			std::vector<Item> _lookingFor;
 			const std::vector<Inventory> _lvlStuff;
+			const std::vector<uint8_t > _lvlplayers;
 			Memory _memory;
 			Vision _vision;
+			bool _isEvolving;
 		};
 	}
 }

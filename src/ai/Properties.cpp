@@ -17,7 +17,8 @@ zappy::ai::Properties::Properties() :
 		   Inventory(2, 0, 1, 0, 2, 0), Inventory(1, 1, 2, 0, 1, 0),
 		   Inventory(1, 2, 1, 3, 0, 0), Inventory(1, 2, 3, 0, 1, 0),
 		   Inventory(2, 2, 2, 2, 2, 1)}),
-	_vision("")
+	_lvlplayers({1, 2, 2, 4, 4, 6, 6}),
+	_vision(""), _isEvolving(false)
 {
 
 }
@@ -98,6 +99,11 @@ void zappy::ai::Properties::setVision(const zappy::ai::Vision &vision)
 	_vision = vision;
 }
 
+void zappy::ai::Properties::setEvolving(bool b)
+{
+	_isEvolving = b;
+}
+
 zappy::VertexS zappy::ai::Properties::getPos() const
 {
 	return _pos;
@@ -154,7 +160,17 @@ const zappy::ai::Inventory &zappy::ai::Properties::getLvlInventory
 	return _lvlStuff.at((uint) lvl - 1);
 }
 
+uint8_t zappy::ai::Properties::getLvlPlayers(uint8_t lvl) const
+{
+	return _lvlplayers.at(lvl - 1);
+}
+
 const zappy::ai::Vision &zappy::ai::Properties::getVision() const
 {
 	return _vision;
+}
+
+bool zappy::ai::Properties::isEvolving() const
+{
+	return _isEvolving;
 }
