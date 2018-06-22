@@ -91,6 +91,7 @@ add_executable(zappy_server
         src/server/main_args.c
         src/server/conn.c
         src/server/dispatch.c
+        src/server/eggs.c
         src/server/map.c
         src/server/map_items.c
         src/server/map_players.c
@@ -100,6 +101,7 @@ add_executable(zappy_server
         src/server/player_items.c
         src/server/teams.c
         src/server/vision.c
+	src/server/incantation.c
 
         src/server/cmd_ai/cmd_broadcast.c
         src/server/cmd_ai/cmd_connect.c
@@ -123,15 +125,22 @@ add_executable(zappy_server
         src/server/cmd_graphic/cmd_tna.c
 
         src/server/graphic/grph_bct.c
+        src/server/graphic/grph_ebo.c
+        src/server/graphic/grph_eht.c
+        src/server/graphic/grph_enw.c
         src/server/graphic/grph_mct.c
         src/server/graphic/grph_msz.c
+        src/server/graphic/grph_pbc.c
+        src/server/graphic/grph_pdi.c
+        src/server/graphic/grph_pdr.c
+        src/server/graphic/grph_pex.c
+        src/server/graphic/grph_pfk.c
+        src/server/graphic/grph_pgt.c
+        src/server/graphic/grph_pic.c
+        src/server/graphic/grph_pie.c
         src/server/graphic/grph_pin.c
         src/server/graphic/grph_plv.c
         src/server/graphic/grph_pnw.c
-	src/server/graphic/grph_pex.c
-	src/server/graphic/grph_pdr.c
-	src/server/graphic/grph_pgt.c
-	src/server/graphic/grph_pfk.c
         src/server/graphic/grph_ppo.c
         src/server/graphic/grph_sgt.c
         src/server/graphic/grph_sst.c

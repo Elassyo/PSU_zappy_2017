@@ -43,14 +43,19 @@ static bool zpy_srv_team_join(tcp_conn_t *conn, zpy_srv_client_t *client,
 	unsigned short i)
 {
 	zpy_srv_team_t *team;
+	int x = -1;
+	int y = -1;
 
 	team = list_get(client->server->teams, i);
 	if (team->players->len == team->max_players) {
 		tcp_conn_printf(conn, "ko\n");
 		return (true);
 	}
+	if (team->players->len > client->server->max_players &&
+		!zpy_srv_egg_use_hatched(client->server, i, &x, &y))
+		return (false);
 	client->type = CLIENT_AI;
-	if (!zpy_srv_player_new(client, i))
+	if (!zpy_srv_player_new(client, i, x, y))
 		return (false);
 	client->player->conn = conn;
 	tcp_conn_printf(conn, "%d\n", team->max_players - team->players->len);

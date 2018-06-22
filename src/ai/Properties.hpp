@@ -23,7 +23,7 @@ namespace zappy {
 			void moveForward();
 			void turnRight();
 			void turnLeft();
-			void setTarget();
+			void setTarget(const VertexS &);
 			void setNeed(Item);
 			void addLookingFor(Item);
 			void pickLookingFor(Item);
@@ -35,9 +35,10 @@ namespace zappy {
 			std::vector<Item> diff() const;
 			void setVision(const Vision &);
 
-			Vertex<size_t> getPos() const;
+			VertexS getPos() const;
 			Direction getDir() const;
 			bool isAlive() const;
+			const VertexS &getTarget() const;
 			uint8_t getLvl() const;
 			uint getFood() const;
 			uint getMinFood() const;
@@ -48,9 +49,9 @@ namespace zappy {
 			const Vision &getVision() const;
 
 		private:
-			Vertex<size_t> _pos;
+			VertexS _pos;
 			Direction _dir;
-			Vertex<size_t> _target;
+			VertexS _target;
 			bool _alive;
 			uint8_t _lvl;
 			uint _food;

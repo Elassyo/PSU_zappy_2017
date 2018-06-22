@@ -48,7 +48,7 @@ static bool zpy_srv_conn_calc_tick(tcp_conn_t *conn, zpy_srv_client_t *client)
 	}
 	delta = timespec_diff(&ts, &client->server->last_tick);
 	while (delta > 1.0 / client->server->freq) {
-		/* tick eggs */
+		zpy_srv_eggs_tick(client->server);
 		client->server->last_tick = ts;
 		delta -= 1.0 / client->server->freq;
 	}

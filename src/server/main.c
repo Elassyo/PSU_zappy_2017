@@ -32,6 +32,7 @@ static bool zpy_srv_init(zpy_srv_t *server)
 	if (!zpy_srv_map_init(server) || !zpy_srv_teams_init(server))
 		return (false);
 	server->graphic_clients = list_create(false);
+	server->eggs = list_create(true);
 	if (server->graphic_clients == NULL)
 		return (false);
 	clock_gettime(CLOCK_MONOTONIC_RAW, &server->last_tick);
@@ -40,6 +41,7 @@ static bool zpy_srv_init(zpy_srv_t *server)
 
 static void zpy_srv_cleanup(zpy_srv_t *server)
 {
+	list_destroy(server->eggs);
 	list_destroy(server->graphic_clients);
 	zpy_srv_teams_cleanup(server->teams);
 	zpy_srv_map_cleanup(&server->map);

@@ -52,6 +52,7 @@ SRCS_SRV	=	server/main.c					\
 			server/main_args.c				\
 			server/conn.c					\
 			server/dispatch.c				\
+			server/eggs.c					\
 			server/graphic.c				\
 			server/map.c					\
 			server/map_items.c				\
@@ -61,6 +62,7 @@ SRCS_SRV	=	server/main.c					\
 			server/player_move.c				\
 			server/teams.c					\
 			server/vision.c					\
+			server/incantation.c				\
 			server/cmd_ai/cmd_move.c			\
 			server/cmd_ai/cmd_look.c			\
 			server/cmd_ai/cmd_inventory.c			\
@@ -81,15 +83,22 @@ SRCS_SRV	=	server/main.c					\
 			server/cmd_graphic/cmd_sst.c			\
 			server/cmd_graphic/cmd_tna.c			\
 			server/graphic/grph_bct.c			\
+			server/graphic/grph_ebo.c			\
+			server/graphic/grph_eht.c			\
+			server/graphic/grph_enw.c			\
 			server/graphic/grph_mct.c			\
 			server/graphic/grph_msz.c			\
+			server/graphic/grph_pbc.c			\
+			server/graphic/grph_pdi.c			\
+			server/graphic/grph_pdr.c			\
+			server/graphic/grph_pex.c			\
+			server/graphic/grph_pfk.c			\
+			server/graphic/grph_pgt.c			\
+			server/graphic/grph_pic.c			\
+			server/graphic/grph_pie.c			\
 			server/graphic/grph_pin.c			\
 			server/graphic/grph_plv.c			\
 			server/graphic/grph_pnw.c			\
-			server/graphic/grph_pex.c			\
-			server/graphic/grph_pgt.c			\
-			server/graphic/grph_pdr.c			\
-			server/graphic/grph_pfk.c			\
 			server/graphic/grph_ppo.c			\
 			server/graphic/grph_sgt.c			\
 			server/graphic/grph_sst.c			\

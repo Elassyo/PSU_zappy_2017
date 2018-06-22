@@ -33,7 +33,6 @@ std::string zappy::ai::Evolve::act(zappy::ai::Properties &properties)
 bool zappy::ai::Evolve::callback(const std::string &string,
 				Properties &properties)
 {
-	return false;
 }
 
 void zappy::ai::Evolve::reset()

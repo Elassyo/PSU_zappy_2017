@@ -38,7 +38,7 @@ int main(int argc, char const **argv)
 	}
 	try {
 		zappy::RequestHandler requestHandler(hostname, port);
-		zappy::ai::Drone drone(name, {0, 0}, requestHandler);
+		zappy::ai::Drone drone(name, requestHandler);
 		drone.live();
 	} catch (const zappy::Exception &e) {
 		std::cerr << e.where() << ": "<<  e.what() << std::endl;

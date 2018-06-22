@@ -33,7 +33,7 @@ namespace zappy {
 		class Drone {
 		public:
 			explicit Drone(const std::string &team,
-			const VertexS &, RequestHandler &);
+				RequestHandler &);
 			~Drone() = default;
 
 			bool live();
@@ -46,11 +46,9 @@ namespace zappy {
 
 			void handleBroadcast(const std::string &msg);
 
-			bool handleResponse(std::function<bool
-				(const std::string &)>);
+			bool handleResponse();
 
 			void _move(const VertexS &dir);
-			void setTarget();
 			void _look();
 			bool _take(Item);
 
@@ -59,8 +57,7 @@ namespace zappy {
 			const std::string &_team;
 			Behavior _behave;
 
-			std::map<Behavior, std::shared_ptr<IBehavior>>
-				_act;
+			std::map<Behavior, std::shared_ptr<IBehavior>> _act;
 			RequestConstructor _reqConstr;
 			RequestParser _reqParser;
 			RequestHandler &_reqHandler;
