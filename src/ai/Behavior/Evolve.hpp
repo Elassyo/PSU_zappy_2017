@@ -39,10 +39,10 @@ namespace zappy {
 			const RequestConstructor &_reqConst;
 			EvolveState _evlState;
 			std::vector<Item> _toPut;
-			bool _checked;
-			bool _isIncantating;
-			bool _isLooking;
 			Tile _place;
+			bool _isIncantating;
+			bool _checked;
+			bool _isLooking;
 		};
 	}
 }
