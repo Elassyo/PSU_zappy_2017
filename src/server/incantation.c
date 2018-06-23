@@ -13,71 +13,69 @@
 #include "zappy.h"
 
 static zpy_ritual_t const zpy_srv_ritual_steps[] = {
-	{ 1, "0100000" },
-	{ 2, "0111000" },
-	{ 2, "0201020" },
-	{ 4, "0112010" },
-	{ 4, "0121300" },
-	{ 6, "0123010" },
-	{ 6, "0222221" }
+	{ 1, "100000" },
+	{ 2, "111000" },
+	{ 2, "201020" },
+	{ 4, "112010" },
+	{ 4, "121300" },
+	{ 6, "123010" },
+	{ 6, "222221" }
 };
 
-static zpy_ritual_t zpy_srv_get_ritual(zpy_srv_player_t *player)
+static char *zpy_srv_incantation_map_content(zpy_srv_map_t *map,
+	unsigned int x, unsigned int y)
 {
-	for (int i = 0; i < 8; i++) {
-		if (player->level == i + 1) {
-			return (zpy_srv_ritual_steps[i]);
-		}
-	}
-	return (zpy_srv_ritual_steps[0]);
-}
-
-static char *zpy_srv_get_content_map(zpy_srv_map_t *map, unsigned int x,
-		unsigned int y)
-{
-	char items_floor[NITEM_TYPES];
-	list_node_t *node = map->items->head;
+	char items_floor[NITEM_TYPES - 1];
+	list_node_t *node;
 	zpy_srv_item_group_t *item_group;
 
-	memset(items_floor, '0', NITEM_TYPES);
+	memset(items_floor, '0', NITEM_TYPES - 1);
+	node = map->items->head;
 	while (node != NULL) {
 		item_group = node->data;
-		if (item_group->x == x && item_group->y == y
-		&& items_floor[item_group->type] < 100) {
-			items_floor[item_group->type] += 1;
+		if (item_group->x == x && item_group->y == y &&
+			items_floor[item_group->type - 1] < '9' &&
+			item_group->type != FOOD) {
+			items_floor[item_group->type - 1] += 1;
 		}
 		node = node->next;
 	}
 	return (strdup(items_floor));
 }
 
-list_t *zpy_srv_get_player_same_level(zpy_srv_client_t *client)
+list_t *zpy_srv_incantation_same_level_players(zpy_srv_client_t *client)
 {
-	list_t *players = zpy_srv_map_players_on_tile(&(client->server->map),
-			client->player->x, client->player->y);
-	list_node_t *it = players->head;
-	list_t *ret = list_create(false);
-	zpy_srv_player_t *player = client->player;
+	list_t *players;
+	list_node_t *node;
+	zpy_srv_player_t *player;
+	list_t *ret;
 
-	while (it) {
-		if (((zpy_srv_player_t*)(it->data))->level == player->level)
-			list_push_back(ret, it->data);
-		it = it->next;
+	players = zpy_srv_map_players_on_tile(&client->server->map,
+		client->player->x, client->player->y);
+	node = players->head;
+	ret = list_create(false);
+	while (node != NULL) {
+		player = node->data;
+		if (client->player->level == player->level)
+			list_push_back(ret, node->data);
+		node = node->next;
 	}
+	list_destroy(players);
 	return (ret);
 }
 
-bool zpy_srv_is_incantation_ok(zpy_srv_client_t *client)
+bool zpy_srv_incantation_ok(zpy_srv_client_t *client)
 {
-	zpy_ritual_t ritual = zpy_srv_get_ritual(client->player);
-	char *items_floor = zpy_srv_get_content_map(&(client->server->map),
-			client->player->x, client->player->y);
-	unsigned short level = client->player->level;
-	list_t *players = zpy_srv_get_player_same_level(client);
-	unsigned int nb_players = players->len;
+	zpy_ritual_t ritual = zpy_srv_ritual_steps[client->player->level - 1];
+	char *floor_items = zpy_srv_incantation_map_content(
+		&client->server->map, client->player->x, client->player->y);
+	list_t *players;
+	bool res;
 
-	if (ritual.nb_players != nb_players || strcmp(ritual.items + 1,
-						     items_floor + 1) != 0)
-		return (false);
-	return (true);
+	players = zpy_srv_incantation_same_level_players(client);
+	res = ritual.nb_players != players->len ||
+		strcmp(ritual.items, floor_items) != 0;
+	list_destroy(players);
+	free(floor_items);
+	return (res);
 }

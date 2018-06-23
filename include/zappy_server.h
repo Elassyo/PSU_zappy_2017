@@ -134,7 +134,8 @@ bool zpy_srv_player_tick(tcp_conn_t *conn, zpy_srv_player_t *player);
 
 zpy_srv_player_t *zpy_srv_player_find(zpy_srv_map_t *map, unsigned int id);
 
-void zpy_srv_player_move_forward(zpy_srv_map_t *map, zpy_srv_player_t *player);
+void zpy_srv_player_move(zpy_srv_map_t *map, zpy_srv_player_t *player,
+	zpy_direction_t direction);
 void zpy_srv_player_turn_left(zpy_srv_player_t *player);
 void zpy_srv_player_turn_right(zpy_srv_player_t *player);
 
@@ -162,8 +163,8 @@ void zpy_srv_grph_sendall(zpy_srv_t *server,
 bool zpy_srv_dispatch_cmd(tcp_conn_t *conn, zpy_srv_client_t *client,
 	char const *cmd, char const *args);
 
-bool zpy_srv_is_incantation_ok(zpy_srv_client_t *client);
-list_t *zpy_srv_get_player_same_level(zpy_srv_client_t *client);
+bool zpy_srv_incantation_ok(zpy_srv_client_t *client);
+list_t *zpy_srv_incantation_same_level_players(zpy_srv_client_t *client);
 
 bool zpy_srv_cmd_broadcast(tcp_conn_t *conn, zpy_srv_client_t *client,
 	char const *args);

@@ -33,7 +33,7 @@ typedef enum zpy_item_type {
 
 typedef struct zpy_ritual {
 	unsigned int nb_players;
-	unsigned char items[NITEM_TYPES];
+	char items[NITEM_TYPES - 1 + 1]; /* -1 because FOOD ignored +1 for \0 */
 } zpy_ritual_t;
 
 #endif /* !defined (ZAPPY_H_) */

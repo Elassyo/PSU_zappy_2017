@@ -17,7 +17,8 @@ bool zpy_srv_cmd_forward(tcp_conn_t *conn, zpy_srv_client_t *client,
 		tcp_conn_printf(conn, "ko\n");
 		return (true);
 	}
-	zpy_srv_player_move_forward(&(client->server->map), client->player);
+	zpy_srv_player_move(&(client->server->map), client->player,
+		client->player->direction);
 	tcp_conn_printf(conn, "ok\n");
 	return (true);
 }
