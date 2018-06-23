@@ -12,8 +12,10 @@ zappy::ai::Drone::Drone(const std::string &team,
 	_team(team), _behave(LOOKFOR),
 	_act({make_pair(EVOLVE, std::make_shared<Evolve>(_reqConstr)),
 	      make_pair(LOOKFOR, std::make_shared<LookFor>(_reqConstr)),
+	      make_pair(HUNT, std::make_shared<Hunt>(_reqConstr)),
 	      make_pair(HELP, std::make_shared<Help>(_reqConstr))}),
-	_reqHandler(requestHandler)
+	_reqHandler(requestHandler),
+	_maxFood(10)
 {
 	_reqHandler.fetch();
 	std::string welcome = _reqHandler.recv();
@@ -52,9 +54,9 @@ bool zappy::ai::Drone::live()
 
 void zappy::ai::Drone::_evaluatePriorities()
 {
-	if (_properties.getFood() <= _properties.getMinFood()) {
-		_properties.setNeed(FOOD);
-		_behave = LOOKFOR;
+	if (_properties.getFood() <= _properties.getMinFood() ||
+		_behave == HUNT && _properties.getFood() < _maxFood) {
+		_behave = HUNT;
 	} else if (_properties.isEvolving() || _canEvolve()) {
 		_behave = EVOLVE;
 		_properties.setNeed(NONE);
