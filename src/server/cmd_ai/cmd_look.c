@@ -37,8 +37,8 @@ static void zpy_srv_cmd_look_tile_pos(zpy_srv_client_t *client, unsigned int i,
 		*y = MOD(client->player->y - y_off, client->server->map.height);
 	} else {
 		zpy_srv_cmd_look_normalize(client, &y_off, &x_off);
-		*x = MOD(client->player->y + y_off, client->server->map.height);
-		*y = MOD(client->player->x + x_off, client->server->map.width);
+		*x = MOD(client->player->x + y_off, client->server->map.height);
+		*y = MOD(client->player->y + x_off, client->server->map.width);
 	}
 }
 

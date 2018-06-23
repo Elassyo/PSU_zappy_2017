@@ -96,8 +96,8 @@ bool zpy_srv_incantation_ok(zpy_srv_client_t *client)
 	bool res;
 
 	players = zpy_srv_incantation_players(client);
-	res = ritual.nb_players != players->len ||
-		strcmp(ritual.items, floor_items) != 0;
+	res = ritual.nb_players == players->len &&
+		strcmp(ritual.items, floor_items) == 0;
 	list_destroy(players);
 	free(floor_items);
 	return (res);
