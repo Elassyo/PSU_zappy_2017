@@ -35,6 +35,10 @@ namespace zappy {
 			std::vector<Item> diff() const;
 			void setVision(const Vision &);
 			void setEvolving(bool b);
+			void kill();
+			void setMsg(const std::string &, uint8_t);
+			void setMsg(std::pair<const std::string &, uint8_t>);
+
 
 
 			VertexS getPos() const;
@@ -51,6 +55,7 @@ namespace zappy {
 			uint8_t getLvlPlayers(uint8_t lvl) const;
 			const Vision &getVision() const;
 			bool isEvolving() const;
+			std::pair<uint8_t, const std::string &>getMsg() const;
 
 		private:
 			VertexS _pos;
@@ -68,6 +73,8 @@ namespace zappy {
 			Memory _memory;
 			Vision _vision;
 			bool _isEvolving;
+			std::string _msg;
+			uint8_t _fromMsg;
 		};
 	}
 }

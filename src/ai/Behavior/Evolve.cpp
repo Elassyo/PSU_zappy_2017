@@ -10,7 +10,8 @@
 
 zappy::ai::Evolve::Evolve(const zappy::RequestConstructor &rq) :
 	_reqConst(rq), _evlState(DROP), _place(""),
-	_isIncantating(false), _checked(false), _isLooking(false)
+	_isIncantating(false), _checked(false), _isLooking(false),
+	_connectNbr(0), _resRecieved(0), _plReady(1)
 {
 }
 
@@ -53,15 +54,24 @@ void zappy::ai::Evolve::reset()
 	_toPut.clear();
 	_evlState = DROP;
 	_place = Tile("");
+	_resRecieved = 0;
+	_plReady = 1;
+	_connectNbr = 0;
 }
 
 std::string zappy::ai::Evolve::_call(Properties &prp)
 {
-	if (_place.nbrItem(DRONE) == prp.getLvlPlayers(prp.getLvl())) {
+	std::string s;
+	if (_plReady == prp.getLvlPlayers(prp.getLvl())) {
 		_evlState = INCANTE;
+		_lastReq = "";
 		return "";
 	}
-	return _reqConst.broadcast("KREOG " + std::to_string(prp.getLvl()));
+	if (_connectNbr == 0 && _lastReq != _reqConst.connectNbr())
+		s =  _reqConst.connectNbr();
+	else if (_connectNbr >= prp.getLvlPlayers(prp.getLvl()))
+		s = _reqConst.broadcast("KREOG " + std::to_string(prp.getLvl()));
+	return s;
 }
 
 std::string zappy::ai::Evolve::_drop()
@@ -92,6 +102,9 @@ std::string zappy::ai::Evolve::_incante()
 bool
 zappy::ai::Evolve::_callBack(const std::string &res, zappy::ai::Properties &prp)
 {
+	if (res == "GOERK") {
+
+	}
 	return false;
 }
 

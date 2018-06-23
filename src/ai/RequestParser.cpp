@@ -28,9 +28,18 @@ _strItem({
 	 })
 {}
 
-bool zappy::RequestParser::isEvent(const std::string &msg) const
+bool zappy::RequestParser::isEvent(const std::string &msg, ai::Properties &p) const
 {
-	return isDead(msg);
+	if (isDead(msg))
+		p.kill();
+	else
+		return false;
+	return true;
+}
+
+bool zappy::RequestParser::isMessage(const std::string &msg) const
+{
+	return msg.find("message") != std::string::npos;
 }
 
 bool zappy::RequestParser::parseBool
