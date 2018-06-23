@@ -19,7 +19,6 @@ zappy::ai::Evolve::Evolve(const zappy::RequestConstructor &rq) :
 std::string zappy::ai::Evolve::act(zappy::ai::Properties &properties)
 {
 	_loop = _loop > 2000000000 ? 0 : _loop;
-	properties.setEvolving(true);
 	if (_toPut.empty() && !_checked)
 		_toPut = properties.getLvlInventory
 			(properties.getLvl()).toVector();
@@ -29,7 +28,7 @@ std::string zappy::ai::Evolve::act(zappy::ai::Properties &properties)
 	case DROP:
 		return _drop();
 	case INCANTE:
-		return _incante();
+		return _incante(properties);
 	}
 	throw Exception("Evolve", "State not set");
 }
@@ -99,10 +98,12 @@ std::string zappy::ai::Evolve::_drop()
 	return _reqConst.setObject(_toPut[0]);
 }
 
-std::string zappy::ai::Evolve::_incante()
+std::string zappy::ai::Evolve::_incante(Properties &properties)
 {
-	if (!_isIncantating)
+	if (!_isIncantating) {
+		properties.setEvolving(true);
 		return _reqConst.incantation();
+	}
 	return "wait";
 }
 

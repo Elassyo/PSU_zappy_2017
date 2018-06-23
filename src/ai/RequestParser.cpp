@@ -89,7 +89,7 @@ zappy::ai::Inventory zappy::RequestParser::parseInventory
 	while (std::getline(ss, token, ',')) {
 		std::stringstream st(token);
 		st >> strItem >> nbr;
-		if (strItem != "player")
+		if (_strItem.find(strItem) != _strItem.end())
 			this->_itemNbr[this->_strItem.at(strItem)] = nbr;
 	}
 	return ai::Inventory(this->_itemNbr);

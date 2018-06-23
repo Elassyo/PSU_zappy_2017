@@ -28,6 +28,7 @@ namespace zappy {
 			const RequestConstructor &_rstConst;
 			Movement _movement;
 			bool _initTarget;
+			bool _moved;
 		};
 	}
 }

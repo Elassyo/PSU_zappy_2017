@@ -31,7 +31,7 @@ namespace zappy {
 		private:
 			std::string _call(Properties &prp);
 			std::string _drop();
-			std::string _incante();
+			std::string _incante(Properties &properties);
 
 			bool _callBack(const std::string &res, Properties &prp);
 			bool _dropBack(const std::string &res, Properties &prp);

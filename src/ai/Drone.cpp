@@ -33,11 +33,15 @@ bool zappy::ai::Drone::live()
 	std::string s;
 	std::cout << "Begin to live" << std::endl;
 	while (_properties.isAlive()) {
+		if (!_properties.isEvolving())
+			_updateInventory();
 		_evaluatePriorities();
 		s = _act.at(_behave)->act(_properties);
-//		std::cout << "POS : " << _properties.getPos().x() << " " << _properties.getPos().y() << std::endl;
-//		std::cout << "TARGET : " << _properties.getTarget().x() << " " << _properties.getTarget().y() << std::endl;
-//		std::cout << "COMMAND : " << s << std::endl;
+		std::cout << "POS : " << _properties.getPos().x() << " " << _properties.getPos().y() << std::endl;
+		std::cout << "TARGET : " << _properties.getTarget().x() << " " << _properties.getTarget().y() << std::endl;
+		std::cout << "FOOD : " << _properties.getFood()<< std::endl;
+		std::cout << "LVL : " << _properties.getLvl() << std::endl;
+		std::cout << "COMMAND : " << s << std::endl;
 		if (s == "wait") {
 			handleResponse();
 		} else if (!s.empty()) {
@@ -46,8 +50,6 @@ bool zappy::ai::Drone::live()
 			handleResponse();
 			std::cout << "Response handled" << std::endl;
 		}
-		if (!_properties.isEvolving())
-		_updateInventory();
 	}
 	return false;
 }

@@ -8,7 +8,8 @@
 #include "Hunt.hpp"
 
 zappy::ai::Hunt::Hunt(const zappy::RequestConstructor &rstConst)
-	: _rstConst(rstConst), _movement(_rstConst), _initTarget(false)
+	: _rstConst(rstConst), _movement(_rstConst), _initTarget(false),
+	  _moved(false)
 {}
 
 std::string zappy::ai::Hunt::act(zappy::ai::Properties &prop)
@@ -20,15 +21,20 @@ std::string zappy::ai::Hunt::act(zappy::ai::Properties &prop)
 	}
 	if (prop.getPos() == prop.getTarget()) {
 		_initTarget = false;
+		_moved = false;
 		return _rstConst.takeObject(FOOD);
 	}
-	return _movement.move(prop);
+	auto a =_movement.move(prop);
+	_moved = true;
+	std::cerr << std::endl << a << std::endl;
+	return a;
 }
 
 bool zappy::ai::Hunt::callback(const std::string &res,
 			       zappy::ai::Properties &properties)
 {
-	return res == "ok" || res == "ko";
+	return _moved ? _movement.moveBack(res, properties) :
+		res == "ko" || res == "ok";
 }
 
 void zappy::ai::Hunt::reset()
