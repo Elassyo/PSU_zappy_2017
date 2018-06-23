@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2018
-** Zappy
+** PSU_zappy_2017
 ** File description:
-** vision handling routines
+** Vision handling routines
 */
 
 #include "zappy_server.h"

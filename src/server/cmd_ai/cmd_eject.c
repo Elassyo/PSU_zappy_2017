@@ -28,24 +28,23 @@ static bool can_eject(zpy_srv_player_t *player1, zpy_srv_player_t *player2)
 bool zpy_srv_cmd_eject(tcp_conn_t *conn, zpy_srv_client_t *client,
 	char const *args)
 {
-	list_node_t *node;
-	zpy_srv_player_t *player;
+	list_node_t *n;
 	unsigned int ejected = 0;
 
 	if (strcmp(args, "") != 0) {
 		tcp_conn_printf(conn, "ko\n");
 		return (true);
 	}
-	node = client->server->map.players->head;
-	while (node != NULL) {
-		player = node->data;
-		if (can_eject(client->player, player)) {
+	for (n = client->server->map.players->head; n; n = n->next) {
+		if (can_eject(client->player, n->data)) {
 			zpy_srv_player_eject_forward(&client->server->map,
-				player, client->player->direction);
+				n->data, client->player->direction);
 			ejected++;
 		}
-		node = node->next;
 	}
+	if (ejected > 0)
+		zpy_srv_grph_sendall(client->server,
+			&zpy_srv_grph_pex, client->player);
 	tcp_conn_printf(conn, ejected > 0 ? "ok\n" : "ko\n");
 	return (true);
 }

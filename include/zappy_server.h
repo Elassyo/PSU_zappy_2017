@@ -115,16 +115,20 @@ bool zpy_srv_teams_join(tcp_conn_t *conn, zpy_srv_client_t *client,
 	char const *name);
 
 bool zpy_srv_map_init(zpy_srv_t *server);
+void zpy_srv_map_add_food(zpy_srv_t *server);
 void zpy_srv_map_cleanup(zpy_srv_map_t *map);
 
 zpy_srv_item_group_t *zpy_srv_map_find_item_group(zpy_srv_map_t *map,
 	unsigned int x, unsigned int y, zpy_item_type_t item_type);
 int zpy_srv_map_find_item_group_idx(zpy_srv_map_t *map,
 	unsigned int x, unsigned int y, zpy_item_type_t item_type);
-bool zpy_srv_map_add_item(zpy_srv_map_t *map,
+bool zpy_srv_map_add_item(zpy_srv_t *server,
+	unsigned int x, unsigned int y, zpy_item_type_t item_type);
+bool zpy_srv_map_remove_item(zpy_srv_t *server,
 	unsigned int x, unsigned int y, zpy_item_type_t item_type);
 
-list_t *zpy_srv_map_players_on_tile(zpy_srv_map_t *map, size_t x, size_t y);
+list_t *zpy_srv_map_players_on_tile(zpy_srv_map_t *map,
+	unsigned int x, unsigned int y);
 
 bool zpy_srv_player_new(zpy_srv_client_t *client,
 	unsigned short team, int x, int y);
@@ -139,9 +143,9 @@ void zpy_srv_player_move(zpy_srv_map_t *map, zpy_srv_player_t *player,
 void zpy_srv_player_turn_left(zpy_srv_player_t *player);
 void zpy_srv_player_turn_right(zpy_srv_player_t *player);
 
-bool zpy_srv_player_item_take(zpy_srv_map_t *map, zpy_srv_player_t *player,
+bool zpy_srv_player_item_take(zpy_srv_t *server, zpy_srv_player_t *player,
 	zpy_item_type_t item_type);
-bool zpy_srv_player_item_drop(zpy_srv_map_t *map, zpy_srv_player_t *player,
+bool zpy_srv_player_item_drop(zpy_srv_t *server, zpy_srv_player_t *player,
 	zpy_item_type_t item_type);
 
 size_t zpy_srv_get_vision_tile_pos(zpy_srv_map_t *map,
@@ -164,7 +168,8 @@ bool zpy_srv_dispatch_cmd(tcp_conn_t *conn, zpy_srv_client_t *client,
 	char const *cmd, char const *args);
 
 bool zpy_srv_incantation_ok(zpy_srv_client_t *client);
-list_t *zpy_srv_incantation_same_level_players(zpy_srv_client_t *client);
+bool zpy_srv_incantation_clear(zpy_srv_client_t *client);
+list_t *zpy_srv_incantation_players(zpy_srv_client_t *client);
 
 bool zpy_srv_cmd_broadcast(tcp_conn_t *conn, zpy_srv_client_t *client,
 	char const *args);
@@ -234,7 +239,7 @@ void zpy_srv_grph_pex(tcp_conn_t *conn, va_list args);
 void zpy_srv_grph_pfk(tcp_conn_t *conn, va_list args);
 /* args: zpy_srv_player_t *player, zpy_item_type_t type */
 void zpy_srv_grph_pgt(tcp_conn_t *conn, va_list args);
-/* args: list_t<zpy_srv_player_t*> *players */
+/* args: zpy_srv_client_t *client */
 void zpy_srv_grph_pic(tcp_conn_t *conn, va_list args);
 /* args: unsigned int x, unsigned int y, int success */
 void zpy_srv_grph_pie(tcp_conn_t *conn, va_list args);

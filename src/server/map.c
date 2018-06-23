@@ -11,21 +11,32 @@
 
 static void zpy_srv_map_fill(zpy_srv_t *server)
 {
-	unsigned int res_amt;
+	unsigned int amt;
 	unsigned int x;
 	unsigned int y;
-	zpy_item_type_t type;
 
-	res_amt = server->teams->len * server->max_players +
-		((rand() % 2 * server->max_players) - server->max_players);
-	for (unsigned int i = 0; i < res_amt; i++) {
+	for (zpy_item_type_t res = LINEMATE; res < NITEM_TYPES; res++) {
+		amt = server->map.width * server->map.height / 5;
+		if (res == THYSTAME)
+			amt /= 6;
+		for (unsigned int i = 0; i < amt; i++) {
+			x = rand() % server->map.width;
+			y = rand() % server->map.height;
+			zpy_srv_map_add_item(server, x, y, res);
+		}
+	}
+}
+
+void zpy_srv_map_add_food(zpy_srv_t *server)
+{
+	unsigned int food_amt = server->map.width * server->map.height / 2;
+	unsigned int x;
+	unsigned int y;
+
+	for (unsigned int i = 0; i < food_amt; i++) {
 		x = rand() % server->map.width;
 		y = rand() % server->map.height;
-		type = (zpy_item_type_t)(rand() % (NITEM_TYPES - 1)) + 1;
-		zpy_srv_map_add_item(&server->map, x, y, type);
-		x = rand() % server->map.width;
-		y = rand() % server->map.height;
-		zpy_srv_map_add_item(&server->map, x, y, FOOD);
+		zpy_srv_map_add_item(server, x, y, FOOD);
 	}
 }
 

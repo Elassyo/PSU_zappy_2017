@@ -9,10 +9,12 @@
 
 void zpy_srv_grph_pic(tcp_conn_t *conn, va_list args)
 {
+	list_t *players;
 	list_node_t *node;
 	zpy_srv_player_t *player;
 
-	node = va_arg(args, list_t*)->head;
+	players = zpy_srv_incantation_players(va_arg(args, zpy_srv_client_t*));
+	node = players->head;
 	player = node->data;
 	tcp_conn_printf(conn, "pic %u %u %u",
 		player->x, player->y, player->level);
@@ -21,4 +23,5 @@ void zpy_srv_grph_pic(tcp_conn_t *conn, va_list args)
 		tcp_conn_printf(conn, " %u", player->id);
 		node = node->next;
 	}
+	list_destroy(players);
 }

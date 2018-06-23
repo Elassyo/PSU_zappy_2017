@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2018
-** Zappy
+** PSU_zappy_2017
 ** File description:
-** Incantation function that valid if the incantation is Ok or not
+** Incantation routines
 */
 
 #include <stdio.h>
@@ -10,7 +10,6 @@
 #include <string.h>
 
 #include "zappy_server.h"
-#include "zappy.h"
 
 static zpy_ritual_t const zpy_srv_ritual_steps[] = {
 	{ 1, "100000" },
@@ -43,7 +42,31 @@ static char *zpy_srv_incantation_map_content(zpy_srv_map_t *map,
 	return (strdup(items_floor));
 }
 
-list_t *zpy_srv_incantation_same_level_players(zpy_srv_client_t *client)
+bool zpy_srv_incantation_clear(zpy_srv_client_t *client)
+{
+	list_t *items;
+	list_node_t *node;
+	zpy_srv_item_group_t *item;
+	int i = 0;
+
+	items = client->server->map.items;
+	node = items->head;
+	while (node != NULL) {
+		item = node->data;
+		node = node->next;
+		if (item->x == client->player->x &&
+			item->y == client->player->y && item->type != FOOD) {
+			list_remove(items, i);
+		} else {
+			i++;
+		}
+	}
+	zpy_srv_grph_sendall(client->server, &zpy_srv_grph_bct,
+		client->player->x, client->player->y);
+	return (true);
+}
+
+list_t *zpy_srv_incantation_players(zpy_srv_client_t *client)
 {
 	list_t *players;
 	list_node_t *node;
@@ -72,7 +95,7 @@ bool zpy_srv_incantation_ok(zpy_srv_client_t *client)
 	list_t *players;
 	bool res;
 
-	players = zpy_srv_incantation_same_level_players(client);
+	players = zpy_srv_incantation_players(client);
 	res = ritual.nb_players != players->len ||
 		strcmp(ritual.items, floor_items) != 0;
 	list_destroy(players);
