@@ -43,6 +43,26 @@ static char *zpy_srv_incantation_map_content(zpy_srv_map_t *map,
 	return (strdup(items_floor));
 }
 
+bool zpy_srv_incantation_clear(zpy_srv_client_t *client)
+{
+	list_t *items;
+	list_node_t *node;
+	zpy_srv_item_group_t *item;
+	int i = 0;
+
+	items = client->server->map.items;
+	node = items->head;
+	while (node != NULL) {
+		item = node->data;
+		if (item->x == client->player->x &&
+		item->y == client->player->y && item->type != FOOD)
+			list_remove(items, i);
+		node = node->next;
+		i++;
+	}
+	return (true);
+}
+
 list_t *zpy_srv_incantation_same_level_players(zpy_srv_client_t *client)
 {
 	list_t *players;

@@ -164,6 +164,7 @@ bool zpy_srv_dispatch_cmd(tcp_conn_t *conn, zpy_srv_client_t *client,
 	char const *cmd, char const *args);
 
 bool zpy_srv_incantation_ok(zpy_srv_client_t *client);
+bool zpy_srv_incantation_clear(zpy_srv_client_t *client);
 list_t *zpy_srv_incantation_same_level_players(zpy_srv_client_t *client);
 
 bool zpy_srv_cmd_broadcast(tcp_conn_t *conn, zpy_srv_client_t *client,

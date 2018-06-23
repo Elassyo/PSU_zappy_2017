@@ -21,6 +21,7 @@ static bool zpy_srv_cmd_incantation_finish(
 	zpy_srv_player_t *player;
 
 	incantation_res = zpy_srv_incantation_ok(client);
+	zpy_srv_incantation_clear(client);
 	node = zpy_srv_incantation_same_level_players(client)->head;
 	while (node != NULL) {
 		player = node->data;
