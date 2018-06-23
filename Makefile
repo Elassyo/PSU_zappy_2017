@@ -46,6 +46,9 @@ SRCS_AI		=	ai/Exception/Exception.cpp			\
 			ai/Behavior/Help.cpp				\
 			ai/Behavior/Evolve.cpp				\
 			ai/Behavior/LookFor.cpp				\
+			ai/Behavior/Hunt.cpp				\
+			ai/Movement.cpp					\
+			ai/Helper.cpp					\
 			ai/main.cpp
 
 SRCS_SRV	=	server/main.c					\
@@ -126,7 +129,7 @@ INCS_AI		=	ai/Exception/Exception.hpp		\
 			ai/Behavior/IBehavior.hpp		\
 			ai/Behavior/LookFor.hpp
 
-LIBS		=
+LIBS		=	m
 OBJS		=	$(SRCS:.c=.o)
 OBJS_AI		=	$(SRCS_AI:.cpp=.o)
 OBJS_SRV	=	$(SRCS_SRV:.c=.o)
@@ -142,7 +145,7 @@ CFLAGS		=	-c -W -Wall -Wextra -I$(INCDIR)
 CXX		=	g++
 CXXFLAGS	=	-c -W -Wall -Wextra -std=c++17 -I$(INCDIR)
 
-LDFLAGS		=	$(addprefix -L,$(LIBS))
+LDFLAGS		=	$(addprefix -l,$(LIBS))
 
 MKDIR		=	mkdir
 RM		=	rm -rf

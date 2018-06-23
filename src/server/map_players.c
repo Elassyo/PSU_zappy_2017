@@ -1,22 +1,22 @@
 /*
 ** EPITECH PROJECT, 2018
-** Zappy
+** PSU_zappy_2017
 ** File description:
-** get players on tiles
+** Get players on tiles
 */
 
 #include "zappy_server.h"
 
-list_t *zpy_srv_map_players_on_tile(zpy_srv_map_t *map, size_t x, size_t y)
+list_t *zpy_srv_map_players_on_tile(zpy_srv_map_t *map,
+	unsigned int x, unsigned int y)
 {
-	list_node_t *it = map->players->head;
+	zpy_srv_player_t *player;
 	list_t *ret = list_create(false);
 
-	while (it) {
-		if (((zpy_srv_player_t*)(it->data))->x == x
-				&& ((zpy_srv_player_t*)(it->data))->y == y)
-			list_push_back(ret, it->data);
-		it = it->next;
+	for (list_node_t *node = map->players->head; node; node = node->next) {
+		player = node->data;
+		if (player->x == x && player->y == y)
+			list_push_back(ret, player);
 	}
 	return (ret);
 }

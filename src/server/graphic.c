@@ -18,10 +18,13 @@ bool zpy_srv_grph_add(zpy_srv_t *server, tcp_conn_t *conn)
 	zpy_srv_grph_send(conn, &zpy_srv_grph_sgt, client->server);
 	zpy_srv_grph_send(conn, &zpy_srv_grph_mct, &client->server->map);
 	zpy_srv_grph_send(conn, &zpy_srv_grph_tna, client->server->teams);
-	node = client->server->map.players->head;
-	while (node != NULL) {
+	for (node = client->server->map.players->head; node; node = node->next)
 		zpy_srv_grph_send(conn, &zpy_srv_grph_pnw, node->data);
-		node = node->next;
+	for (node = client->server->eggs->head; node; node = node->next)
+		zpy_srv_grph_send(conn, &zpy_srv_grph_enw, node->data);
+	for (node = client->server->eggs->head; node; node = node->next) {
+		if (((zpy_srv_egg_t*)node->data)->hatched)
+			zpy_srv_grph_send(conn, &zpy_srv_grph_eht, node->data);
 	}
 	return (true);
 }

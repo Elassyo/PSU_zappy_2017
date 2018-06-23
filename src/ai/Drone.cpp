@@ -12,8 +12,10 @@ zappy::ai::Drone::Drone(const std::string &team,
 	_team(team), _behave(LOOKFOR),
 	_act({make_pair(EVOLVE, std::make_shared<Evolve>(_reqConstr)),
 	      make_pair(LOOKFOR, std::make_shared<LookFor>(_reqConstr)),
+	      make_pair(HUNT, std::make_shared<Hunt>(_reqConstr)),
 	      make_pair(HELP, std::make_shared<Help>(_reqConstr))}),
-	_reqHandler(requestHandler)
+	_reqHandler(requestHandler),
+	_maxFood(10)
 {
 	_reqHandler.fetch();
 	std::string welcome = _reqHandler.recv();
@@ -31,18 +33,22 @@ bool zappy::ai::Drone::live()
 	std::string s;
 	std::cout << "Begin to live" << std::endl;
 	while (_properties.isAlive()) {
+		if (!_properties.isEvolving())
+			_updateInventory();
 		_evaluatePriorities();
 		s = _act.at(_behave)->act(_properties);
-//		std::cout << "POS : " << _properties.getPos().x() << " " << _properties.getPos().y() << std::endl;
-//		std::cout << "TARGET : " << _properties.getTarget().x() << " " << _properties.getTarget().y() << std::endl;
-//		std::cout << "COMMAND : " << s << std::endl;
+		std::cout << "POS : " << _properties.getPos().x() << " " << _properties.getPos().y() << std::endl;
+		std::cout << "TARGET : " << _properties.getTarget().x() << " " << _properties.getTarget().y() << std::endl;
+		std::cout << "FOOD : " << _properties.getFood()<< std::endl;
+		std::cout << "LVL : " << _properties.getLvl() << std::endl;
+		std::cout << "COMMAND : " << s << std::endl;
 		if (s == "wait") {
 			handleResponse();
 		} else if (!s.empty()) {
 			_reqHandler.send(s);
 			std::cout << "Message " << s;
 			handleResponse();
-			std::cout << "Responce " << std::endl;
+			std::cout << "Response handled" << std::endl;
 		}
 	}
 	return false;
@@ -50,15 +56,45 @@ bool zappy::ai::Drone::live()
 
 void zappy::ai::Drone::_evaluatePriorities()
 {
-	if (_properties.getFood() <= _properties.getMinFood()) {
-		_properties.setNeed(FOOD);
-		_behave = LOOKFOR;
+	if (_properties.getFood() <= _properties.getMinFood() ||
+		_behave == HUNT && _properties.getFood() < _maxFood) {
+		_behave = HUNT;
 	} else if (_properties.isEvolving() || _canEvolve()) {
 		_behave = EVOLVE;
 		_properties.setNeed(NONE);
 	} else {
 		_behave = LOOKFOR;
 		_properties.setLookingFor(_evaluateNeeds());
+	}
+	_handleMessage();
+}
+
+bool zappy::ai::Drone::_handleMessage()
+{
+	auto pair = _properties.getMsg();
+	if (_properties.getMsg().second.empty())
+		return false;
+	if (pair.second.find("KREOG") != std::string::npos) {
+		_behave = HELP;
+	}
+	_properties.setMsg(std::make_pair("", 0));
+	return true;
+}
+
+void zappy::ai::Drone::_updateInventory()
+{
+	_reqHandler.send(_reqConstr.inventory());
+	_reqHandler.fetch();
+	std::string res = _reqHandler.recv();
+	bool con = true;
+	while (con) {
+		try {
+			Inventory inv = _reqParser.parseInventory(res);
+			_properties.setFood(inv.getNbr(FOOD));
+			con = false;
+		} catch (const Exception &) {
+			con = true;
+		}
 	}
 }
 
@@ -88,7 +124,7 @@ bool zappy::ai::Drone::handleResponse()
 {
 	_reqHandler.fetch();
 	std::string res = _reqHandler.recv();
-	std::cout << "RESPONCE = " << res << std::endl;
+	std::cout << "RESPONSE = " << res << std::endl;
 	while (!_reqParser.isEvent(res, _properties) &&
 		!_act.at(_behave)->callback(res, _properties)) {
 		std::cout << "Message not parsed fetch again" << std::endl;

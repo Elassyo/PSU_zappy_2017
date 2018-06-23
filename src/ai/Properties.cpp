@@ -115,7 +115,7 @@ void zappy::ai::Properties::setMsg(const std::string &msg, uint8_t from)
 	_fromMsg = from;
 }
 
-void zappy::ai::Properties::setMsg(std::pair<const std::string &, uint8_t> pair)
+void zappy::ai::Properties::setMsg(std::pair<std::string, uint8_t> pair)
 {
 	_msg = pair.first;
 	_fromMsg = pair.second;

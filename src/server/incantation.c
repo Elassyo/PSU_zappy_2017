@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2018
-** Zappy
+** PSU_zappy_2017
 ** File description:
-** Incantation function that valid if the incantation is Ok or not
+** Incantation routines
 */
 
 #include <stdio.h>
@@ -10,7 +10,6 @@
 #include <string.h>
 
 #include "zappy_server.h"
-#include "zappy.h"
 
 static zpy_ritual_t const zpy_srv_ritual_steps[] = {
 	{ 1, "100000" },
@@ -34,8 +33,8 @@ static char *zpy_srv_incantation_map_content(zpy_srv_map_t *map,
 	while (node != NULL) {
 		item_group = node->data;
 		if (item_group->x == x && item_group->y == y &&
-			items_floor[item_group->type - 1] < '9' &&
-			item_group->type != FOOD) {
+			item_group->type != FOOD &&
+			items_floor[item_group->type - 1] < '9') {
 			items_floor[item_group->type - 1] += 1;
 		}
 		node = node->next;
@@ -54,16 +53,20 @@ bool zpy_srv_incantation_clear(zpy_srv_client_t *client)
 	node = items->head;
 	while (node != NULL) {
 		item = node->data;
-		if (item->x == client->player->x &&
-		item->y == client->player->y && item->type != FOOD)
-			list_remove(items, i);
 		node = node->next;
-		i++;
+		if (item->x == client->player->x &&
+			item->y == client->player->y && item->type != FOOD) {
+			list_remove(items, i);
+		} else {
+			i++;
+		}
 	}
+	zpy_srv_grph_sendall(client->server, &zpy_srv_grph_bct,
+		client->player->x, client->player->y);
 	return (true);
 }
 
-list_t *zpy_srv_incantation_same_level_players(zpy_srv_client_t *client)
+list_t *zpy_srv_incantation_players(zpy_srv_client_t *client)
 {
 	list_t *players;
 	list_node_t *node;
@@ -92,9 +95,9 @@ bool zpy_srv_incantation_ok(zpy_srv_client_t *client)
 	list_t *players;
 	bool res;
 
-	players = zpy_srv_incantation_same_level_players(client);
-	res = ritual.nb_players != players->len ||
-		strcmp(ritual.items, floor_items) != 0;
+	players = zpy_srv_incantation_players(client);
+	res = ritual.nb_players == players->len &&
+		strcmp(ritual.items, floor_items) == 0;
 	list_destroy(players);
 	free(floor_items);
 	return (res);

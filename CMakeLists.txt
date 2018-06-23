@@ -80,8 +80,14 @@ add_executable(zappy_ai
         src/ai/Properties.cpp
         src/ai/Properties.hpp
         src/ai/Behavior/Help.cpp
-        src/ai/Behavior/Help.hpp
-        )
+	src/ai/Behavior/Help.hpp
+        src/ai/Helper.cpp
+	src/ai/Helper.hpp
+	src/ai/Movement.cpp
+	src/ai/Movement.hpp
+	src/ai/Behavior/Hunt.cpp
+	src/ai/Behavior/Hunt.hpp
+	)
 
 add_executable(zappy_server
         ${SRC_COMMON}
@@ -101,7 +107,7 @@ add_executable(zappy_server
         src/server/player_items.c
         src/server/teams.c
         src/server/vision.c
-	src/server/incantation.c
+        src/server/incantation.c
 
         src/server/cmd_ai/cmd_broadcast.c
         src/server/cmd_ai/cmd_connect.c
@@ -146,3 +152,5 @@ add_executable(zappy_server
         src/server/graphic/grph_sst.c
         src/server/graphic/grph_tna.c
         )
+
+target_link_libraries(zappy_server m)

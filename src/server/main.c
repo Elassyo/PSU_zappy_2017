@@ -29,11 +29,11 @@ static int zpy_srv_usage(char const *progname, int ret)
 
 static bool zpy_srv_init(zpy_srv_t *server)
 {
-	if (!zpy_srv_map_init(server) || !zpy_srv_teams_init(server))
-		return (false);
 	server->graphic_clients = list_create(false);
 	server->eggs = list_create(true);
-	if (server->graphic_clients == NULL)
+	if (server->graphic_clients == NULL || server->eggs == NULL)
+		return (false);
+	if (!zpy_srv_map_init(server) || !zpy_srv_teams_init(server))
 		return (false);
 	clock_gettime(CLOCK_MONOTONIC_RAW, &server->last_tick);
 	return (true);

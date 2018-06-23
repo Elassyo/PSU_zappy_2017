@@ -9,19 +9,6 @@
 
 #include "zappy_server.h"
 
-void zpy_srv_map_add_food(zpy_srv_t *server)
-{
-	unsigned int food_amt = server->map.width * server->map.height / 2;
-	unsigned int x = 0;
-	unsigned int y = 0;
-
-	for (unsigned int i = 0; i < res_amt; i++) {
-		x = rand() % server->map.width;
-		y = rand() % server->map.height;
-		zpy_srv_map_add_item(&server->map, x, y, FOOD);
-	}
-}
-
 static void zpy_srv_map_fill(zpy_srv_t *server)
 {
 	unsigned int amt;
@@ -29,14 +16,27 @@ static void zpy_srv_map_fill(zpy_srv_t *server)
 	unsigned int y;
 
 	for (zpy_item_type_t res = LINEMATE; res < NITEM_TYPES; res++) {
-		amt = server->map.width * server->map.height / 100 * 100 / 5;
+		amt = server->map.width * server->map.height / 5;
 		if (res == THYSTAME)
 			amt /= 6;
 		for (unsigned int i = 0; i < amt; i++) {
 			x = rand() % server->map.width;
 			y = rand() % server->map.height;
-			zpy_srv_map_add_item(&server->map, x, y, res);
+			zpy_srv_map_add_item(server, x, y, res);
 		}
+	}
+}
+
+void zpy_srv_map_add_food(zpy_srv_t *server)
+{
+	unsigned int food_amt = server->map.width * server->map.height / 2;
+	unsigned int x;
+	unsigned int y;
+
+	for (unsigned int i = 0; i < food_amt; i++) {
+		x = rand() % server->map.width;
+		y = rand() % server->map.height;
+		zpy_srv_map_add_item(server, x, y, FOOD);
 	}
 }
 

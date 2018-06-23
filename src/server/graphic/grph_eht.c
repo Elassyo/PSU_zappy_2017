@@ -9,6 +9,7 @@
 
 void zpy_srv_grph_eht(tcp_conn_t *conn, va_list args)
 {
-	tcp_conn_printf(conn, "eht %u\n",
-		va_arg(args, zpy_srv_egg_t*)->id);
+	zpy_srv_egg_t *egg = va_arg(args, zpy_srv_egg_t*);
+
+	tcp_conn_printf(conn, "eht %u\n", egg->id);
 }

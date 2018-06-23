@@ -9,7 +9,9 @@
 
 void zpy_srv_grph_pie(tcp_conn_t *conn, va_list args)
 {
-	tcp_conn_printf(conn, "pie %u %u %u\n",
-		va_arg(args, unsigned int), va_arg(args, unsigned int),
-		va_arg(args, int) ? 1 : 0);
+	unsigned int x = va_arg(args, unsigned int);
+	unsigned int y = va_arg(args, unsigned int);
+	int res = va_arg(args, int);
+
+	tcp_conn_printf(conn, "pie %u %u %u\n", x, y, res ? 1 : 0);
 }

@@ -20,6 +20,6 @@ bool zpy_srv_cmd_connect(tcp_conn_t *conn, zpy_srv_client_t *client,
 		return (true);
 	}
 	team = list_get(client->server->teams, client->player->team);
-	tcp_conn_printf(conn, "%d\n", (team->max_players - team->players->len));
+	tcp_conn_printf(conn, "%lu\n", (team->max_players - team->players->len));
 	return (true);
 }

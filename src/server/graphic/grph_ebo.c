@@ -9,6 +9,7 @@
 
 void zpy_srv_grph_ebo(tcp_conn_t *conn, va_list args)
 {
-	tcp_conn_printf(conn, "ebo %u\n",
-		va_arg(args, zpy_srv_egg_t*)->id);
+	zpy_srv_egg_t *egg = va_arg(args, zpy_srv_egg_t*);
+
+	tcp_conn_printf(conn, "ebo %u\n", egg->id);
 }

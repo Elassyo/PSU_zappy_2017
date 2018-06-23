@@ -18,6 +18,7 @@
 	#include "Behavior/Evolve.hpp"
 	#include "Behavior/LookFor.hpp"
 	#include "Behavior/Help.hpp"
+	#include "Behavior/Hunt.hpp"
 
 namespace zappy {
 	namespace ai {
@@ -27,6 +28,7 @@ namespace zappy {
 			GATHER,
 			EVOLVE,
 			EXPLORE,
+			HUNT,
 			HELP
 		};
 
@@ -43,6 +45,9 @@ namespace zappy {
 			void _evaluatePriorities();
 			bool _canEvolve() const;
 			std::vector<Item> _evaluateNeeds() const;
+			void _updateInventory();
+
+			bool _handleMessage();
 
 			void handleBroadcast(const std::string &msg);
 
@@ -61,6 +66,7 @@ namespace zappy {
 			RequestConstructor _reqConstr;
 			RequestParser _reqParser;
 			RequestHandler &_reqHandler;
+			int _maxFood;
 		};
 	}
 }

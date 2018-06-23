@@ -9,6 +9,7 @@
 	#define PSU_ZAPPY_2017_EVOLVE_HPP
 
 	#include "IBehavior.hpp"
+	#include "../Helper.hpp"
 	#include "../RequestConstructor.hpp"
 
 namespace zappy {
@@ -30,7 +31,7 @@ namespace zappy {
 		private:
 			std::string _call(Properties &prp);
 			std::string _drop();
-			std::string _incante();
+			std::string _incante(Properties &properties);
 
 			bool _callBack(const std::string &res, Properties &prp);
 			bool _dropBack(const std::string &res, Properties &prp);
@@ -44,8 +45,10 @@ namespace zappy {
 			bool _checked;
 			bool _isLooking;
 			int _connectNbr;
-			int _resRecieved;
+			int _resReceved;
 			int _plReady;
+			bool _triedCall;
+			size_t _loop;
 
 			std::string _lastReq;
 		};
