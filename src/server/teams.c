@@ -58,7 +58,7 @@ static bool zpy_srv_team_join(tcp_conn_t *conn, zpy_srv_client_t *client,
 	client->type = CLIENT_AI;
 	zpy_srv_player_new(client, i, x, y);
 	client->player->conn = conn;
-	tcp_conn_printf(conn, "%d\n", team->max_players - team->players->len);
+	tcp_conn_printf(conn, "%lu\n", team->max_players - team->players->len);
 	tcp_conn_printf(conn, "%u %u\n",
 		client->server->map.width, client->server->map.height);
 	return (true);

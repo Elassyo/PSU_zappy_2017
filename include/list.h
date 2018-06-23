@@ -19,7 +19,7 @@ typedef struct list_node {
 typedef struct list {
 	list_node_t *head;
 	list_node_t *back;
-	unsigned int len;
+	size_t len;
 	bool free_on_pop;
 } list_t;
 

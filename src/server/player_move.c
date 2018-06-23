@@ -14,16 +14,16 @@ void zpy_srv_player_move(zpy_srv_map_t *map, zpy_srv_player_t *player,
 
 	switch (direction) {
 	case UP:
-		player->y = (player->y + map->height - 1) % map->height;
+		player->y = MOD(player->y - 1, map->height);
 		break;
 	case DOWN:
-		player->y = (player->y + 1) % map->height;
+		player->y = MOD(player->y + 1, map->height);
 		break;
 	case LEFT:
-		player->x = (player->x + map->width - 1) % map->width;
+		player->x = MOD(player->x - 1, map->height);
 		break;
 	case RIGHT:
-		player->x = (player->x + 1) % map->width;
+		player->x = MOD(player->x + 1, map->height);
 		break;
 	default:
 		break;

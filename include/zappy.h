@@ -10,6 +10,8 @@
 
 	#define U(x) (unsigned int)(x)
 
+	#define MOD(x, y) (((x) + y) % y)
+
 	#define ZPY_GRAPHIC_TEAM "GRAPHIC"
 
 typedef enum zpy_direction {
