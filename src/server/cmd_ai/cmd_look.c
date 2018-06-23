@@ -36,19 +36,21 @@ bool zpy_srv_cmd_look(tcp_conn_t *conn, zpy_srv_client_t *client,
 		char const *args)
 {
 	size_t pos;
+	size_t limit;
 
 	if (strcmp(args, "") != 0) {
 		tcp_conn_printf(conn, "ko\n");
 		return (true);
 	}
-	tcp_conn_printf(conn, "[ player,");
-	for (size_t i = 0;; i++) {
+	limit = (client->player->level + 1) * (client->player->level + 1);
+	tcp_conn_printf(conn, "[");
+	for (size_t i = 0; i < limit; i++) {
+		if (i > 0)
+			tcp_conn_printf(conn, ",");
 		pos = zpy_srv_get_vision_tile_pos(&client->server->map,
 				client->player, i);
 		if (pos / client->server->map.width >= client->player->level)
 			break;
-		else if (pos > 0)
-			tcp_conn_printf(conn, ",");
 		zpy_srv_look_tile(conn, client, pos);
 	}
 	tcp_conn_printf(conn, " ]\n");
