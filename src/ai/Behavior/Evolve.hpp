@@ -9,6 +9,7 @@
 	#define PSU_ZAPPY_2017_EVOLVE_HPP
 
 	#include "IBehavior.hpp"
+	#include "../Helper.hpp"
 	#include "../RequestConstructor.hpp"
 
 namespace zappy {
@@ -46,6 +47,7 @@ namespace zappy {
 			int _connectNbr;
 			int _resRecieved;
 			int _plReady;
+			bool _triedCall;
 
 			std::string _lastReq;
 		};

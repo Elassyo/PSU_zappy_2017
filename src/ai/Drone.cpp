@@ -44,6 +44,8 @@ bool zappy::ai::Drone::live()
 			handleResponse();
 			std::cout << "Responce " << std::endl;
 		}
+		if (!_properties.isEvolving())
+		_updateInventory();
 	}
 	return false;
 }
@@ -60,6 +62,28 @@ void zappy::ai::Drone::_evaluatePriorities()
 		_behave = LOOKFOR;
 		_properties.setLookingFor(_evaluateNeeds());
 	}
+	(void) (!_properties.isEvolving() && _handleMessage());
+}
+
+bool zappy::ai::Drone::_handleMessage()
+{
+	auto pair = _properties.getMsg();
+	if (_properties.getMsg().second.empty())
+		return false;
+	if (pair.second.find("KREOG") != std::string::npos) {
+		_behave = HELP;
+	}
+	_properties.setMsg(std::make_pair("", 0));
+	return true;
+}
+
+void zappy::ai::Drone::_updateInventory()
+{
+	_reqHandler.send(_reqConstr.inventory());
+	_reqHandler.fetch();
+	std::string res = _reqHandler.recv();
+	Inventory inv = _reqParser.parseInventory(res);
+	_properties.setFood(inv.getNbr(FOOD));
 }
 
 bool zappy::ai::Drone::_canEvolve() const

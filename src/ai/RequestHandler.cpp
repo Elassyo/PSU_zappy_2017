@@ -36,8 +36,8 @@ void zappy::RequestHandler::fetch()
 
 std::string zappy::RequestHandler::recv()
 {
-	char buffer[512];
-	if (tcp_conn_getline(&_client.conn, buffer, 512, '\n') < 0)
+	char buffer[1024];
+	if (tcp_conn_getline(&_client.conn, buffer, 1024, '\n') < 0)
 		throw Exception("RequestHandler", "Error while receving msg");
 	std::string s(buffer);
 	s.pop_back();
