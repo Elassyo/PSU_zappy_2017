@@ -49,6 +49,8 @@ namespace zappy
 			bool operator==(const Inventory &) const;
 			bool operator>=(const Inventory &) const;
 
+			std::string toString() const;
+
 		private:
 			std::map<Item, size_t> _items;
 		};

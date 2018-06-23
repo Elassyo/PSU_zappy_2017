@@ -105,3 +105,16 @@ const std::map<zappy::ai::Item, size_t> &zappy::ai::Inventory::getItems() const
 {
 	return _items;
 }
+
+std::string zappy::ai::Inventory::toString() const
+{
+	std::string res("linemate ");
+
+	res += std::to_string(_items.at(LINEMATE));
+	res += ", deraumere " + std::to_string(_items.at(DERAUMERE));
+	res += ", sibur " + std::to_string(_items.at(SIBUR));
+	res += ", mendiane " + std::to_string(_items.at(MENDIANE));
+	res += ", phiras " + std::to_string(_items.at(PHIRAS));
+	res += ", thystame " + std::to_string(_items.at(THYSTAME));
+	return res;
+}

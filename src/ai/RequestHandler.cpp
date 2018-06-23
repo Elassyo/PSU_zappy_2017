@@ -30,8 +30,12 @@ void zappy::RequestHandler::fetch()
 {
 	ssize_t ssz = tcp_conn_fetch(&_client.conn);
 
+	if (ssz < 0)
+		throw Exception("RequestHandler", "fetch failed");
 	while (ssz == 1024)
 		ssz = tcp_conn_fetch(&_client.conn);
+	if (ssz < 0)
+		throw Exception("RequestHandler", "fetch failed");
 }
 
 std::string zappy::RequestHandler::recv()
