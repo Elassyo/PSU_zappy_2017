@@ -13,10 +13,7 @@
 
 zappy::ai::LookFor::LookFor(const zappy::RequestConstructor &requestConstructor)
 	: _lookState(LOOK), _reqConst(requestConstructor), _item(NONE),
-	  _cor({{NORTH, std::bind(&LookFor::_fromNorth, this, std::placeholders::_1)},
-		{SOUTH, std::bind(&LookFor::_fromSouth, this, std::placeholders::_1)},
-		{EAST, std::bind(&LookFor::_fromEast, this, std::placeholders::_1)},
-		{WEST, std::bind(&LookFor::_fromWest, this, std::placeholders::_1)}})
+	  _mov(requestConstructor)
 {
 }
 
@@ -61,72 +58,11 @@ std::string zappy::ai::LookFor::_go(Properties &prop)
 {
 	if (prop.getPos() == prop.getTarget()) {
 		_lookState = _item == NONE ? LOOK : TAKE;
-		_lastAction = "";
 		return "";
 	}
-	return _move(prop);
+	return _mov.move(prop);
 }
 
-std::string zappy::ai::LookFor::_move(zappy::ai::Properties &properties)
-{
-	std::string s = _cor[properties.getDir()](properties);
-	if (s.empty()) {
-		_lastAction = "move";
-		return _reqConst.moveForward();
-	}
-	_lastAction = s;
-	return s;
-}
-
-std::string zappy::ai::LookFor::_fromNorth(zappy::ai::Properties &prp)
-{
-	if (prp.getTarget().x() != prp.getPos().x()) {
-		return prp.getTarget().x() > prp.getPos().x() ?
-			_reqConst.turnRight() : _reqConst.turnLeft();
-	}
-	else {
-		return prp.getTarget().y() > prp.getPos().y() ?
-		       "" : _reqConst.turnRight();
-	}
-}
-
-std::string zappy::ai::LookFor::_fromSouth(zappy::ai::Properties &prp)
-{
-	if (prp.getTarget().x() != prp.getPos().x()) {
-		return prp.getTarget().x() > prp.getPos().x() ?
-		       _reqConst.turnLeft() : _reqConst.turnRight();
-	}
-	else {
-		return prp.getTarget().y() < prp.getPos().y() ?
-		       "" : _reqConst.turnRight();
-	}
-}
-
-std::string zappy::ai::LookFor::_fromEast(zappy::ai::Properties &prp)
-{
-	if (prp.getTarget().x() != prp.getPos().x()) {
-		return prp.getTarget().x() > prp.getPos().x() ?
-		       "" : _reqConst.turnRight();
-	}
-	else {
-		return prp.getTarget().y() > prp.getPos().y() ?
-		       _reqConst.turnLeft() : _reqConst.turnRight();
-	}
-
-}
-
-std::string zappy::ai::LookFor::_fromWest(zappy::ai::Properties &prp)
-{
-	if (prp.getTarget().x() != prp.getPos().x()) {
-		return prp.getTarget().x() < prp.getPos().x() ?
-		       "" : _reqConst.turnRight();
-	}
-	else {
-		return prp.getTarget().y() > prp.getPos().y() ?
-		       _reqConst.turnRight() : _reqConst.turnLeft();
-	}
-
-}
 
 std::string zappy::ai::LookFor::_gather()
 {
@@ -193,15 +129,7 @@ bool zappy::ai::LookFor::sawObject(zappy::ai::Item need, Properties &prop,
 
 bool zappy::ai::LookFor::_goBack(const std::string &res, Properties &prop)
 {
-	if (res != "ok")
-		return false;
-	if (_lastAction == "move")
-		prop.moveForward();
-	else if (_lastAction == _reqConst.turnLeft())
-		prop.turnLeft();
-	else
-		prop.turnRight();
-	return true;
+	return _mov.moveBack(res, prop);
 }
 
 bool zappy::ai::LookFor::_gatherBack(const std::string &res, Properties &prop)

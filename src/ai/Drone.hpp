@@ -43,6 +43,9 @@ namespace zappy {
 			void _evaluatePriorities();
 			bool _canEvolve() const;
 			std::vector<Item> _evaluateNeeds() const;
+			void _updateInventory();
+
+			bool _handleMessage();
 
 			void handleBroadcast(const std::string &msg);
 

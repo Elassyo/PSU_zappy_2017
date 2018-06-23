@@ -27,7 +27,8 @@ namespace zappy
 		bool isMessage(const std::string &) const;
 
 		ai::Inventory parseInventory(const std::string &);
-		std::pair<uint8_t, std::string> parseMessage(const std::string &);
+		std::pair<std::string, uint8_t> parseMessage
+			(const std::string &) const;
 	private:
 		std::map<zappy::ai::Item, size_t> _itemNbr;
 		const std::map<std::string, zappy::ai::Item> _strItem;

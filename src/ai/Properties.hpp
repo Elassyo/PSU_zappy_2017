@@ -37,7 +37,7 @@ namespace zappy {
 			void setEvolving(bool b);
 			void kill();
 			void setMsg(const std::string &, uint8_t);
-			void setMsg(std::pair<const std::string &, uint8_t>);
+			void setMsg(std::pair<std::string, uint8_t>);
 
 
 

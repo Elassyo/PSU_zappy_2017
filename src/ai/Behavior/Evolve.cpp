@@ -11,7 +11,7 @@
 zappy::ai::Evolve::Evolve(const zappy::RequestConstructor &rq) :
 	_reqConst(rq), _evlState(DROP), _place(""),
 	_isIncantating(false), _checked(false), _isLooking(false),
-	_connectNbr(0), _resRecieved(0), _plReady(1)
+	_connectNbr(0), _resRecieved(0), _plReady(1), _triedCall(false)
 {
 }
 
@@ -69,8 +69,14 @@ std::string zappy::ai::Evolve::_call(Properties &prp)
 	}
 	if (_connectNbr == 0 && _lastReq != _reqConst.connectNbr())
 		s =  _reqConst.connectNbr();
-	else if (_connectNbr >= prp.getLvlPlayers(prp.getLvl()))
-		s = _reqConst.broadcast("KREOG " + std::to_string(prp.getLvl()));
+	else if (_connectNbr >= prp.getLvlPlayers(prp.getLvl())
+		&& !_triedCall) {
+		s = _reqConst.broadcast(
+			"KREOG " + std::to_string(prp.getLvl()));
+		_triedCall = true;
+	} else {
+
+	}
 	return s;
 }
 
@@ -104,8 +110,11 @@ zappy::ai::Evolve::_callBack(const std::string &res, zappy::ai::Properties &prp)
 {
 	if (res == "GOERK") {
 
+	} else if (Helper::isNumber(res))  {
+		_connectNbr = std::stoi(res);
+		return true;
 	}
-	return false;
+	return res == "ok";
 }
 
 bool

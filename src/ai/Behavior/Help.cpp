@@ -16,7 +16,7 @@ zappy::ai::Help::Help(const zappy::RequestConstructor &req) :
 
 std::string zappy::ai::Help::act(Properties &properties)
 {
-	return _reqConst.broadcast("GOOOOERK !!!");
+	return "";
 }
 
 bool zappy::ai::Help::callback(const std::string &string, Properties &properties)

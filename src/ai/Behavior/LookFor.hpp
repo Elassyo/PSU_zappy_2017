@@ -11,7 +11,7 @@
 	#include <map>
 	#include <functional>
 	#include "IBehavior.hpp"
-	#include "../RequestConstructor.hpp"
+	#include "../Movement.hpp"
 
 namespace zappy {
 	namespace ai {
@@ -39,21 +39,13 @@ namespace zappy {
 			bool _goBack(const std::string &res, Properties &prop);
 			bool _gatherBack(const std::string &res, Properties &prop);
 
-			std::string _move(Properties &properties);
-
-			std::string _fromNorth(Properties &prp);
-			std::string _fromSouth(Properties &prp);
-			std::string _fromEast(Properties &prp);
-			std::string _fromWest(Properties &prp);
-
 			bool sawObject(const std::vector<Item> &, Properties &, Vision &);
 			bool sawObject(Item, Properties &, Vision &);
 
 			LookForState _lookState;
-			std::string _lastAction;
 			const RequestConstructor &_reqConst;
 			Item _item;
-			std::map<Direction, std::function<std::string(Properties &)>> _cor;
+			Movement _mov;
 		};
 	}
 }

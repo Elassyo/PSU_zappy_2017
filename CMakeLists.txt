@@ -80,8 +80,12 @@ add_executable(zappy_ai
         src/ai/Properties.cpp
         src/ai/Properties.hpp
         src/ai/Behavior/Help.cpp
-        src/ai/Behavior/Help.hpp
-        )
+	src/ai/Behavior/Help.hpp
+        src/ai/Helper.cpp
+	src/ai/Helper.hpp
+	src/ai/Movement.cpp
+	src/ai/Movement.hpp
+	)
 
 add_executable(zappy_server
         ${SRC_COMMON}
