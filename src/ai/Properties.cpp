@@ -104,6 +104,23 @@ void zappy::ai::Properties::setEvolving(bool b)
 	_isEvolving = b;
 }
 
+void zappy::ai::Properties::kill()
+{
+	_alive = false;
+}
+
+void zappy::ai::Properties::setMsg(const std::string &msg, uint8_t from)
+{
+	_msg = msg;
+	_fromMsg = from;
+}
+
+void zappy::ai::Properties::setMsg(std::pair<const std::string &, uint8_t> pair)
+{
+	_msg = pair.first;
+	_fromMsg = pair.second;
+}
+
 zappy::VertexS zappy::ai::Properties::getPos() const
 {
 	return _pos;
@@ -173,4 +190,9 @@ const zappy::ai::Vision &zappy::ai::Properties::getVision() const
 bool zappy::ai::Properties::isEvolving() const
 {
 	return _isEvolving;
+}
+
+std::pair<uint8_t, const std::string &>zappy::ai::Properties::getMsg() const
+{
+	return std::make_pair(_fromMsg, _msg);
 }

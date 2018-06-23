@@ -43,6 +43,11 @@ namespace zappy {
 			bool _isIncantating;
 			bool _checked;
 			bool _isLooking;
+			int _connectNbr;
+			int _resRecieved;
+			int _plReady;
+
+			std::string _lastReq;
 		};
 	}
 }

@@ -89,7 +89,8 @@ bool zappy::ai::Drone::handleResponse()
 	_reqHandler.fetch();
 	std::string res = _reqHandler.recv();
 	std::cout << "RESPONCE = " << res << std::endl;
-	while (!_reqParser.isEvent(res) && !_act.at(_behave)->callback(res, _properties)) {
+	while (!_reqParser.isEvent(res, _properties) &&
+		!_act.at(_behave)->callback(res, _properties)) {
 		std::cout << "Message not parsed fetch again" << std::endl;
 		_reqHandler.fetch();
 		res = _reqHandler.recv();
