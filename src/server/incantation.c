@@ -33,8 +33,8 @@ static char *zpy_srv_incantation_map_content(zpy_srv_map_t *map,
 	while (node != NULL) {
 		item_group = node->data;
 		if (item_group->x == x && item_group->y == y &&
-			items_floor[item_group->type - 1] < '9' &&
-			item_group->type != FOOD) {
+			item_group->type != FOOD &&
+			items_floor[item_group->type - 1] < '9') {
 			items_floor[item_group->type - 1] += 1;
 		}
 		node = node->next;
