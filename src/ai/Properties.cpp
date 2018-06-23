@@ -12,12 +12,13 @@
 zappy::ai::Properties::Properties() :
 	_pos(0, 0), _dir(NORTH), _target(0, 0), _alive(true),
 	_lvl(1), _food(10), _minFood(3),
-	_inventory(), _need(NONE),
+	_inventory(0, 0, 0, 0, 0, 0), _need(NONE),
 	_lvlStuff({Inventory(1, 0, 0, 0, 0, 0), Inventory(1, 1, 1, 0, 0, 0),
 		   Inventory(2, 0, 1, 0, 2, 0), Inventory(1, 1, 2, 0, 1, 0),
 		   Inventory(1, 2, 1, 3, 0, 0), Inventory(1, 2, 3, 0, 1, 0),
 		   Inventory(2, 2, 2, 2, 2, 1)}),
-	_vision("")
+	_lvlplayers({1, 2, 2, 4, 4, 6, 6}),
+	_vision(""), _isEvolving(false)
 {
 
 }
@@ -45,12 +46,9 @@ void zappy::ai::Properties::setNeed(zappy::ai::Item item)
 	_need = item;
 }
 
-void zappy::ai::Properties::setTarget()
+void zappy::ai::Properties::setTarget(const VertexS &pos)
 {
-	if (_need != NONE) {
-		if (_memory.alreadySeen(_need))
-			_target = _memory.closestItem(_need, _pos);
-	}
+	_target = pos;
 }
 
 void zappy::ai::Properties::addLookingFor(zappy::ai::Item item)
@@ -93,7 +91,7 @@ void zappy::ai::Properties::dropItem(zappy::ai::Item item)
 
 std::vector<zappy::ai::Item> zappy::ai::Properties::diff() const
 {
-	return _inventory.diff(_lvlStuff.at(_lvl));
+	return _inventory.diff(_lvlStuff.at(_lvl - 1));
 }
 
 void zappy::ai::Properties::setVision(const zappy::ai::Vision &vision)
@@ -101,7 +99,12 @@ void zappy::ai::Properties::setVision(const zappy::ai::Vision &vision)
 	_vision = vision;
 }
 
-zappy::Vertex<size_t> zappy::ai::Properties::getPos() const
+void zappy::ai::Properties::setEvolving(bool b)
+{
+	_isEvolving = b;
+}
+
+zappy::VertexS zappy::ai::Properties::getPos() const
 {
 	return _pos;
 }
@@ -124,6 +127,11 @@ uint8_t zappy::ai::Properties::getLvl() const
 uint zappy::ai::Properties::getFood() const
 {
 	return _food;
+}
+
+const zappy::VertexS &zappy::ai::Properties::getTarget() const
+{
+	return _target;
 }
 
 uint zappy::ai::Properties::getMinFood() const
@@ -152,7 +160,17 @@ const zappy::ai::Inventory &zappy::ai::Properties::getLvlInventory
 	return _lvlStuff.at((uint) lvl - 1);
 }
 
+uint8_t zappy::ai::Properties::getLvlPlayers(uint8_t lvl) const
+{
+	return _lvlplayers.at(lvl - 1);
+}
+
 const zappy::ai::Vision &zappy::ai::Properties::getVision() const
 {
 	return _vision;
+}
+
+bool zappy::ai::Properties::isEvolving() const
+{
+	return _isEvolving;
 }

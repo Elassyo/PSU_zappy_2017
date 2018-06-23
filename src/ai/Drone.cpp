@@ -7,9 +7,9 @@
 
 #include "Drone.hpp"
 
-zappy::ai::Drone::Drone(const std::string &team, const VertexS &mapSize,
+zappy::ai::Drone::Drone(const std::string &team,
 			RequestHandler &requestHandler) :
-	_team(team),
+	_team(team), _behave(LOOKFOR),
 	_act({make_pair(EVOLVE, std::make_shared<Evolve>(_reqConstr)),
 	      make_pair(LOOKFOR, std::make_shared<LookFor>(_reqConstr)),
 	      make_pair(HELP, std::make_shared<Help>(_reqConstr))}),
@@ -28,10 +28,22 @@ zappy::ai::Drone::Drone(const std::string &team, const VertexS &mapSize,
 
 bool zappy::ai::Drone::live()
 {
+	std::string s;
 	std::cout << "Begin to live" << std::endl;
 	while (_properties.isAlive()) {
 		_evaluatePriorities();
-		_act.at(_behave)->act(_properties);
+		s = _act.at(_behave)->act(_properties);
+//		std::cout << "POS : " << _properties.getPos().x() << " " << _properties.getPos().y() << std::endl;
+//		std::cout << "TARGET : " << _properties.getTarget().x() << " " << _properties.getTarget().y() << std::endl;
+//		std::cout << "COMMAND : " << s << std::endl;
+		if (s == "wait") {
+			handleResponse();
+		} else if (!s.empty()) {
+			_reqHandler.send(s);
+			std::cout << "Message " << s;
+			handleResponse();
+			std::cout << "Responce " << std::endl;
+		}
 	}
 	return false;
 }
@@ -41,27 +53,24 @@ void zappy::ai::Drone::_evaluatePriorities()
 	if (_properties.getFood() <= _properties.getMinFood()) {
 		_properties.setNeed(FOOD);
 		_behave = LOOKFOR;
-	} else if (_canEvolve()) {
+	} else if (_properties.isEvolving() || _canEvolve()) {
 		_behave = EVOLVE;
 		_properties.setNeed(NONE);
 	} else {
 		_behave = LOOKFOR;
-		_evaluateNeeds();
+		_properties.setLookingFor(_evaluateNeeds());
 	}
 }
 
 bool zappy::ai::Drone::_canEvolve() const
 {
-	return false;
+	auto a = _properties.diff();
+	return _properties.diff().empty();
 }
 
 std::vector<zappy::ai::Item> zappy::ai::Drone::_evaluateNeeds() const
 {
 	return _properties.diff();
-}
-
-void zappy::ai::Drone::_move(const zappy::VertexS &dir)
-{
 }
 
 void zappy::ai::Drone::_look()
@@ -75,18 +84,16 @@ bool zappy::ai::Drone::_take(zappy::ai::Item)
 	return false;
 }
 
-void zappy::ai::Drone::setTarget()
-{
-}
-
-bool
-zappy::ai::Drone::handleResponse(std::function<bool(const std::string &)> fun)
+bool zappy::ai::Drone::handleResponse()
 {
 	_reqHandler.fetch();
 	std::string res = _reqHandler.recv();
-	while (!fun(res)) {
+	std::cout << "RESPONCE = " << res << std::endl;
+	while (!_reqParser.isEvent(res) && !_act.at(_behave)->callback(res, _properties)) {
+		std::cout << "Message not parsed fetch again" << std::endl;
 		_reqHandler.fetch();
 		res = _reqHandler.recv();
+		std::cout << res << std::endl;
 	}
 	return true;
 }

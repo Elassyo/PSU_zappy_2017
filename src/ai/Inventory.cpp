@@ -63,15 +63,27 @@ std::vector<zappy::ai::Item> zappy::ai::Inventory::diff
 {
 	std::vector<Item> need;
 
-	for (auto i = _items.begin(); i != _items.end(); i++) {
+	for (auto i = other._items.begin(); i != other._items.end(); i++) {
 		if (_items.find(i->first) != _items.end()) {
-			for (int c =
+			for (ssize_t c =
 				other._items.at(i->first) - _items.at(i->first);
-			     c < 0; c--)
+			     c > 0; c--)
 				need.push_back(i->first);
 		}
 	}
 	return need;
+}
+
+std::vector<zappy::ai::Item> zappy::ai::Inventory::toVector() const
+{
+	std::vector<Item> vec;
+
+	for (auto item : _items) {
+		for (size_t i = 0; i < item.second; i++) {
+			vec.emplace_back(item.first);
+		}
+	}
+	return vec;
 }
 
 bool zappy::ai::Inventory::operator==(const zappy::ai::Inventory &other) const

@@ -19,6 +19,7 @@ namespace zappy {
 		public:
 			explicit Vision(const std::string &);
 
+			Tile getTile(uint8_t index) const;
 			bool seeObject(Item) const;
 			const zappy::VertexS getObject(zappy::ai::Item,
 							const VertexS &pos,
