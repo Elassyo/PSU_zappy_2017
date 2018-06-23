@@ -81,15 +81,15 @@ struct zpy_srv_item_group {
 };
 
 struct zpy_srv_player {
-	unsigned int id;
 	tcp_conn_t *conn;
-	unsigned short team;
+	unsigned int id;
 	unsigned int x;
 	unsigned int y;
 	zpy_direction_t direction;
+	unsigned short team;
 	unsigned char level;
+	unsigned char food_countdown;
 	unsigned char inventory[NITEM_TYPES];
-	unsigned int food_countdown;
 	list_t *cmd_queue; /* list_t<zpy_srv_cmd_t*> */
 };
 
