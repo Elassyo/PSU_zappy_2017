@@ -5,28 +5,60 @@
 ** Look command
 */
 
+#include <math.h>
 #include <stdio.h>
 #include <string.h>
 
 #include "zappy_server.h"
 
-static void zpy_srv_look_tile(tcp_conn_t *conn, zpy_srv_client_t *client,
-	size_t pos)
+static void zpy_srv_cmd_look_normalize(zpy_srv_client_t *client, int *x, int *y)
+{
+	*x = MOD(*x, client->server->map.width);
+	*y = MOD(*y, client->server->map.height);
+}
+
+static void zpy_srv_cmd_look_tile_pos(zpy_srv_client_t *client, unsigned int i,
+	unsigned int *x, unsigned int *y)
+{
+	int x_off = 0;
+	int y_off = 0;
+
+	if (i != 0) {
+		y_off = (int)(i / sqrt(i));
+		x_off = -y_off + i - y_off * y_off;
+	}
+	if (client->player->direction > RIGHT) {
+		x_off = -x_off;
+		y_off = -y_off;
+	}
+	if (client->player->direction % 2 == 0) {
+		zpy_srv_cmd_look_normalize(client, &x_off, &y_off);
+		*x = MOD(client->player->x + x_off, client->server->map.width);
+		*y = MOD(client->player->y - y_off, client->server->map.height);
+	} else {
+		zpy_srv_cmd_look_normalize(client, &y_off, &x_off);
+		*x = MOD(client->player->x + y_off, client->server->map.height);
+		*y = MOD(client->player->y + x_off, client->server->map.width);
+	}
+}
+
+static void zpy_srv_cmd_look_tile(tcp_conn_t *conn, zpy_srv_client_t *client,
+	unsigned int x, unsigned int y)
 {
 	zpy_srv_map_t *map = &client->server->map;
-	size_t x = pos % map->width;
-	size_t y = pos / map->width;
 	char const *items[NITEM_TYPES] = { "food", "linemate",
 		"deraumere", "sibur", "mendiane", "phiras", "thystame" };
 	zpy_srv_item_group_t *item_group;
-	list_t *players = zpy_srv_map_players_on_tile(map, x, y);
+	list_t *players;
 
-	for (size_t i = 0; i < players->len; i++) {
+	players = zpy_srv_map_players_on_tile(map, x, y);
+	for (size_t i = 0; i < players->len; i++)
 		tcp_conn_printf(conn, " player");
-	}
 	for (zpy_item_type_t i = FOOD; i < NITEM_TYPES; i++) {
 		item_group = zpy_srv_map_find_item_group(map, x, y, i);
-		for (size_t j = 1; item_group && j < item_group->amount; j++)
+		if (item_group == NULL)
+			continue;
+		for (unsigned char j = 0; j < item_group->amount; j++)
 			tcp_conn_printf(conn, " %s", items[i]);
 	}
 	list_destroy(players);
@@ -35,23 +67,21 @@ static void zpy_srv_look_tile(tcp_conn_t *conn, zpy_srv_client_t *client,
 bool zpy_srv_cmd_look(tcp_conn_t *conn, zpy_srv_client_t *client,
 		char const *args)
 {
-	size_t pos;
-	size_t limit;
+	unsigned int x;
+	unsigned int y;
+	unsigned int range;
 
 	if (strcmp(args, "") != 0) {
 		tcp_conn_printf(conn, "ko\n");
 		return (true);
 	}
-	limit = (client->player->level + 1) * (client->player->level + 1);
+	range = U((client->player->level + 1) * (client->player->level + 1));
 	tcp_conn_printf(conn, "[");
-	for (size_t i = 0; i < limit; i++) {
+	for (unsigned int i = 0; i < range; i++) {
 		if (i > 0)
 			tcp_conn_printf(conn, ",");
-		pos = zpy_srv_get_vision_tile_pos(&client->server->map,
-				client->player, i);
-		if (pos / client->server->map.width >= client->player->level)
-			break;
-		zpy_srv_look_tile(conn, client, pos);
+		zpy_srv_cmd_look_tile_pos(client, i, &x, &y);
+		zpy_srv_cmd_look_tile(conn, client, x, y);
 	}
 	tcp_conn_printf(conn, " ]\n");
 	return (true);

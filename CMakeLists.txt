@@ -105,7 +105,7 @@ add_executable(zappy_server
         src/server/player_items.c
         src/server/teams.c
         src/server/vision.c
-	src/server/incantation.c
+        src/server/incantation.c
 
         src/server/cmd_ai/cmd_broadcast.c
         src/server/cmd_ai/cmd_connect.c
@@ -150,3 +150,5 @@ add_executable(zappy_server
         src/server/graphic/grph_sst.c
         src/server/graphic/grph_tna.c
         )
+
+target_link_libraries(zappy_server m)

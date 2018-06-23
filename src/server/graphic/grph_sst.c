@@ -9,9 +9,10 @@
 
 void zpy_srv_grph_sst(tcp_conn_t *conn, va_list args __attribute__ ((unused)))
 {
+	unsigned int freq = va_arg(args, unsigned int);
 	zpy_srv_client_t *client = conn->data;
 
-	client->server->freq = va_arg(args, unsigned int);
+	client->server->freq = freq;
 	client->server->tcp.tickrate = 1.0 / client->server->freq;
 	tcp_conn_printf(conn, "sst %u\n", client->server->freq);
 }

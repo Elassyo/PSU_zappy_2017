@@ -9,6 +9,7 @@
 
 void zpy_srv_grph_pdi(tcp_conn_t *conn, va_list args)
 {
-	tcp_conn_printf(conn, "pdi %u\n",
-		va_arg(args, zpy_srv_player_t*)->id);
+	zpy_srv_player_t *player = va_arg(args, zpy_srv_player_t*);
+
+	tcp_conn_printf(conn, "pdi %u\n", player->id);
 }

@@ -10,14 +10,13 @@
 list_t *zpy_srv_map_players_on_tile(zpy_srv_map_t *map,
 	unsigned int x, unsigned int y)
 {
-	list_node_t *node = map->players->head;
+	zpy_srv_player_t *player;
 	list_t *ret = list_create(false);
 
-	while (node) {
-		if (((zpy_srv_player_t*)(node->data))->x == x
-				&& ((zpy_srv_player_t*)(node->data))->y == y)
-			list_push_back(ret, node->data);
-		node = node->next;
+	for (list_node_t *node = map->players->head; node; node = node->next) {
+		player = node->data;
+		if (player->x == x && player->y == y)
+			list_push_back(ret, player);
 	}
 	return (ret);
 }
