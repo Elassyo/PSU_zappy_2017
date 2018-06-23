@@ -7,9 +7,12 @@
 
 #include "zappy_server.h"
 
-void zpy_srv_player_move_forward(zpy_srv_map_t *map, zpy_srv_player_t *player)
+void zpy_srv_player_move(zpy_srv_map_t *map, zpy_srv_player_t *player,
+	zpy_direction_t direction)
 {
-	switch (player->direction) {
+	zpy_srv_client_t *client = player->conn->data;
+
+	switch (direction) {
 	case UP:
 		player->y = (player->y + map->height - 1) % map->height;
 		break;
@@ -25,14 +28,21 @@ void zpy_srv_player_move_forward(zpy_srv_map_t *map, zpy_srv_player_t *player)
 	default:
 		break;
 	}
+	zpy_srv_grph_sendall(client->server, &zpy_srv_grph_ppo, player);
 }
 
 void zpy_srv_player_turn_left(zpy_srv_player_t *player)
 {
+	zpy_srv_client_t *client = player->conn->data;
+
 	player->direction = (player->direction + NDIRECTIONS - 1) % NDIRECTIONS;
+	zpy_srv_grph_sendall(client->server, &zpy_srv_grph_ppo, player);
 }
 
 void zpy_srv_player_turn_right(zpy_srv_player_t *player)
 {
+	zpy_srv_client_t *client = player->conn->data;
+
 	player->direction = (player->direction + 1) % NDIRECTIONS;
+	zpy_srv_grph_sendall(client->server, &zpy_srv_grph_ppo, player);
 }

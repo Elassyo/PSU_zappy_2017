@@ -40,6 +40,8 @@ namespace zappy
 			size_t add(const Item, const size_t nb);
 			size_t getNbr(const Item) const;
 
+			std::vector<Item> toVector() const;
+
 			std::vector<Item> diff(const Inventory &) const;
 
 			const std::map<Item, size_t> &getItems() const;

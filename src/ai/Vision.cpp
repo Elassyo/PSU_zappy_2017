@@ -24,6 +24,11 @@ zappy::ai::Vision::Vision(const std::string &rsp)
 		this->_tiles.emplace_back(Tile(token));
 }
 
+zappy::ai::Tile zappy::ai::Vision::getTile(uint8_t index) const
+{
+	return _tiles.at(index);
+}
+
 bool zappy::ai::Vision::seeObject(zappy::ai::Item item) const
 {
 	for (const Tile &tile : _tiles)

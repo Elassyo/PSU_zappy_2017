@@ -28,12 +28,26 @@ namespace zappy {
 			void reset() override;
 
 		private:
-			std::string _call();
+			std::string _call(Properties &prp);
 			std::string _drop();
 			std::string _incante();
+
+			bool _callBack(const std::string &res, Properties &prp);
+			bool _dropBack(const std::string &res, Properties &prp);
+			bool _incanteBack(const std::string &res, Properties &);
+
 			const RequestConstructor &_reqConst;
 			EvolveState _evlState;
-			Inventory _toPut;
+			std::vector<Item> _toPut;
+			Tile _place;
+			bool _isIncantating;
+			bool _checked;
+			bool _isLooking;
+			int _connectNbr;
+			int _resRecieved;
+			int _plReady;
+
+			std::string _lastReq;
 		};
 	}
 }

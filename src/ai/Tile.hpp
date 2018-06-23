@@ -29,6 +29,9 @@ namespace zappy {
 			~Tile() = default;
 
 			bool containsItem(Item) const;
+			Item getItem() const;
+			bool empty() const;
+			ssize_t nbrItem(Item) const;
 			VertexS computePosition
 				(const VertexS &playerPos,
 				Direction, size_t) const;

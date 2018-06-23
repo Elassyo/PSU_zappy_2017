@@ -74,6 +74,18 @@ std::vector<zappy::ai::Item> zappy::ai::Inventory::diff
 	return need;
 }
 
+std::vector<zappy::ai::Item> zappy::ai::Inventory::toVector() const
+{
+	std::vector<Item> vec;
+
+	for (auto item : _items) {
+		for (size_t i = 0; i < item.second; i++) {
+			vec.emplace_back(item.first);
+		}
+	}
+	return vec;
+}
+
 bool zappy::ai::Inventory::operator==(const zappy::ai::Inventory &other) const
 {
 	return _items == other._items;
