@@ -45,9 +45,10 @@ namespace zappy {
 			bool _checked;
 			bool _isLooking;
 			int _connectNbr;
-			int _resRecieved;
+			int _resReceved;
 			int _plReady;
 			bool _triedCall;
+			size_t _loop;
 
 			std::string _lastReq;
 		};

@@ -42,7 +42,7 @@ bool zappy::ai::Drone::live()
 			_reqHandler.send(s);
 			std::cout << "Message " << s;
 			handleResponse();
-			std::cout << "Responce " << std::endl;
+			std::cout << "Response handled" << std::endl;
 		}
 		if (!_properties.isEvolving())
 		_updateInventory();
@@ -62,7 +62,7 @@ void zappy::ai::Drone::_evaluatePriorities()
 		_behave = LOOKFOR;
 		_properties.setLookingFor(_evaluateNeeds());
 	}
-	(void) (!_properties.isEvolving() && _handleMessage());
+	_handleMessage();
 }
 
 bool zappy::ai::Drone::_handleMessage()
@@ -82,8 +82,16 @@ void zappy::ai::Drone::_updateInventory()
 	_reqHandler.send(_reqConstr.inventory());
 	_reqHandler.fetch();
 	std::string res = _reqHandler.recv();
-	Inventory inv = _reqParser.parseInventory(res);
-	_properties.setFood(inv.getNbr(FOOD));
+	bool con = true;
+	while (con) {
+		try {
+			Inventory inv = _reqParser.parseInventory(res);
+			_properties.setFood(inv.getNbr(FOOD));
+			con = false;
+		} catch (const Exception &) {
+			con = true;
+		}
+	}
 }
 
 bool zappy::ai::Drone::_canEvolve() const
@@ -112,7 +120,7 @@ bool zappy::ai::Drone::handleResponse()
 {
 	_reqHandler.fetch();
 	std::string res = _reqHandler.recv();
-	std::cout << "RESPONCE = " << res << std::endl;
+	std::cout << "RESPONSE = " << res << std::endl;
 	while (!_reqParser.isEvent(res, _properties) &&
 		!_act.at(_behave)->callback(res, _properties)) {
 		std::cout << "Message not parsed fetch again" << std::endl;

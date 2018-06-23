@@ -11,12 +11,14 @@
 zappy::ai::Evolve::Evolve(const zappy::RequestConstructor &rq) :
 	_reqConst(rq), _evlState(DROP), _place(""),
 	_isIncantating(false), _checked(false), _isLooking(false),
-	_connectNbr(0), _resRecieved(0), _plReady(1), _triedCall(false)
+	_connectNbr(0), _resReceved(0), _plReady(1), _triedCall(false),
+	_loop(0)
 {
 }
 
 std::string zappy::ai::Evolve::act(zappy::ai::Properties &properties)
 {
+	_loop = _loop > 2000000000 ? 0 : _loop;
 	properties.setEvolving(true);
 	if (_toPut.empty() && !_checked)
 		_toPut = properties.getLvlInventory
@@ -54,7 +56,7 @@ void zappy::ai::Evolve::reset()
 	_toPut.clear();
 	_evlState = DROP;
 	_place = Tile("");
-	_resRecieved = 0;
+	_resReceved = 0;
 	_plReady = 1;
 	_connectNbr = 0;
 }
@@ -69,10 +71,9 @@ std::string zappy::ai::Evolve::_call(Properties &prp)
 	}
 	if (_connectNbr == 0 && _lastReq != _reqConst.connectNbr())
 		s =  _reqConst.connectNbr();
-	else if (_connectNbr >= prp.getLvlPlayers(prp.getLvl())
-		&& !_triedCall) {
-		s = _reqConst.broadcast(
-			"KREOG " + std::to_string(prp.getLvl()));
+	else if (_connectNbr >= prp.getLvlPlayers(prp.getLvl()) - 1
+		&& _loop % 1000 == 0) {
+		s = _reqConst.broadcast("KREOG " + std::to_string(prp.getLvl()));
 		_triedCall = true;
 	} else {
 
@@ -109,8 +110,8 @@ bool
 zappy::ai::Evolve::_callBack(const std::string &res, zappy::ai::Properties &prp)
 {
 	if (res == "GOERK") {
-
-	} else if (Helper::isNumber(res))  {
+		++_resReceved;
+	} else if (Helper::isNumber(res)) {
 		_connectNbr = std::stoi(res);
 		return true;
 	}

@@ -81,7 +81,7 @@ zappy::ai::Inventory zappy::RequestParser::parseInventory
 	(const std::string &request)
 {
 	if (request[0] != '[' && request[request.length() - 1] != ']')
-		throw Exception("RequestParser", "Request malformed");
+		throw Exception("RequestParser", "Inventory malformed");
 	std::stringstream ss(request.substr(1, request.size() - 1));
 	std::string token;
 	std::string strItem;
@@ -89,7 +89,8 @@ zappy::ai::Inventory zappy::RequestParser::parseInventory
 	while (std::getline(ss, token, ',')) {
 		std::stringstream st(token);
 		st >> strItem >> nbr;
-		this->_itemNbr[this->_strItem.at(strItem)] = nbr;
+		if (strItem != "player")
+			this->_itemNbr[this->_strItem.at(strItem)] = nbr;
 	}
 	return ai::Inventory(this->_itemNbr);
 }
