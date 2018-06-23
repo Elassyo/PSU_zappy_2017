@@ -77,14 +77,12 @@ bool zappy::ai::LookFor::_lookBack(const std::string &res, Properties &prop)
 	try {
 		Vision vision(res);
 		_item = prop.getNeed();
-		bool saw = false;
+		bool saw;
 		if (_item != NONE)
 			saw = sawObject(_item, prop, vision);
 		else
 			saw = sawObject(lf, prop, vision);
-		std::cout << "PObject saw" << std::endl;
 		if (!saw) {
-			std::cout << "random target" << std::endl;
 			prop.setTarget(prop.getPos() + random() % 5);
 			_item = NONE;
 		}
@@ -143,6 +141,7 @@ bool zappy::ai::LookFor::_gatherBack(const std::string &res, Properties &prop)
 		_item = NONE;
 	} else if (res == "ko") {
 		_lookState = LOOK;
+		_item = NONE;
 	} else
 		return false;
 	_lookState = GO;

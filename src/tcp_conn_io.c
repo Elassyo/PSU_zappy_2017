@@ -54,7 +54,7 @@ size_t tcp_conn_write(tcp_conn_t *conn, void const *buf, size_t n)
 	size_t sz;
 
 	sz = cbuf_write(&conn->out, buf, n);
-	if (conn->block)
+	if (conn->block && sz == n)
 		tcp_conn_flush(conn);
 	return (sz);
 }
