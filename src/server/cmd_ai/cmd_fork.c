@@ -17,13 +17,8 @@ bool zpy_srv_cmd_fork(tcp_conn_t *conn, zpy_srv_client_t *client,
 		tcp_conn_printf(conn, "ko\n");
 		return (true);
 	}
-	if (zpy_srv_egg_new(client->server, client->player) == false) {
-		tcp_conn_printf(conn, "ko\n");
-	}
-	else {
-		tcp_conn_printf(conn, "ok\n");
-		zpy_srv_grph_sendall(client->server, &zpy_srv_grph_pfk,
-					client->player);
-	}
+	tcp_conn_printf(conn, "ok\n");
+	zpy_srv_grph_sendall(client->server, &zpy_srv_grph_pfk, client->player);
+	zpy_srv_egg_new(client->server, client->player);
 	return (true);
 }
