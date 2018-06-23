@@ -15,7 +15,7 @@ list_t *zpy_srv_map_players_on_tile(zpy_srv_map_t *map,
 
 	for (list_node_t *node = map->players->head; node; node = node->next) {
 		player = node->data;
-		if (player->x && player->y == y)
+		if (player->x == x && player->y == y)
 			list_push_back(ret, player);
 	}
 	return (ret);
