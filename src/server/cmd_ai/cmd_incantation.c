@@ -47,6 +47,30 @@ static bool zpy_srv_cmd_incantation_finish(
 	return (true);
 }
 
+static short zpy_srv_check_team_win(zpy_srv_t *server)
+{
+	list_node_t *team;
+	zpy_srv_team_t *t;
+	zpy_srv_player_t *p;
+	int i = 0;
+
+	team = server->teams->head;
+	while (team != NULL) {
+		t = team->data;
+		i = 0;
+		for (list_node_t *player = t->players->head; player != NULL;
+				player = player->next) {
+			p = player->data;
+			if (p->level == 8)
+				i++;
+			if (i == 6)
+				return (p->team);
+		}
+		team = team->next;
+	}
+	return (-1);
+}
+
 bool zpy_srv_cmd_incantation(tcp_conn_t *conn, zpy_srv_client_t *client,
 	char const *args)
 {
