@@ -87,6 +87,10 @@ bool zappy::ai::Drone::_handleMessage()
 	auto pair = _properties.getMsg();
 	if (_properties.getMsg().second.empty())
 		return false;
+	if (_properties.getFood() <= _properties.getMinFood()) {
+		_behave = HUNT;
+		return false;
+	}
 	if (pair.second.find("KREOG") != std::string::npos) {
 		_behave = HELP;
 	}
