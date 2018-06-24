@@ -71,7 +71,10 @@ void zappy::ai::Properties::setLookingFor(const std::vector<zappy::ai::Item> &l)
 
 void zappy::ai::Properties::addLvl()
 {
-	_lvl++;
+	if (_lvl > 7)
+		throw Exception("Properties", "What the fuck");
+	std::cerr << "Lvl added" << std::endl;
+	++_lvl;
 }
 
 void zappy::ai::Properties::setFood(uint amount)

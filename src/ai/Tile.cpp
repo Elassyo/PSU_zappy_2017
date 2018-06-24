@@ -8,6 +8,7 @@
 #include <cmath>
 #include <algorithm>
 #include "Tile.hpp"
+#include "Exception/Exception.hpp"
 
 const std::map<std::string, zappy::ai::Item> zappy::ai::Tile::_strItem = {
 	{"player", ai::Item::DRONE},
@@ -26,8 +27,12 @@ zappy::ai::Tile::Tile(const std::string &itTile)
 	std::stringstream ss(itTile);
 	std::string token;
 
-	while (ss >> token)
-		_tileItems.emplace_back(_strItem.at(token));
+	while (ss >> token) {
+		if (_strItem.find(token) != _strItem.end())
+			_tileItems.emplace_back(_strItem.at(token));
+		else
+			throw Exception("Tile", "token is not item");
+	}
 }
 
 zappy::VertexS zappy::ai::Tile::computePosition(const zappy::VertexS &playerPos,
