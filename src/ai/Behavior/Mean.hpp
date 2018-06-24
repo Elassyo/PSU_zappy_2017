@@ -21,12 +21,9 @@ namespace zappy {
 		class Mean : public virtual IBehavior {
 		public:
 			Mean(const zappy::RequestConstructor &requestConstructor);
-
 			std::string act(Properties &properties) override;
-
 			bool callback(const std::string &string,
 				      Properties &properties) override;
-
 			void reset() override;
 
 		private:

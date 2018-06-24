@@ -18,7 +18,6 @@ zappy::ai::Evolve::Evolve(const zappy::RequestConstructor &rq) :
 
 std::string zappy::ai::Evolve::act(zappy::ai::Properties &properties)
 {
-	_loop = _loop > 2000000000 ? 0 : _loop;
 	if (_toPut.empty() && !_checked)
 		_toPut = properties.getLvlInventory
 			(properties.getLvl()).toVector();
@@ -69,7 +68,7 @@ std::string zappy::ai::Evolve::_call(Properties &prp)
 		return "";
 	}
 	if (_connectNbr >= prp.getLvlPlayers(prp.getLvl()) - 1 && _scream) {
-		s = _reqConst.broadcast("KREOG " + std::to_string(prp.getLvl()));
+		s = _reqConst.broadcast("KREOG " + std::to_string(_loop++));
 		_scream = false;
 		_triedCall = true;
 	} else if (_connectNbr == 0 && _lastReq != _reqConst.connectNbr())
@@ -166,5 +165,6 @@ bool zappy::ai::Evolve::handleMessage(zappy::ai::Properties &prp)
 		prp.setMsg("", 0);
 	} else
 		return false;
+	prp.setMsg("", 0);
 	return true;
 }
