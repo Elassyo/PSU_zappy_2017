@@ -71,6 +71,7 @@ void zappy::ai::Drone::_evaluatePriorities()
 {
 	if (_properties.getFood() <= _properties.getMinFood() ||
 		(_behave == HUNT && _properties.getFood() < _maxFood)) {
+		_act.at(_behave)->reset();
 		_behave = HUNT;
 	} else if (_properties.isEvolving() || _canEvolve()) {
 		_behave = EVOLVE;
@@ -152,7 +153,7 @@ bool zappy::ai::Drone::handleResponse()
 	return true;
 }
 
-bool zappy::ai::Drone::handleResponse(bool expectRes)
+bool zappy::ai::Drone::handleResponse(__attribute__((unused))bool expectRes)
 {
 	std::string res = _reqHandler.recv();
 	_reqParser.isEvent(res, _properties);
