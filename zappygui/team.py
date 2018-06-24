@@ -1,5 +1,3 @@
-#!/bin/python3
-
 class Team:
 
     def __init__(self, name):
@@ -11,8 +9,8 @@ class Team:
         self.players.append(player)
         return
 
-    def get_player_by_id(self, ID):
+    def get_player_by_id(self, id):
         for player in self.players:
-            if player.ID == ID:
+            if player.id == id:
                 return player
         return None

@@ -1,8 +1,5 @@
-#!/bin/python3
-
 class Item:
-    def __init__(self, ID, x, y, quantity):
-        self.ID = ID
+    def __init__(self, x, y, quantity):
         self.x = x
         self.y = y
         self.quantity = quantity

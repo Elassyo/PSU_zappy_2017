@@ -1,9 +1,7 @@
-#!/bin/python3
-
 class Player:
-    
-    def __init__(self, ID, x, y, orientation):
-        self.ID = ID
+
+    def __init__(self, id, x, y, orientation):
+        self.id = id
         self.x = x
         self.y = y
         self.orientation = orientation

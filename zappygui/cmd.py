@@ -1,14 +1,3 @@
-#!/bin/python3
-
-from map import Map
-from player import Player
-from team import Team
-from item import Item
-
-def not_implemented(data, board = None):
-    print (data[0] + " : coming soong\n")
-    return
-
 cmds = [
     ["msz", not_implemented],
     ["bct", not_implemented],

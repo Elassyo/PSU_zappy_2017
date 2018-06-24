@@ -15,7 +15,7 @@ bool zpy_srv_cmd_inventory(tcp_conn_t *conn, zpy_srv_client_t *client,
 {
 	zpy_srv_player_t *player = client->player;
 	char const *sep = "";
-	char const *labels[NITEM_TYPES - 1] = { "linemate", "deraumere",
+	char const *labels[NITEM_TYPES] = { "food", "linemate", "deraumere",
 		"sibur", "mendiane", "phiras", "thystame" };
 
 	if (strcmp(args, "") != 0) {
@@ -23,9 +23,9 @@ bool zpy_srv_cmd_inventory(tcp_conn_t *conn, zpy_srv_client_t *client,
 		return (true);
 	}
 	tcp_conn_printf(conn, "[ ");
-	for (zpy_item_type_t i = LINEMATE; i < NITEM_TYPES; i++) {
+	for (zpy_item_type_t i = FOOD; i < NITEM_TYPES; i++) {
 		tcp_conn_printf(conn, "%s%s %u", sep,
-			labels[i - 1], player->inventory[i]);
+			labels[i], player->inventory[i]);
 		sep = ", ";
 	}
 	tcp_conn_printf(conn, " ]\n");

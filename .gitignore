@@ -5,4 +5,6 @@
 /zappy_ai
 /zappy_server
 
+__pycache__
+
 .*.vim

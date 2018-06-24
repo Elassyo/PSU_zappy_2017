@@ -1,0 +1,48 @@
+#!/usr/bin/python3
+
+import sys
+
+def usage(progname):
+    print('USAGE')
+    print('\t%s [host port]' % progname)
+    print()
+    print('DESCRIPTION')
+    print('\thost\thostname of the server to connect to')
+    print('\tport\tport to connect to')
+
+def main(args):
+    if '-h' in args[1:] or '-help' in args[1:]:
+        usage(args[0])
+        return 0
+
+    try:
+        import zappygui
+    except Exception as e:
+        print('%s: failed to start client: %s' % (args[0], e), file=sys.stderr)
+        print('Have you installed PySDL2 ?', file=sys.stderr)
+        return 84
+
+    if len(args) == 1:
+        return zappygui.ZappyGUI().run()
+
+    elif len(args) == 3:
+        try:
+            host = args[1]
+            port = int(args[2])
+            if not 0 < port < 65536:
+                raise ValueError()
+        except ValueError:
+            print('%s: invalid argument' % args[0], file=sys.stderr)
+            return 84
+
+        return zappygui.ZappyGUI((host, port)).run()
+
+    else:
+        print('%s: invalid number of arguments' % args[0], file=sys.stderr)
+        usage(args[0])
+        return 84
+
+    return 0
+
+if __name__ == '__main__':
+    sys.exit(main(sys.argv))
