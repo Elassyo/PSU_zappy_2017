@@ -152,6 +152,6 @@ add_executable(zappy_server
         src/server/graphic/grph_sgt.c
         src/server/graphic/grph_sst.c
         src/server/graphic/grph_tna.c
-        )
+        src/server/graphic/grph_seg.c)
 
 target_link_libraries(zappy_server m)

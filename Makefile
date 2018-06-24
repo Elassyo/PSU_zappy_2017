@@ -103,6 +103,7 @@ SRCS_SRV	=	server/main.c					\
 			server/graphic/grph_plv.c			\
 			server/graphic/grph_pnw.c			\
 			server/graphic/grph_ppo.c			\
+			server/graphic/grph_seg.c			\
 			server/graphic/grph_sgt.c			\
 			server/graphic/grph_sst.c			\
 			server/graphic/grph_tna.c

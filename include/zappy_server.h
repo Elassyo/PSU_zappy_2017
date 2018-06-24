@@ -148,9 +148,6 @@ bool zpy_srv_player_item_take(zpy_srv_t *server, zpy_srv_player_t *player,
 bool zpy_srv_player_item_drop(zpy_srv_t *server, zpy_srv_player_t *player,
 	zpy_item_type_t item_type);
 
-size_t zpy_srv_get_vision_tile_pos(zpy_srv_map_t *map,
-	zpy_srv_player_t *player, size_t tile);
-
 bool zpy_srv_egg_new(zpy_srv_t *server, zpy_srv_player_t *parent);
 bool zpy_srv_egg_use_hatched(zpy_srv_t *server, unsigned short team,
 	int *x, int *y);
@@ -251,6 +248,8 @@ void zpy_srv_grph_plv(tcp_conn_t *conn, va_list args);
 void zpy_srv_grph_pnw(tcp_conn_t *conn, va_list args);
 /* args: zpy_srv_player_t *player */
 void zpy_srv_grph_ppo(tcp_conn_t *conn, va_list args);
+/* args: unsigned short team_nbr */
+void zpy_srv_grph_seg(tcp_conn_t *conn, va_list args);
 /* args: none */
 void zpy_srv_grph_sgt(tcp_conn_t *conn, va_list args);
 /* args: unsigned int freq */
