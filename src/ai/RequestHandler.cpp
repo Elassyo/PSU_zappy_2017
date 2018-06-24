@@ -33,32 +33,14 @@ void zappy::RequestHandler::send(const std::string &msg)
 
 void zappy::RequestHandler::fetch()
 {
-/*	ssize_t ssz = tcp_conn_fetch(&_client.conn);
-
-	if (ssz < 0)
-		throw Exception("RequestHandler", "fetch failed");
-	while (ssz == 1024)
-		ssz = tcp_conn_fetch(&_client.conn);
-	if (ssz < 0)
-		throw Exception("RequestHandler", "fetch failed");*/
-
 }
 
 std::string zappy::RequestHandler::recv()
 {
-/*	char buffer[1024];
-	if (tcp_conn_getline(&_client.conn, buffer, 1024, '\n') < 0)
-		throw Exception("RequestHandler", "Error while receving msg");
-	std::string s(buffer);
-	s.pop_back();
-	_lastMsg = s;
-	return s;*/
 	char *buffer = nullptr;
 	size_t l = 0;
-	std::cout << "Entering getline" << std::endl;
 	if (getline(&buffer, &l, _file) == -1)
 		throw Exception("RequestHandler", "Error while receving msg");
-	std::cout << "Exiting getline" << std::endl;
 	std::string s(buffer);
 	free(buffer);
 	s.pop_back();

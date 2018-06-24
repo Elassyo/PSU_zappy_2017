@@ -45,9 +45,7 @@ bool zappy::ai::Drone::live()
 	while (_properties.isAlive()) {
 		if (!_properties.isEvolving())
 			_updateInventory();
-		std::cout << "Evaluate priorities" << std::endl;
 		_evaluatePriorities();
-		std::cout << "Evaluate priorities done" << std::endl;
 		s = _act.at(_behave)->act(_properties);
 		std::cout << "POS : " << _properties.getPos().x() << " " << _properties.getPos().y() << std::endl;
 		std::cout << "TARGET : " << _properties.getTarget().x() << " " << _properties.getTarget().y() << std::endl;
@@ -61,8 +59,10 @@ bool zappy::ai::Drone::live()
 			_reqHandler.send(s);
 			std::cout << "Message " << s;
 			handleResponse();
-			std::cout << "Response handled" << std::endl;
-		}
+//			std::cout << "Response handled" << std::endl;
+		} else if (s == "recMsg")
+			handleResponse(true);
+
 	}
 	return false;
 }
@@ -90,6 +90,7 @@ bool zappy::ai::Drone::_handleMessage()
 	if (pair.second.find("KREOG") != std::string::npos) {
 		_behave = HELP;
 	}
+	_act.at(_behave)->handleMessage(_properties);
 	return true;
 }
 
@@ -103,12 +104,14 @@ void zappy::ai::Drone::_updateInventory()
 		try {
 			Inventory inv = _reqParser.parseInventory(res);
 			_properties.setFood(inv.getNbr(FOOD));
+			std::cout << "INVENTORY" << std::endl;
 			con = false;
 		} catch (const Exception &) {
 			res = _reqHandler.recv();
 			con = true;
 		}
 	}
+	std::cout << "caca" << std::endl;
 }
 
 bool zappy::ai::Drone::_canEvolve() const
@@ -136,12 +139,17 @@ bool zappy::ai::Drone::_take(zappy::ai::Item)
 bool zappy::ai::Drone::handleResponse()
 {
 	std::string res = _reqHandler.recv();
-	std::cout << "RESPONSE = " << res << std::endl;
-	while (!_reqParser.isEvent(res, _properties) &&
-		!_act.at(_behave)->callback(res, _properties)) {
-		std::cout << "Message not parsed fetch again" << std::endl;
+	while (_reqParser.isEvent(res, _properties)) {
 		res = _reqHandler.recv();
-		std::cout << res << std::endl;
 	}
+	_act.at(_behave)->callback(res, _properties);
+	std::cout << "\n" << cor.at(_behave) << "\n";
+	return true;
+}
+
+bool zappy::ai::Drone::handleResponse(bool expectRes)
+{
+	std::string res = _reqHandler.recv();
+	_reqParser.isEvent(res, _properties);
 	return true;
 }

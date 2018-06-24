@@ -147,3 +147,8 @@ bool zappy::ai::LookFor::_gatherBack(const std::string &res, Properties &prop)
 	_lookState = GO;
 	return true;
 }
+
+bool zappy::ai::LookFor::handleMessage(zappy::ai::Properties &properties)
+{
+	return false;
+}

@@ -20,6 +20,7 @@ namespace zappy {
 			virtual std::string act(Properties &properties) = 0;
 			virtual bool callback(const std::string &,
 					Properties &properties) = 0;
+			virtual bool handleMessage(Properties &properties) = 0;
 			virtual void reset() = 0;
 		};
 	}

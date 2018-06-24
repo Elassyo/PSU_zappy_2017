@@ -21,6 +21,9 @@ namespace zappy {
 
 			std::string act(Properties &properties) override;
 			bool callback(const std::string &string, Properties &properties) override;
+
+			bool handleMessage(Properties &properties) override;
+
 			void reset() override;
 		private:
 
@@ -33,7 +36,9 @@ namespace zappy {
 			VertexS _lastCallPos;
 			bool _answered;
 			bool _arrived;
-			bool _moved;
+			bool _moving;
+			VertexS _toAdd;
+			bool _ret;
 		};
 	}
 }

@@ -52,6 +52,7 @@ namespace zappy {
 			void handleBroadcast(const std::string &msg);
 
 			bool handleResponse();
+			bool handleResponse(bool);
 
 			void _move(const VertexS &dir);
 			void _look();

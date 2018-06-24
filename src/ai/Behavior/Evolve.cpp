@@ -12,7 +12,7 @@ zappy::ai::Evolve::Evolve(const zappy::RequestConstructor &rq) :
 	_reqConst(rq), _evlState(CALL), _place(""),
 	_isIncantating(false), _checked(false), _isLooking(false),
 	_connectNbr(0), _resReceved(0), _plReady(1), _triedCall(false),
-	_loop(0)
+	_loop(0), _scream(true)
 {
 }
 
@@ -68,14 +68,14 @@ std::string zappy::ai::Evolve::_call(Properties &prp)
 		_lastReq = "";
 		return "";
 	}
-	if (_connectNbr >= prp.getLvlPlayers(prp.getLvl()) - 1
-		&& _loop % 1000 == 0 && _loop < 4000) {
+	if (_connectNbr >= prp.getLvlPlayers(prp.getLvl()) - 1 && _scream) {
 		s = _reqConst.broadcast("KREOG " + std::to_string(prp.getLvl()));
+		_scream = false;
 		_triedCall = true;
 	} else if (_connectNbr == 0 && _lastReq != _reqConst.connectNbr())
-		s =  _reqConst.connectNbr();else {
-		return _reqConst.fork();
-	}
+		s =  _reqConst.connectNbr();
+	else
+		s = _reqConst.turnLeft();
 	return s;
 }
 
@@ -86,7 +86,6 @@ std::string zappy::ai::Evolve::_drop()
 		return _reqConst.look();
 	}
 	if (!_place.empty()) {
-		std::cout << "EVOLVE PLACE NOT EMPTY" << std::endl;
 		_checked = false;
 		return _reqConst.takeObject(_place.getItem());
 	}
@@ -109,11 +108,18 @@ std::string zappy::ai::Evolve::_incante(Properties &properties)
 bool
 zappy::ai::Evolve::_callBack(const std::string &res, zappy::ai::Properties &prp)
 {
-	if (res == "HERE") {
+	auto pair = prp.getMsg();
+	std::cout << pair.second << std::endl;
+	if (pair.second.find("HERE") != std::string::npos) {
 		++_plReady;
-	} if (res == "GOERK") {
+		prp.setMsg("", 0);
+	} if (pair.second.find("GOERK") != std::string::npos) {
 		++_resReceved;
-	} else if (Helper::isNumber(res)) {
+		_scream = true;
+		std::cout << "PONG" << std::endl;
+		prp.setMsg("", 0);
+	}
+	if (Helper::isNumber(res)) {
 		_connectNbr = std::stoi(res);
 		return true;
 	}
@@ -129,7 +135,6 @@ zappy::ai::Evolve::_dropBack(const std::string &res, zappy::ai::Properties &prp)
 			_place = vis.getTile(0);
 			_checked = true;
 			_isLooking = false;
-			std::cout << "EVOLVE LOOK DONE" << std::endl;
 			return true;
 		} catch (const Exception &) {
 			return false;
@@ -157,4 +162,9 @@ bool zappy::ai::Evolve::_incanteBack
 		reset();
 	}
 	return true;
+}
+
+bool zappy::ai::Evolve::handleMessage(zappy::ai::Properties &properties)
+{
+	return false;
 }
