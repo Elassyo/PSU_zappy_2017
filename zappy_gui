@@ -28,8 +28,8 @@ def main(args):
     elif len(args) == 3:
         try:
             host = args[1]
-            port = int(args[2])
-            if not 0 < port < 65536:
+            port = args[2]
+            if not 0 < int(args[2]) < 65536:
                 raise ValueError()
         except ValueError:
             print('%s: invalid argument' % args[0], file=sys.stderr)
