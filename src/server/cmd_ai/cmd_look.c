@@ -34,11 +34,11 @@ static void zpy_srv_cmd_look_tile_pos(zpy_srv_client_t *client, unsigned int i,
 	if (client->player->direction % 2 == 0) {
 		zpy_srv_cmd_look_warp_off(client, &x_off, &y_off);
 		*x = MOD(client->player->x + x_off, client->server->map.width);
-		*y = MOD(client->player->y - y_off, client->server->map.height);
+		*y = MOD(client->player->y + y_off, client->server->map.height);
 	} else {
 		zpy_srv_cmd_look_warp_off(client, &y_off, &x_off);
 		*x = MOD(client->player->x + y_off, client->server->map.height);
-		*y = MOD(client->player->y + x_off, client->server->map.width);
+		*y = MOD(client->player->y - x_off, client->server->map.width);
 	}
 }
 
