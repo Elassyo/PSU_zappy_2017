@@ -66,7 +66,7 @@ namespace zappy {
 			RequestConstructor _reqConstr;
 			RequestParser _reqParser;
 			RequestHandler &_reqHandler;
-			int _maxFood;
+			uint _maxFood;
 		};
 	}
 }

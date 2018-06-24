@@ -87,6 +87,8 @@ add_executable(zappy_ai
 	src/ai/Movement.hpp
 	src/ai/Behavior/Hunt.cpp
 	src/ai/Behavior/Hunt.hpp
+	src/ai/ParseArgs.cpp
+	src/ai/ParseArgs.hpp
 	)
 
 add_executable(zappy_server
