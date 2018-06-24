@@ -32,7 +32,10 @@ zappy::ai::Drone::Drone(const std::string &team,
 	_reqHandler.send(_team + "\n");
 	_reqHandler.fetch();
 	welcome = _reqHandler.recv();
-	welcome = _reqHandler.recv();
+	if (welcome == "ko")
+		_properties.kill();
+	else
+		welcome = _reqHandler.recv();
 }
 
 bool zappy::ai::Drone::live()
