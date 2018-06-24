@@ -23,10 +23,17 @@ namespace zappy {
 			bool callback(const std::string &string, Properties &properties) override;
 			void reset() override;
 		private:
+
+			bool _wait(const std::string &res, Properties &prop);
+			VertexS _calcPos(Properties &prop, uint8_t dir);
+
 			const RequestConstructor &_reqConst;
 			std::vector<VertexS> _vec;
 			Movement _mov;
+			VertexS _lastCallPos;
 			bool _answered;
+			bool _arrived;
+			bool _moved;
 		};
 	}
 }

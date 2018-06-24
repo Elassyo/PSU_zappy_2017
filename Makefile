@@ -49,6 +49,7 @@ SRCS_AI		=	ai/Exception/Exception.cpp			\
 			ai/Behavior/Hunt.cpp				\
 			ai/Movement.cpp					\
 			ai/Helper.cpp					\
+			ai/ParseArgs.cpp				\
 			ai/main.cpp
 
 SRCS_SRV	=	server/main.c					\

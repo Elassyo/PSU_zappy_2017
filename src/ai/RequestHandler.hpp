@@ -24,6 +24,7 @@ namespace zappy {
 		const std::string &getLastMessage();
 	private:
 		std::string _lastMsg;
+		FILE *_file;
 		tcp_client_t _client;
 	};
 }

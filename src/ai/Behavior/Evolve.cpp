@@ -9,7 +9,7 @@
 #include "../Exception/Exception.hpp"
 
 zappy::ai::Evolve::Evolve(const zappy::RequestConstructor &rq) :
-	_reqConst(rq), _evlState(DROP), _place(""),
+	_reqConst(rq), _evlState(CALL), _place(""),
 	_isIncantating(false), _checked(false), _isLooking(false),
 	_connectNbr(0), _resReceved(0), _plReady(1), _triedCall(false),
 	_loop(0)
@@ -53,7 +53,7 @@ void zappy::ai::Evolve::reset()
 	_isLooking = false;
 	_checked = false;
 	_toPut.clear();
-	_evlState = DROP;
+	_evlState = CALL;
 	_place = Tile("");
 	_resReceved = 0;
 	_plReady = 1;
@@ -64,18 +64,17 @@ std::string zappy::ai::Evolve::_call(Properties &prp)
 {
 	std::string s;
 	if (_plReady == prp.getLvlPlayers(prp.getLvl())) {
-		_evlState = INCANTE;
+		_evlState = DROP;
 		_lastReq = "";
 		return "";
 	}
-	if (_connectNbr == 0 && _lastReq != _reqConst.connectNbr())
-		s =  _reqConst.connectNbr();
-	else if (_connectNbr >= prp.getLvlPlayers(prp.getLvl()) - 1
-		&& _loop % 1000 == 0) {
+	if (_connectNbr >= prp.getLvlPlayers(prp.getLvl()) - 1
+		&& _loop % 1000 == 0 && _loop < 4000) {
 		s = _reqConst.broadcast("KREOG " + std::to_string(prp.getLvl()));
 		_triedCall = true;
-	} else {
-
+	} else if (_connectNbr == 0 && _lastReq != _reqConst.connectNbr())
+		s =  _reqConst.connectNbr();else {
+		return _reqConst.fork();
 	}
 	return s;
 }
@@ -92,7 +91,7 @@ std::string zappy::ai::Evolve::_drop()
 		return _reqConst.takeObject(_place.getItem());
 	}
 	if (_toPut.empty()) {
-		_evlState = CALL;
+		_evlState = INCANTE;
 		return "";
 	}
 	return _reqConst.setObject(_toPut[0]);
@@ -110,7 +109,9 @@ std::string zappy::ai::Evolve::_incante(Properties &properties)
 bool
 zappy::ai::Evolve::_callBack(const std::string &res, zappy::ai::Properties &prp)
 {
-	if (res == "GOERK") {
+	if (res == "HERE") {
+		++_plReady;
+	} if (res == "GOERK") {
 		++_resReceved;
 	} else if (Helper::isNumber(res)) {
 		_connectNbr = std::stoi(res);
@@ -135,6 +136,7 @@ zappy::ai::Evolve::_dropBack(const std::string &res, zappy::ai::Properties &prp)
 		}
 	}
 	if (res == "ok") {
+		prp.setEvolving(true);
 		prp.dropItem(*_toPut.begin());
 		_toPut.erase(_toPut.begin());
 		return true;
@@ -142,8 +144,7 @@ zappy::ai::Evolve::_dropBack(const std::string &res, zappy::ai::Properties &prp)
 	return false;
 }
 
-bool
-zappy::ai::Evolve::_incanteBack
+bool zappy::ai::Evolve::_incanteBack
 	(const std::string &res, zappy::ai::Properties &prp)
 {
 	if (!_isIncantating && res == "Elevation underway") {
@@ -151,7 +152,6 @@ zappy::ai::Evolve::_incanteBack
 	} else if (res == "ko")
 		reset();
 	if (res.find("Current level:") != std::string::npos) {
-		std::cout << "LEVEL UP !!!" << std::endl;
 		prp.setEvolving(false);
 		prp.addLvl();
 		reset();

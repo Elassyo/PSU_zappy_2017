@@ -33,9 +33,8 @@ bool zappy::RequestParser::isEvent
 {
 	if (isDead(msg))
 		p.kill();
-	else if (isMessage(msg)) {
+	else if (isMessage(msg))
 		p.setMsg(parseMessage(msg));
-	}
 	else
 		return false;
 	return true;
@@ -49,7 +48,9 @@ bool zappy::RequestParser::isMessage(const std::string &msg) const
 std::pair<std::string, uint8_t>
 zappy::RequestParser::parseMessage(const std::string &msg) const
 {
-	std::stringstream ss(msg);
+	std::string tmp = msg.substr(8);
+	tmp.erase(tmp.find(','), tmp.find(','));
+	std::stringstream ss(tmp);
 	uint8_t k;
 	std::string s;
 	ss >> k >> s;
