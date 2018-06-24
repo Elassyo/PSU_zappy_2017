@@ -53,8 +53,8 @@ namespace zappy {
 			int _resReceved;
 			int _plReady;
 			bool _triedCall;
-			bool _scream;
 			size_t _loop;
+			bool _scream;
 
 			std::string _lastReq;
 		};
