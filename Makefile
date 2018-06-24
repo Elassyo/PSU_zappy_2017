@@ -58,6 +58,7 @@ SRCS_SRV	=	server/main.c					\
 			server/dispatch.c				\
 			server/eggs.c					\
 			server/graphic.c				\
+			server/incantation.c				\
 			server/map.c					\
 			server/map_items.c				\
 			server/map_players.c				\
@@ -65,18 +66,16 @@ SRCS_SRV	=	server/main.c					\
 			server/player_items.c				\
 			server/player_move.c				\
 			server/teams.c					\
-			server/vision.c					\
-			server/incantation.c				\
-			server/cmd_ai/cmd_move.c			\
-			server/cmd_ai/cmd_look.c			\
-			server/cmd_ai/cmd_inventory.c			\
 			server/cmd_ai/cmd_broadcast.c			\
 			server/cmd_ai/cmd_connect.c			\
-			server/cmd_ai/cmd_fork.c			\
 			server/cmd_ai/cmd_eject.c			\
-			server/cmd_ai/cmd_take.c			\
-			server/cmd_ai/cmd_set.c				\
+			server/cmd_ai/cmd_fork.c			\
 			server/cmd_ai/cmd_incantation.c			\
+			server/cmd_ai/cmd_inventory.c			\
+			server/cmd_ai/cmd_look.c			\
+			server/cmd_ai/cmd_move.c			\
+			server/cmd_ai/cmd_set.c				\
+			server/cmd_ai/cmd_take.c			\
 			server/cmd_graphic/cmd_bct.c			\
 			server/cmd_graphic/cmd_mct.c			\
 			server/cmd_graphic/cmd_msz.c			\
