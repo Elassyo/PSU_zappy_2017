@@ -1,27 +1,3 @@
-cmds = [
-    ["msz", not_implemented],
-    ["bct", not_implemented],
-    ["tna", not_implemented],
-    ["pnw", not_implemented],
-    ["ppo", not_implemented],
-    ["plv", not_implemented],
-    ["pin", not_implemented],
-    ["pex", not_implemented],
-    ["pbc", not_implemented],
-    ["pic", not_implemented],
-    ["pie", not_implemented],
-    ["pfk", not_implemented],
-    ["pdr", not_implemented],
-    ["pgt", not_implemented],
-    ["pdi", not_implemented],
-    ["emw", not_implemented],
-    ["eht", not_implemented],
-    ["ebo", not_implemented],
-    ["edi", not_implemented],
-    ["sgt", not_implemented],
-    ["sst", not_implemented],
-    ["seg", not_implemented],
-    ["smg", not_implemented],
-    ["suc", not_implemented],
-    ["sbp", not_implemented]
-]
+Cmds = {
+    'welcome': lambda client, args: client.socket.send(b'GRAPHIC\n')
+}

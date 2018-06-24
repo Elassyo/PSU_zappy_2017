@@ -66,7 +66,8 @@ class Font:
 
 class Label:
 
-    def __init__(self, renderer, font, text, x, y, scale=1.0, rotation=0.0, color=SDL_Color(0, 0, 0), centered=False):
+    def __init__(self, renderer, font, text, x, y, scale=1.0, rotation=0.0,
+            color=SDL_Color(0, 0, 0), centered=False):
         self.renderer = renderer
         self.font = font
         self.x = x
@@ -168,7 +169,11 @@ class SplashScreenUI(UI):
 class ConnectionUI(UI):
 
     def __init__(self, renderer):
-        UI.__init__(self, renderer, None, ['menu.png', 'error.png'], [('Comic Book.otf', 28), ('Comic Book.otf', 36), ('Comic Book Bold.otf', 42)])
+        UI.__init__(self, renderer, None,
+            ['menu.png', 'error.png'],
+            [('Comic Book.otf', 28),
+            ('Comic Book.otf', 36),
+            ('Comic Book Bold.otf', 42)])
         self.server = list(client.server)
         self.line = 0
 
@@ -178,18 +183,23 @@ class ConnectionUI(UI):
 
         self.labels = [
             Label(renderer, self.fonts[('Comic Book Bold.otf', 42)],
-                'Connect to server', 640, 320, color=SDL_Color(255, 255, 255), centered=True),
+                'Connect to server', 640, 320,
+                    color=SDL_Color(255, 255, 255), centered=True),
             Label(renderer, self.fonts[('Comic Book.otf', 36)],
-                'Host name:', 640, 380, color=SDL_Color(255, 255, 255), centered=True),
+                'Host name:', 640, 380,
+                    color=SDL_Color(255, 255, 255), centered=True),
             Label(renderer, self.fonts[('Comic Book.otf', 36)],
-                'Port number:', 640, 480, color=SDL_Color(255, 255, 255), centered=True)
+                'Port number:', 640, 480,
+                    color=SDL_Color(255, 255, 255), centered=True)
         ]
 
         self.server_labels = [
             Label(renderer, self.fonts[('Comic Book.otf', 28)],
-                self.server[0] + '_', 640, 420, color=SDL_Color(255, 255, 255), centered=True),
+                self.server[0] + '_', 640, 420,
+                    color=SDL_Color(255, 255, 255), centered=True),
             Label(renderer, self.fonts[('Comic Book.otf', 28)],
-                self.server[1], 640, 520, color=SDL_Color(255, 255, 255), centered= True)
+                self.server[1], 640, 520,
+                    color=SDL_Color(255, 255, 255), centered= True)
         ]
 
         self.labels += self.server_labels
@@ -244,10 +254,18 @@ class GameUI(UI):
 
         def __init__(self, renderer):
             UI.__init__(self, renderer, ConnectionUI(renderer), [], [])
-            client.connect()
 
         def __del__(self):
             client.disconnect()
+
+        def update(self):
+            if not client.connected:
+                try:
+                    client.connect()
+                except Exception as ex:
+                    self.next.error = str(ex)
+                    return self.next
+            return UI.update(self)
 
 
 class ZappyGUI:

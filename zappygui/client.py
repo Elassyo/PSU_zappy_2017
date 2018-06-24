@@ -1,5 +1,8 @@
 import socket
+import sys
 import threading
+
+from .cmd import Cmds
 
 class ClientThread(threading.Thread):
 
@@ -10,11 +13,26 @@ class ClientThread(threading.Thread):
     def run(self):
         buffer = b''
         while self.client.connected:
-            buffer += self.client.socket.recv(4096)
-            while '\n' in buffer:
-                line, buffer = buffer.split('\n', 1)
-
-                print(line)
+            try:
+                data = self.client.socket.recv(4096)
+                if not data:
+                    raise Exception()
+            except socket.timeout:
+                continue
+            except Exception:
+                self.client.connected = False
+                break
+            buffer += data
+            while b'\n' in buffer:
+                line, buffer = buffer.split(b'\n', 1)
+                line = line.decode()
+                args = line.split(' ', 1)
+                args[0] = args[0].lower()
+                if not args[0] in Cmds:
+                    print('Received unrecognized message: %s' % args[0],
+                        file=sys.stderr)
+                else:
+                    Cmds[args[0]](self.client, args[1:])
 
 
 class Client:
@@ -37,6 +55,7 @@ class Client:
             raise Exception('Invalid port number')
 
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket.settimeout(0.5)
         self.socket.connect(server)
         self.connected = True
 
