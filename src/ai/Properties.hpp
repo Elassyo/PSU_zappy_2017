@@ -55,7 +55,7 @@ namespace zappy {
 			uint8_t getLvlPlayers(uint8_t lvl) const;
 			const Vision &getVision() const;
 			bool isEvolving() const;
-			std::pair<uint8_t, const std::string &>getMsg() const;
+			std::pair<uint8_t, std::string> getMsg() const;
 
 		private:
 			VertexS _pos;

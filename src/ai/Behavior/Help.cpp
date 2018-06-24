@@ -13,32 +13,42 @@ zappy::ai::Help::Help(const zappy::RequestConstructor &req) :
 	_reqConst(req), _vec({VertexS(0, 1), VertexS(-1, -1), VertexS(-1, 0),
 			      VertexS(-1, -1), VertexS(0, -1), VertexS(1, -1),
 			      VertexS(1, 0), VertexS(1, 1)}), _mov(req),
-	_answered(false), _arrived(false), _moved(false)
+	_answered(false), _arrived(false), _moving(false), _toAdd(1, 0),
+	_ret(false)
 {
 }
 
 std::string zappy::ai::Help::act(Properties &properties)
 {
-	std::cout << "HELLLLLLPPPPPPIIIINNNGGGG " << std::endl;
+	if (_arrived)
+		return "wait";
 	auto pair = properties.getMsg();
 	if (!_answered) {
-		_moved = false;
+		_moving = false;
 		return _reqConst.broadcast("GOERK");
 	}
-	if (!pair.second.empty()) {
+	properties.setMsg("", 0);
+	if (properties.getPos() == properties.getTarget() && _moving) {
+		_moving = false;
+		return _reqConst.broadcast("GOERK");
+	} else if (properties.getPos() == properties.getTarget())
+		return "recMsg";
+	if (!pair.second.empty() && !_moving) {
 		_lastCallPos = _calcPos(properties, pair.first);
+		_moving = true;
 		properties.setMsg(std::make_pair("", 0));
 	}
 	if (pair.first == 0 && !pair.second.empty()) {
 		_arrived = true;
 		properties.setEvolving(true);
-		_moved = false;
+		_moving = false;
 		return _reqConst.broadcast("HERE");
 	}
-	properties.setTarget(_lastCallPos);
-	std::cout << (int) properties.getDir() << std::endl;
-	_moved = true;
-	 return _mov.move(properties);
+	if (_lastCallPos.x() == 0)
+		_toAdd = {0, 1};
+	if (_moving)
+		properties.setTarget(properties.getPos() + _toAdd);
+	return _mov.move(properties);
 }
 
 zappy::VertexS
@@ -59,8 +69,8 @@ bool zappy::ai::Help::callback(const std::string &res, Properties &properties)
 		_answered = true;
 		return true;
 	}
-	if (_moved)
-		_mov.moveBack(res, properties);
+	if (!_moving)
+		return res == "ok";
 	return _arrived ? _wait(res, properties) :
 		_mov.moveBack(res, properties);
 }
@@ -81,4 +91,9 @@ void zappy::ai::Help::reset()
 {
 	_arrived = false;
 	_answered = false;
+}
+
+bool zappy::ai::Help::handleMessage(zappy::ai::Properties &properties)
+{
+	return false;
 }

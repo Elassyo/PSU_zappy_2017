@@ -195,7 +195,7 @@ bool zappy::ai::Properties::isEvolving() const
 	return _isEvolving;
 }
 
-std::pair<uint8_t, const std::string &>zappy::ai::Properties::getMsg() const
+std::pair<uint8_t, std::string> zappy::ai::Properties::getMsg() const
 {
 	return std::make_pair(_fromMsg, _msg);
 }

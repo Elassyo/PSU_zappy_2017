@@ -33,7 +33,6 @@ zappy::ai::Movement::moveBack(const std::string &res, zappy::ai::Properties &pro
 {
 	if (res != "ok")
 		return false;
-	std::cerr << res << std::endl;
 	if (_lastAction == "move")
 		prop.moveForward();
 	else if (_lastAction == _reqConst.turnLeft())

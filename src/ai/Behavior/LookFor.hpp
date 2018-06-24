@@ -28,6 +28,9 @@ namespace zappy {
 			act(zappy::ai::Properties &properties) override;
 			bool callback(const std::string &string,
 				Properties &properties) override;
+
+			bool handleMessage(Properties &properties) override;
+
 			void reset() override;
 
 		private:

@@ -35,6 +35,11 @@ namespace zappy {
 
 			bool _callBack(const std::string &res, Properties &prp);
 			bool _dropBack(const std::string &res, Properties &prp);
+
+		public:
+			bool handleMessage(Properties &properties) override;
+
+		private:
 			bool _incanteBack(const std::string &res, Properties &);
 
 			const RequestConstructor &_reqConst;
@@ -48,6 +53,7 @@ namespace zappy {
 			int _resReceved;
 			int _plReady;
 			bool _triedCall;
+			bool _scream;
 			size_t _loop;
 
 			std::string _lastReq;

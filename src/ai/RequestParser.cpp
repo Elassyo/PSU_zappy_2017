@@ -33,8 +33,10 @@ bool zappy::RequestParser::isEvent
 {
 	if (isDead(msg))
 		p.kill();
-	else if (isMessage(msg))
+	else if (isMessage(msg)) {
+		std::cout << msg << std::endl;
 		p.setMsg(parseMessage(msg));
+	}
 	else
 		return false;
 	return true;
