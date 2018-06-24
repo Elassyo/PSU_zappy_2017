@@ -17,7 +17,7 @@ bool zpy_srv_cmd_pin(tcp_conn_t *conn, zpy_srv_client_t *client,
 	size_t rd;
 	zpy_srv_player_t *player;
 
-	if (sscanf(args, "%u%zn", &id, &rd) != 2 || rd != strlen(args)) {
+	if (sscanf(args, "%u%zn", &id, &rd) != 1 || rd != strlen(args)) {
 		tcp_conn_printf(conn, "sbp\n");
 		return (true);
 	}

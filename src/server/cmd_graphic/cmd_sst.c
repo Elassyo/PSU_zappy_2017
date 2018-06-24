@@ -16,7 +16,7 @@ bool zpy_srv_cmd_sst(tcp_conn_t *conn,
 	unsigned int freq;
 	size_t rd;
 
-	if (sscanf(args, "%u%zn", &freq, &rd) != 2 || rd != strlen(args) ||
+	if (sscanf(args, "%u%zn", &freq, &rd) != 1 || rd != strlen(args) ||
 		freq == 0) {
 		tcp_conn_printf(conn, "sbp\n");
 		return (true);
