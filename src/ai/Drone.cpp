@@ -140,6 +140,7 @@ bool zappy::ai::Drone::handleResponse()
 {
 	std::string res = _reqHandler.recv();
 	while (_reqParser.isEvent(res, _properties)) {
+		_act.at(_behave)->handleMessage(_properties);
 		res = _reqHandler.recv();
 	}
 	_act.at(_behave)->callback(res, _properties);

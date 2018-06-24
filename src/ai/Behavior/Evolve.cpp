@@ -110,15 +110,6 @@ zappy::ai::Evolve::_callBack(const std::string &res, zappy::ai::Properties &prp)
 {
 	auto pair = prp.getMsg();
 	std::cout << pair.second << std::endl;
-	if (pair.second.find("HERE") != std::string::npos) {
-		++_plReady;
-		prp.setMsg("", 0);
-	} if (pair.second.find("GOERK") != std::string::npos) {
-		++_resReceved;
-		_scream = true;
-		std::cout << "PONG" << std::endl;
-		prp.setMsg("", 0);
-	}
 	if (Helper::isNumber(res)) {
 		_connectNbr = std::stoi(res);
 		return true;
@@ -164,7 +155,16 @@ bool zappy::ai::Evolve::_incanteBack
 	return true;
 }
 
-bool zappy::ai::Evolve::handleMessage(zappy::ai::Properties &properties)
+bool zappy::ai::Evolve::handleMessage(zappy::ai::Properties &prp)
 {
-	return false;
+	auto pair = prp.getMsg();
+
+	if (pair.second.find("GOERK") != std::string::npos) {
+		_scream = true;
+	} else if (pair.second.find("HERE") != std::string::npos) {
+		++_plReady;
+		prp.setMsg("", 0);
+	} else
+		return false;
+	return true;
 }
