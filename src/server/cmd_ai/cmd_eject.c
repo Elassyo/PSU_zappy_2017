@@ -11,11 +11,13 @@
 #include "zappy_server.h"
 
 static void zpy_srv_player_eject_forward(zpy_srv_map_t *map,
-	zpy_srv_player_t *player, zpy_direction_t direction)
+	zpy_srv_player_t *player, zpy_direction_t eject_dir)
 {
-	zpy_srv_player_move(map, player, direction);
+	unsigned int dirs[4] = { 5, 3, 1, 7 };
+
+	zpy_srv_player_move(map, player, eject_dir);
 	tcp_conn_printf(player->conn, "eject: %u\n",
-			((direction + 2) % NDIRECTIONS + 1));
+		dirs[MOD(eject_dir - player->direction, NDIRECTIONS)]);
 }
 
 static bool can_eject(zpy_srv_player_t *player1, zpy_srv_player_t *player2)

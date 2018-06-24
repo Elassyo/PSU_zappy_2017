@@ -13,11 +13,14 @@
 bool zpy_srv_cmd_broadcast(tcp_conn_t *conn, zpy_srv_client_t *client,
 	char const *args)
 {
-	(void)client;
+	list_node_t *node;
+
 	if (strcmp(args, "") == 0) {
 		tcp_conn_printf(conn, "ko\n");
 		return (true);
 	}
-	printf("Broadcast TODO\n");
+	for (node = client->server->map.players->head; node; node = node->next) {
+
+	}
 	return (true);
 }

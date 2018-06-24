@@ -14,18 +14,19 @@ bool zpy_srv_cmd_inventory(tcp_conn_t *conn, zpy_srv_client_t *client,
 	char const *args)
 {
 	zpy_srv_player_t *player = client->player;
-	char const *items[NITEM_TYPES] = { "food", "linemate",
-		"deraumere", "sibur", "mendiane", "phiras", "thystame" };
+	char const *sep = "";
+	char const *labels[NITEM_TYPES - 1] = { "linemate", "deraumere",
+		"sibur", "mendiane", "phiras", "thystame" };
 
 	if (strcmp(args, "") != 0) {
 		tcp_conn_printf(conn, "ko\n");
 		return (true);
 	}
 	tcp_conn_printf(conn, "[ ");
-	for (zpy_item_type_t i = FOOD; i < NITEM_TYPES; i++) {
-		if (i > 0)
-			tcp_conn_printf(conn, ", ");
-		tcp_conn_printf(conn, "%s %u", items[i], player->inventory[i]);
+	for (zpy_item_type_t i = LINEMATE; i < NITEM_TYPES; i++) {
+		tcp_conn_printf(conn, "%s%s %u", sep,
+			labels[i - 1], player->inventory[i]);
+		sep = ", ";
 	}
 	tcp_conn_printf(conn, " ]\n");
 	return (true);

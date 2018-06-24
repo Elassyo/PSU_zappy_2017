@@ -52,6 +52,7 @@ void zpy_srv_player_remove(zpy_srv_t *server, zpy_srv_player_t *player)
 bool zpy_srv_player_tick(tcp_conn_t *conn, zpy_srv_player_t *player)
 {
 	zpy_srv_cmd_t *cmd;
+	zpy_srv_client_t *client = conn->data;
 
 	if (player->food_countdown-- <= 1) {
 		if (--player->inventory[FOOD] == 0) {
@@ -59,6 +60,7 @@ bool zpy_srv_player_tick(tcp_conn_t *conn, zpy_srv_player_t *player)
 			return (false);
 		}
 		player->food_countdown = 126;
+		zpy_srv_grph_sendall(client->server, &zpy_srv_grph_pin, player);
 	}
 	cmd = list_get(player->cmd_queue, 0);
 	if (cmd != NULL && cmd->countdown-- <= 1) {

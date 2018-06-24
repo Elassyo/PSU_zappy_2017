@@ -5,6 +5,7 @@
 ** Player and items interactions
 */
 
+#include <limits.h>
 #include <stdlib.h>
 
 #include "zappy_server.h"
@@ -14,7 +15,8 @@ bool zpy_srv_player_item_take(zpy_srv_t *server, zpy_srv_player_t *player,
 {
 	if (!zpy_srv_map_remove_item(server, player->x, player->y, item_type))
 		return (false);
-	player->inventory[item_type]++;
+	if (player->inventory[item_type] < UCHAR_MAX)
+		player->inventory[item_type]++;
 	zpy_srv_grph_sendall(server, &zpy_srv_grph_pgt, player, item_type);
 	zpy_srv_grph_sendall(server, &zpy_srv_grph_pin, player);
 	return (true);
