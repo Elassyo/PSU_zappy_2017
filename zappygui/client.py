@@ -39,7 +39,9 @@ class ClientThread(threading.Thread):
 class Client:
 
     def __init__(self):
+        self.freq = 1
         self.map = Map()
+        self.win_team = None
         self.connected = False
         self.server = ('', '')
 
@@ -58,7 +60,10 @@ class Client:
 
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.settimeout(0.5)
-        self.socket.connect(server)
+        try:
+            self.socket.connect(server)
+        except OSError as ex:
+            raise Exception(ex.strerror)
         self.connected = True
 
         thread = ClientThread(self)
@@ -73,3 +78,4 @@ class Client:
 
     def reset(self):
         self.map = Map()
+        self.win_team = None

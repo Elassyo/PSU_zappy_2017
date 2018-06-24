@@ -5,11 +5,7 @@ class Team:
         self.players = []
         return
 
-    def add_player(self, player):
-        self.players.append(player)
-        return
-
-    def get_player_by_id(self, id):
+    def getPlayerByID(self, id):
         for player in self.players:
             if player.id == id:
                 return player

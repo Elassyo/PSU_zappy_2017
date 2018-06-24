@@ -110,6 +110,7 @@ bool zappy::ai::Help::_walkBack
 bool zappy::ai::Help::_hearBack
 	(const std::string &res, zappy::ai::Properties &prp)
 {
+	(void) prp;
 	return res == "ok";
 }
 

@@ -1,3 +1,4 @@
+import random
 import sys
 import time
 
@@ -9,7 +10,6 @@ from sdl2.sdlmixer import *
 from .client import Client
 
 client = None
-
 
 class Surface:
 
@@ -47,9 +47,9 @@ class Sprite:
         self.rotation = rotation
 
     def draw(self, renderer):
-        rect = SDL_Rect(int(self.x), int(self.y),
-            int(self.scale * self.texture.w),
-            int(self.scale * self.texture.h))
+        rect = SDL_Rect(round(self.x), round(self.y),
+            round(self.scale * self.texture.w),
+            round(self.scale * self.texture.h))
         SDL_RenderCopyEx(renderer, self.texture.texture,
             None, rect, self.rotation, None, SDL_FLIP_NONE)
 
@@ -95,11 +95,11 @@ class Label:
         self.h = self.surface.contents.h
 
     def draw(self, renderer):
-        rect = SDL_Rect(int(self.x), int(self.y),
-                int(self.scale * self.w), int(self.scale * self.h))
+        rect = SDL_Rect(round(self.x), round(self.y),
+                round(self.scale * self.w), round(self.scale * self.h))
         if self.centered:
-            rect.x -= int(rect.w / 2)
-            rect.y -= int(rect.h / 2)
+            rect.x -= round(rect.w / 2)
+            rect.y -= round(rect.h / 2)
         SDL_RenderCopyEx(renderer, self.texture,
             None, rect, self.rotation, None, SDL_FLIP_NONE)
 
@@ -170,7 +170,7 @@ class ConnectionUI(UI):
 
     def __init__(self, renderer):
         UI.__init__(self, renderer, None,
-            ['menu.png', 'error.png'],
+            ['menu.png', 'banner.png'],
             [('Comic Book.otf', 28),
             ('Comic Book.otf', 36),
             ('Comic Book Bold.otf', 42)])
@@ -205,10 +205,10 @@ class ConnectionUI(UI):
         self.labels += self.server_labels
 
         self.error = None
-        self.error_bg = Sprite(self.textures['error.png'], 0, 296)
+        self.error_bg = Sprite(self.textures['banner.png'], 0, 296)
         self.error_label = None
 
-        self.music = Mix_LoadWAV(b'res/music.wav')
+        self.music = Mix_LoadWAV(b'res/menu.wav')
         self.music_started = False
 
     def __del__(self):
@@ -217,7 +217,7 @@ class ConnectionUI(UI):
 
     def update(self):
         if not self.music_started:
-            self.music_channel = Mix_PlayChannel(-1, self.music, 0)
+            self.music_channel = Mix_PlayChannel(-1, self.music, -1)
             self.music_started = True
         return UI.update(self)
 
@@ -226,29 +226,36 @@ class ConnectionUI(UI):
             self.error_label = None
             self.error = None
             return self
-
         if event.type == SDL_TEXTINPUT:
             self.server[self.line] += event.text.text.decode()
             self.server_labels[self.line].setText(self.server[self.line] + '_')
+            return self
         if event.type == SDL_KEYDOWN:
             if event.key.keysym.sym == SDLK_BACKSPACE:
                 self.server[self.line] = self.server[self.line][:-1]
                 self.server_labels[self.line].setText(self.server[self.line] + '_')
+            return self
         if event.type == SDL_KEYUP:
             self.server_labels[self.line].setText(self.server[self.line])
             if event.key.keysym.sym == SDLK_TAB:
                 self.line = (self.line + 1) % 2
+                self.server_labels[self.line].setText(self.server[self.line] + '_')
+                return self
             if event.key.keysym.sym == SDLK_UP:
                 self.line = (self.line - 1) % 2
+                self.server_labels[self.line].setText(self.server[self.line] + '_')
+                return self
             if event.key.keysym.sym == SDLK_DOWN:
                 self.line = (self.line + 1) % 2
+                self.server_labels[self.line].setText(self.server[self.line] + '_')
+                return self
             if event.key.keysym.sym == SDLK_RETURN:
                 client.setServer(self.server)
                 try:
                     return GameUI(self.renderer)
                 except Exception as ex:
                     self.error = str(ex)
-            self.server_labels[self.line].setText(self.server[self.line] + '_')
+                return self
 
         return UI.onEvent(self, event)
 
@@ -265,25 +272,194 @@ class ConnectionUI(UI):
 
 class GameUI(UI):
 
-        def __init__(self, renderer):
-            UI.__init__(self, renderer, ConnectionUI(renderer), [], [])
+    def __init__(self, renderer):
+        UI.__init__(self, renderer, ConnectionUI(renderer), [
+                'grass.png',
+                'banner.png',
 
-            self.music = Mix_LoadWAV(b'res/music.wav')
-            self.music_started = False
+                'egg.png',
+                'egg_hatched.png',
 
-        def __del__(self):
-            client.disconnect()
-            if self.music_started:
-                Mix_HaltChannel(self.music_channel)
+                'items/food.png',
+                'items/linemate.png',
+                'items/deraumere.png',
+                'items/sibur.png',
+                'items/mendiane.png',
+                'items/phiras.png',
+                'items/thystame.png',
 
-        def update(self):
-            if not client.connected:
-                try:
-                    client.connect()
-                except Exception as ex:
-                    self.next.error = str(ex)
-                    return self.next
-            return UI.update(self)
+                'player_1/up1.png', 'player_1/up2.png',
+                'player_1/right1.png', 'player_1/right2.png', 'player_1/right3.png',
+                'player_1/down1.png', 'player_1/down2.png', 'player_1/down3.png',
+                'player_1/left1.png', 'player_1/left2.png', 'player_1/left3.png',
+                'player_1/incantation1.png', 'player_1/incantation2.png', 'player_1/incantation3.png', 'player_1/incantation4.png',
+                'player_1/broadcast1.png', 'player_1/broadcast2.png',
+
+                'player_2/up1.png', 'player_2/up2.png', 'player_2/up3.png',
+                'player_2/right1.png', 'player_2/right2.png', 'player_2/right3.png',
+                'player_2/down1.png', 'player_2/down2.png', 'player_2/down3.png',
+                'player_2/left1.png', 'player_2/left2.png', 'player_2/left3.png',
+                'player_2/incantation1.png', 'player_2/incantation2.png', 'player_2/incantation3.png', 'player_2/incantation4.png',
+                'player_2/broadcast1.png', 'player_2/broadcast2.png',
+
+                'player_3/up1.png', 'player_3/up2.png',
+                'player_3/right1.png', 'player_3/right2.png',
+                'player_3/down1.png', 'player_3/down2.png',
+                'player_3/left1.png', 'player_3/left2.png',
+                'player_3/incantation1.png', 'player_3/incantation2.png', 'player_3/incantation3.png', 'player_3/incantation4.png',
+                'player_3/broadcast1.png', 'player_3/broadcast2.png',
+
+                'player_4/up1.png', 'player_4/up2.png', 'player_4/up3.png',
+                'player_4/right1.png', 'player_4/right2.png', 'player_4/right3.png',
+                'player_4/down1.png', 'player_4/down2.png', 'player_4/down3.png',
+                'player_4/left1.png', 'player_4/left2.png', 'player_4/left3.png',
+                'player_4/incantation1.png', 'player_4/incantation2.png',
+                'player_4/broadcast1.png', 'player_4/broadcast2.png'
+            ], [
+                ('Comic Book Bold.otf', 42)
+        ])
+
+        self.x_off = 0
+        self.y_off = 0
+        self.zoom = 1.0
+
+        self.anim_counter = 0
+
+        self.banner_bg = Sprite(self.textures['banner.png'], 0, 296)
+        self.banner_label = None
+
+        self.music = Mix_LoadWAV(b'res/music.wav')
+        self.music_started = False
+
+        self.cursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_HAND)
+
+    def __del__(self):
+        client.disconnect()
+        if self.music_started:
+            Mix_HaltChannel(self.music_channel)
+        SDL_FreeCursor(self.cursor)
+
+    def update(self):
+        if not client.connected and not client.win_team:
+            try:
+                client.connect()
+            except Exception as ex:
+                self.next.error = str(ex)
+                return self.next
+
+        if not self.music_started:
+            self.music_channel = Mix_PlayChannel(-1, self.music, -1)
+            self.music_started = True
+
+        SDL_SetCursor(self.cursor)
+
+        self.anim_counter += 1
+        self.sprites = []
+
+        self.makeMapSprites()
+        self.makePlayerSprites()
+        self.makeEggSprites()
+
+        return UI.update(self)
+
+    def onEvent(self, event):
+        if event.type == SDL_MOUSEWHEEL:
+            self.zoom += event.wheel.y * 0.05
+            if self.zoom < 0.01:
+                self.zoom = 0.01
+            return self
+        if event.type == SDL_MOUSEMOTION and event.motion.state & SDL_BUTTON_LMASK:
+            self.x_off += event.motion.xrel
+            self.y_off += event.motion.yrel
+            return self
+        if event.type == SDL_KEYDOWN:
+            if event.key.keysym.sym == SDLK_PAGEUP:
+                client.socket.send(b'sst %d' % (client.freq + 1))
+                return self
+            if event.key.keysym.sym == SDLK_PAGEDOWN and client.freq > 1:
+                client.socket.send(b'sst %d' % (client.freq - 1))
+                return self
+
+        return UI.onEvent(self, event)
+
+    def draw(self, renderer):
+        if client.win_team:
+            if not self.banner_label:
+                self.banner_label = Label(renderer,
+                    self.fonts[('Comic Book Bold.otf', 42)],
+                    'Team ' + client.win_team.name + ' won', 640, 360, centered=True)
+            self.banner_bg.draw(renderer)
+            self.banner_label.draw(renderer)
+        UI.draw(self, renderer)
+
+    def makeMapSprites(self):
+        itemTextures = [self.textures[name] for name in [
+            'items/food.png',
+            'items/linemate.png',
+            'items/deraumere.png',
+            'items/sibur.png',
+            'items/mendiane.png',
+            'items/phiras.png',
+            'items/thystame.png'
+        ]]
+
+        for x in range(client.map.w):
+            for y in range(client.map.h):
+                self.sprites.append(Sprite(self.textures['grass.png'],
+                    *self.mapCoordinates(x, y), scale=self.zoom))
+                content = client.map.tiles[x][y]
+                random.seed(x + y * client.map.w)
+                for i,c in enumerate(content):
+                    for j in range(c):
+                        coord = list(self.mapCoordinates(x, y))
+                        coord[0] = coord[0] + random.random() * 40 * self.zoom
+                        coord[1] = coord[1] + random.random() * 40 * self.zoom
+                        self.sprites.append(Sprite(itemTextures[i],
+                            *coord, scale=0.5*self.zoom))
+
+    def makePlayerSprites(self):
+        teamAnimsSeeds = [
+            [2, 3, 3, 3, 4, 2],
+            [3, 3, 3, 3, 4, 2],
+            [2, 2, 2, 2, 4, 2],
+            [3, 3, 3, 3, 2, 2]
+        ]
+        teamAnims = []
+        for i,seed in enumerate(teamAnimsSeeds):
+            folder = 'player_%d/' % (i + 1)
+            teamAnim = {}
+            for j,anim in enumerate(['up', 'right', 'down', 'left', 'incantation', 'broadcast']):
+                teamAnim[anim] = [folder + anim + str(k + 1) + '.png' for k in range(seed[j])]
+            teamAnims.append(teamAnim)
+
+        for i,team in enumerate(client.map.teams):
+            playerAnims = {}
+            for anim in teamAnims[i % 4]:
+                playerAnims[anim] = [self.textures[name] for name in teamAnims[i % 4][anim]]
+            for player in team.players:
+                if player.broadcast:
+                    anim = playerAnims['broadcast']
+                    player.broadcast_timer -= 1
+                    if player.broadcast_timer <= 0:
+                        player.broadcast = None
+                elif player.incantation:
+                    anim = playerAnims['incantation']
+                else:
+                    anim = playerAnims[['up','right','down','left'][player.orientation - 1]]
+                self.sprites.append(Sprite(anim[int(self.anim_counter / 10 % len(anim))],
+                    *self.mapCoordinates(player.x, player.y), scale=2.0 * self.zoom))
+
+    def makeEggSprites(self):
+        for egg in client.map.eggs:
+            texture = 'egg.png'
+            if egg.hatched:
+                texture = 'egg_hatched.png'
+            self.sprites.append(Sprite(self.textures[texture],
+                *[c+8 for c in self.mapCoordinates(egg.x, egg.y)], scale=1.0 * self.zoom))
+
+    def mapCoordinates(self, x, y):
+        y = client.map.h - y - 1
+        return (self.x_off + x * 64 * self.zoom, self.y_off + y * 64 * self.zoom)
 
 
 class ZappyGUI:
