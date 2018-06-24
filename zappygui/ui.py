@@ -168,30 +168,34 @@ class SplashScreenUI(UI):
 class ConnectionUI(UI):
 
     def __init__(self, renderer):
-        UI.__init__(self, renderer, None, ['error.png'], [('Comic Book.otf', 28), ('Comic Book.otf', 36), ('Comic Book.otf', 42)])
+        UI.__init__(self, renderer, None, ['menu.png', 'error.png'], [('Comic Book.otf', 28), ('Comic Book.otf', 36), ('Comic Book Bold.otf', 42)])
         self.server = list(client.server)
         self.line = 0
 
+        self.sprites = [
+            Sprite(self.textures['menu.png'], 0, 0)
+        ]
+
         self.labels = [
-            Label(renderer, self.fonts[('Comic Book.otf', 42)],
-                'Connect to server', 640, 144, color=SDL_Color(255, 255, 255), centered=True),
+            Label(renderer, self.fonts[('Comic Book Bold.otf', 42)],
+                'Connect to server', 640, 320, color=SDL_Color(255, 255, 255), centered=True),
             Label(renderer, self.fonts[('Comic Book.otf', 36)],
-                'Host name', 640, 300, color=SDL_Color(255, 255, 255), centered=True),
+                'Host name:', 640, 380, color=SDL_Color(255, 255, 255), centered=True),
             Label(renderer, self.fonts[('Comic Book.otf', 36)],
-                'Port number', 640, 420, color=SDL_Color(255, 255, 255), centered=True)
+                'Port number:', 640, 480, color=SDL_Color(255, 255, 255), centered=True)
         ]
 
         self.server_labels = [
             Label(renderer, self.fonts[('Comic Book.otf', 28)],
-                self.server[0], 640, 340, color=SDL_Color(255, 255, 255), centered=True),
+                self.server[0] + '_', 640, 420, color=SDL_Color(255, 255, 255), centered=True),
             Label(renderer, self.fonts[('Comic Book.otf', 28)],
-                self.server[1], 640, 460, color=SDL_Color(255, 255, 255), centered= True)
+                self.server[1], 640, 520, color=SDL_Color(255, 255, 255), centered= True)
         ]
 
         self.labels += self.server_labels
 
         self.error = None
-        self.error_bg = Sprite(self.textures['error.png'], 0, 299)
+        self.error_bg = Sprite(self.textures['error.png'], 0, 296)
         self.error_label = None
 
     def onEvent(self, event):
@@ -202,12 +206,13 @@ class ConnectionUI(UI):
 
         if event.type == SDL_TEXTINPUT:
             self.server[self.line] += event.text.text.decode()
-            self.server_labels[self.line].setText(self.server[self.line])
+            self.server_labels[self.line].setText(self.server[self.line] + '_')
         if event.type == SDL_KEYDOWN:
             if event.key.keysym.sym == SDLK_BACKSPACE:
                 self.server[self.line] = self.server[self.line][:-1]
-                self.server_labels[self.line].setText(self.server[self.line])
+                self.server_labels[self.line].setText(self.server[self.line] + '_')
         if event.type == SDL_KEYUP:
+            self.server_labels[self.line].setText(self.server[self.line])
             if event.key.keysym.sym == SDLK_TAB:
                 self.line = (self.line + 1) % 2
             if event.key.keysym.sym == SDLK_UP:
@@ -220,6 +225,7 @@ class ConnectionUI(UI):
                     return GameUI(self.renderer)
                 except Exception as ex:
                     self.error = str(ex)
+            self.server_labels[self.line].setText(self.server[self.line] + '_')
 
         return UI.onEvent(self, event)
 
@@ -228,7 +234,7 @@ class ConnectionUI(UI):
 
         if self.error:
             if not self.error_label:
-                self.error_label = Label(renderer, self.fonts[('Comic Book.otf', 42)],
+                self.error_label = Label(renderer, self.fonts[('Comic Book Bold.otf', 42)],
                     self.error, 640, 360, color=SDL_Color(200, 0, 0), centered=True)
             self.error_bg.draw(renderer)
             self.error_label.draw(renderer)

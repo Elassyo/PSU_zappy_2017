@@ -8,9 +8,13 @@ class ClientThread(threading.Thread):
         self.client = client
 
     def run(self):
-
+        buffer = b''
         while self.client.connected:
-            pass
+            buffer += self.client.socket.recv(4096)
+            while '\n' in buffer:
+                line, buffer = buffer.split('\n', 1)
+
+                print(line)
 
 
 class Client:
