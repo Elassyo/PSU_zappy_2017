@@ -24,5 +24,6 @@ void zpy_srv_grph_pic(tcp_conn_t *conn, va_list args)
 		tcp_conn_printf(conn, " %u", player->id);
 		node = node->next;
 	}
+	tcp_conn_printf(conn, "\n");
 	list_destroy(players);
 }
