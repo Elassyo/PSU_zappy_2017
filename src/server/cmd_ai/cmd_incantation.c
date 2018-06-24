@@ -70,9 +70,10 @@ static bool zpy_srv_cmd_incantation_finish(
 	zpy_srv_incantation_send_result(client, res);
 
 	win = zpy_srv_incantation_team_win(client->server);
-	if (win >= 0)
+	if (win >= 0) {
 		zpy_srv_grph_sendall(client->server, &zpy_srv_grph_seg, win);
-	kill(getpid(), SIGINT);
+		kill(getpid(), SIGINT);
+	}
 	return (true);
 }
 
