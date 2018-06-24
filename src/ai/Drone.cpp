@@ -106,6 +106,10 @@ void zappy::ai::Drone::_updateInventory()
 	std::string res = _reqHandler.recv();
 	bool con = true;
 	while (con) {
+		if (_reqParser.isDead(res)) {
+			_properties.kill();
+			return;
+		}
 		try {
 			Inventory inv = _reqParser.parseInventory(res);
 			_properties.setFood(inv.getNbr(FOOD));

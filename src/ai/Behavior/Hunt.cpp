@@ -16,7 +16,7 @@ std::string zappy::ai::Hunt::act(zappy::ai::Properties &prop)
 {
 	if (!_initTarget) {
 		prop.setTarget(prop.getPos() +
-				VertexS(random() % 4 - 2, random() % 4 - 2));
+				VertexS(random() % 2 - 1, random() % 2 - 1));
 		_initTarget = true;
 	}
 	if (prop.getPos() == prop.getTarget()) {

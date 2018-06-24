@@ -44,8 +44,10 @@ std::string zappy::ai::Help::_walk(zappy::ai::Properties &prp)
 std::string zappy::ai::Help::_hear(zappy::ai::Properties &prp)
 {
 	static size_t loop = 0;
-	if (!_answered)
+	if (!_answered) {
+		_scream = false;
 		return _reqConst.broadcast("GOERK" + std::to_string(loop++));
+	}
 	_helpState = WALK;
 	if (_lastHeared == 0) {
 		_helpState = ARRIVED;
@@ -61,11 +63,12 @@ std::string zappy::ai::Help::_hear(zappy::ai::Properties &prp)
 
 std::string zappy::ai::Help::_arrived(zappy::ai::Properties &prp)
 {
-	if (!_evlLaunched) {
+	if (!_evlLaunched && _scream < 20) {
 		prp.setEvolving(true);
+		_scream++;
 		return _reqConst.broadcast("HERE");
 	}
-	return "wait";
+	return "recMsg";
 }
 
 zappy::VertexS
@@ -98,7 +101,10 @@ bool zappy::ai::Help::callback(const std::string &res, Properties &properties)
 bool zappy::ai::Help::_walkBack
 	(const std::string &res, zappy::ai::Properties &prp)
 {
-	return _mov.moveBack(res, prp);
+	bool ret = _mov.moveBack(res, prp);
+	if (_lastHeared == 0)
+		_helpState = ARRIVED;
+	return ret;
 }
 
 bool zappy::ai::Help::_hearBack
@@ -115,6 +121,7 @@ bool zappy::ai::Help::_arrivedBack
 	} else if (res.find("Current level:") != std::string::npos) {
 		prp.addLvl();
 		prp.setEvolving(false);
+//		reset();
 		return true;
 	}
 	return false;
@@ -123,6 +130,8 @@ bool zappy::ai::Help::_arrivedBack
 void zappy::ai::Help::reset()
 {
 	_answered = false;
+	_scream = 0;
+	_evlLaunched = HEAR;
 }
 
 bool zappy::ai::Help::handleMessage(zappy::ai::Properties &prp)
@@ -131,6 +140,7 @@ bool zappy::ai::Help::handleMessage(zappy::ai::Properties &prp)
 
 	if (pair.second.find("KREOG") != std::string::npos) {
 		_answered = true;
+		std::cout << (int) pair.first << std::endl;
 		if (pair.first == 0) {
 			_helpState = ARRIVED;
 			return true;

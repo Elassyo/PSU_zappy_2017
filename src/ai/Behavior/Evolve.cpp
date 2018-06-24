@@ -64,6 +64,7 @@ std::string zappy::ai::Evolve::_call(Properties &prp)
 {
 	std::string s;
 	if (_plReady == prp.getLvlPlayers(prp.getLvl())) {
+		prp.setEvolving(true);
 		_evlState = DROP;
 		_lastReq = "";
 		return "";
@@ -74,6 +75,8 @@ std::string zappy::ai::Evolve::_call(Properties &prp)
 		_triedCall = true;
 	} else if (_connectNbr == 0 && _lastReq != _reqConst.connectNbr())
 		s =  _reqConst.connectNbr();
+	else if (_connectNbr == 0)
+		s =  _reqConst.fork();
 	else
 		s = _reqConst.turnLeft();
 	return s;
@@ -162,7 +165,7 @@ bool zappy::ai::Evolve::handleMessage(zappy::ai::Properties &prp)
 	if (pair.second.find("GOERK") != std::string::npos) {
 		_scream = true;
 	} else if (pair.second.find("HERE") != std::string::npos) {
-		++_plReady;
+		_plReady = 2;
 		prp.setMsg("", 0);
 	} else
 		return false;

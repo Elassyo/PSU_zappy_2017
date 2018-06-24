@@ -29,7 +29,6 @@ namespace zappy {
 			void reset() override;
 		private:
 
-			bool _wait(const std::string &res, Properties &prop);
 			VertexS _calcPos(Properties &prop, uint8_t dir);
 
 			std::string _walk(Properties &prp);
@@ -46,6 +45,7 @@ namespace zappy {
 			VertexS _lastCallPos;
 			VertexS _toAdd;
 			bool _answered;
+			int _scream;
 			bool _evlLaunched;
 			bool _xDone;
 			uint8_t _lastHeared;

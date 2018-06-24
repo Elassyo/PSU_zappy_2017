@@ -53,7 +53,7 @@ zappy::RequestParser::parseMessage(const std::string &msg) const
 	std::string tmp = msg.substr(8);
 	tmp.erase(tmp.find(','), tmp.find(','));
 	std::stringstream ss(tmp);
-	uint8_t k;
+	int k;
 	std::string s;
 	ss >> k >> s;
 	return std::pair<std::string, uint8_t>(s, k);
