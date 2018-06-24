@@ -57,6 +57,7 @@ void zappy::ai::Evolve::reset()
 	_resReceved = 0;
 	_plReady = 1;
 	_connectNbr = 0;
+	_scream = true;
 }
 
 std::string zappy::ai::Evolve::_call(Properties &prp)

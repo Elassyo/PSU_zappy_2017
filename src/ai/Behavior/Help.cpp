@@ -47,11 +47,15 @@ std::string zappy::ai::Help::_hear(zappy::ai::Properties &prp)
 	if (!_answered)
 		return _reqConst.broadcast("GOERK" + std::to_string(loop++));
 	_helpState = WALK;
-	_lastCallPos = _calcPos(prp, _lastHeared);
-	if (_lastCallPos.x() == prp.getPos().x()) {
-		_toAdd = {0, 1};
+	if (_lastHeared == 0) {
+		_helpState = ARRIVED;
+		return "";
 	}
-	prp.setTarget(prp.getPos() + _toAdd);
+	_lastCallPos = _calcPos(prp, _lastHeared);
+	if (_lastCallPos == prp.getPos()) {
+		_helpState = ARRIVED;
+	}
+	prp.setTarget(_lastCallPos);
 	return "";
 }
 
