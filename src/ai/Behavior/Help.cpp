@@ -14,7 +14,7 @@ zappy::ai::Help::Help(const zappy::RequestConstructor &req) :
 	_reqConst(req), _vec({VertexS(0, 1), VertexS(-1, -1), VertexS(-1, 0),
 			      VertexS(-1, -1), VertexS(0, -1), VertexS(1, -1),
 			      VertexS(1, 0), VertexS(1, 1)}), _mov(req),
-	_toAdd(1, 0), _answered(false), _xDone(false)
+	_toAdd(1, 0), _answered(false), _xDone(false), _helpState(HEAR)
 {
 }
 
