@@ -58,7 +58,7 @@ static short zpy_srv_check_team_win(zpy_srv_t *server)
 	while (team != NULL) {
 		t = team->data;
 		i = 0;
-		for (list_node_t *player = players->head; player != NULL;
+		for (list_node_t *player = t->players->head; player != NULL;
 				player = player->next) {
 			p = player->data;
 			if (p->level == 8)
