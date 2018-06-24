@@ -39,7 +39,7 @@ static void zpy_srv_cmd_broadcast_send(zpy_srv_client_t *client,
 	y = dest->y - client->player->y;
 	if (abs(y) > client->server->map.height / 2)
 		y = (abs(y) - (int)client->server->map.height) * (y / abs(y));
-	if (x != 0 && y != 0) {
+	if (x != 0 || y != 0) {
 		k = zpy_srv_cmd_broadcast_calc_dir(x, y);
 		k = MOD(k + 2 * dest->direction, 8) + 1;
 	}

@@ -208,6 +208,19 @@ class ConnectionUI(UI):
         self.error_bg = Sprite(self.textures['error.png'], 0, 296)
         self.error_label = None
 
+        self.music = Mix_LoadWAV(b'res/music.wav')
+        self.music_started = False
+
+    def __del__(self):
+        if self.music_started:
+            Mix_HaltChannel(self.music_channel)
+
+    def update(self):
+        if not self.music_started:
+            self.music_channel = Mix_PlayChannel(-1, self.music, 0)
+            self.music_started = True
+        return UI.update(self)
+
     def onEvent(self, event):
         if self.error and event.type == SDL_KEYUP:
             self.error_label = None
@@ -255,8 +268,13 @@ class GameUI(UI):
         def __init__(self, renderer):
             UI.__init__(self, renderer, ConnectionUI(renderer), [], [])
 
+            self.music = Mix_LoadWAV(b'res/music.wav')
+            self.music_started = False
+
         def __del__(self):
             client.disconnect()
+            if self.music_started:
+                Mix_HaltChannel(self.music_channel)
 
         def update(self):
             if not client.connected:

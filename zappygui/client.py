@@ -3,6 +3,7 @@ import sys
 import threading
 
 from .cmd import Cmds
+from .map import Map
 
 class ClientThread(threading.Thread):
 
@@ -32,12 +33,13 @@ class ClientThread(threading.Thread):
                     print('Received unrecognized message: %s' % args[0],
                         file=sys.stderr)
                 else:
-                    Cmds[args[0]](self.client, args[1:])
+                    Cmds[args[0]](self.client, args[1] if len(args) > 1 else None)
 
 
 class Client:
 
     def __init__(self):
+        self.map = Map()
         self.connected = False
         self.server = ('', '')
 
@@ -70,4 +72,4 @@ class Client:
         self.reset()
 
     def reset(self):
-        pass
+        self.map = Map()
