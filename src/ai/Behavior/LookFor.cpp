@@ -150,5 +150,6 @@ bool zappy::ai::LookFor::_gatherBack(const std::string &res, Properties &prop)
 
 bool zappy::ai::LookFor::handleMessage(zappy::ai::Properties &properties)
 {
+	(void) properties;
 	return false;
 }

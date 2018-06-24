@@ -44,5 +44,6 @@ void zappy::ai::Hunt::reset()
 
 bool zappy::ai::Hunt::handleMessage(zappy::ai::Properties &properties)
 {
+	(void) properties;
 	return false;
 }

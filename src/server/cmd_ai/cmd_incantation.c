@@ -5,12 +5,35 @@
 ** Incantation command
 */
 
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "zappy_server.h"
 #include "zappy.h"
+
+static short zpy_srv_incantation_team_win(zpy_srv_t *server)
+{
+	list_node_t *n_t;
+	list_node_t *n_p;
+	zpy_srv_team_t *team;
+	zpy_srv_player_t *player;
+	unsigned int i = 0;
+
+	for (n_t = server->teams->head; n_t; n_t = n_t->next) {
+		team = n_t->data;
+		i = 0;
+		for (n_p = team->players->head; n_p; n_p = n_p->next) {
+			player = n_p->data;
+			i += player->level == 8 ? 1 : 0;
+		}
+		if (i >= 6)
+			return (player->team);
+	}
+	return (-1);
+}
 
 static void zpy_srv_incantation_send_result(zpy_srv_client_t *client, bool res)
 {
@@ -22,7 +45,7 @@ static void zpy_srv_incantation_send_result(zpy_srv_client_t *client, bool res)
 		player = node->data;
 		if (res) {
 			tcp_conn_printf(player->conn,
-				"Current level: %u\n", player->level++);
+				"Current level: %u\n", ++player->level);
 			zpy_srv_grph_sendall(client->server,
 				&zpy_srv_grph_plv, player);
 		} else {
@@ -37,6 +60,7 @@ static bool zpy_srv_cmd_incantation_finish(
 	char const *args __attribute__ ((unused)))
 {
 	bool res;
+	short win;
 
 	res = zpy_srv_incantation_ok(client);
 	if (res)
@@ -44,31 +68,12 @@ static bool zpy_srv_cmd_incantation_finish(
 	zpy_srv_grph_sendall(client->server, &zpy_srv_grph_pie,
 		client->player->x, client->player->y, res);
 	zpy_srv_incantation_send_result(client, res);
+
+	win = zpy_srv_incantation_team_win(client->server);
+	if (win >= 0)
+		zpy_srv_grph_sendall(client->server, &zpy_srv_grph_seg, win);
+	kill(getpid(), SIGINT);
 	return (true);
-}
-
-static short zpy_srv_check_team_win(zpy_srv_t *server)
-{
-	list_node_t *team;
-	zpy_srv_team_t *t;
-	zpy_srv_player_t *p;
-	int i = 0;
-
-	team = server->teams->head;
-	while (team != NULL) {
-		t = team->data;
-		i = 0;
-		for (list_node_t *player = t->players->head; player != NULL;
-				player = player->next) {
-			p = player->data;
-			if (p->level == 8)
-				i++;
-			if (i == 6)
-				return (p->team);
-		}
-		team = team->next;
-	}
-	return (-1);
 }
 
 bool zpy_srv_cmd_incantation(tcp_conn_t *conn, zpy_srv_client_t *client,
